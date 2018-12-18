@@ -22,7 +22,7 @@ public class AddCowLayout
 {
 	public BorderPane display(int width, int height, Scene dashboardScene, Stage window)
 	{
-		// Right pane
+		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
 		rightPane.setStyle("-fx-background-color: #1B4040;");
@@ -48,33 +48,78 @@ public class AddCowLayout
 		
 		rightPane.getChildren().addAll(navigationLabel, dashButton, reportsButton, addCowButton, addExpenseButton);
 		
-		// Center pane
+		// Center pane *************************************************************************************
 		GridPane mainGrid = new GridPane();
 		mainGrid.setStyle("-fx-background-color: #1D1E1E;");
 		
 		Label addCowLabel = new Label("               Add Cow");
-		Label idInput = new Label("  ID");
+		Label idInput = new Label("ID");
 		Label breedInput = new Label("Breed");
 		Label birthdateInput = new Label("Birthdate");
-		
-		addCowLabel.setStyle("-fx-font-size: 70pt; -fx-text-fill: white;");
+		Label datePurchasedInput = new Label("Date purchased");
+		Label purchasedFromInput = new Label("Purchased from");
+		Label vaccinatedInput = new Label("Vaccinated");
+		Label mothersIdInput = new Label("Mother's ID");
+		Label fathersIdInput = new Label("Father's ID");
+		Label maleLabel = new Label("Male");
+		Label femaleLabel = new Label("Female");
+		Label castratedLabel = new Label("Castrated");
+		Label castYesLabel = new Label("Yes");
+		Label castNoLabel = new Label("No");
+		Label blankLabel1 = new Label();
+		Label blankLabel2 = new Label();
+		Label blankLabel3 = new Label();
+		Label blankLabel4 = new Label();
+		Label blankLabel5 = new Label();
+		Label blankLabel6 = new Label();
+		Label blankLabel7 = new Label();
+		Label blankLabel8 = new Label();
+
+		addCowLabel.setStyle("-fx-font-size: 70pt; -fx-text-fill: orange;");
 		idInput.setStyle("-fx-font-size: 20pt; -fx-text-fill: white;");
 		breedInput.setStyle("-fx-font-size: 20pt; -fx-text-fill: white;");
 		birthdateInput.setStyle("-fx-font-size: 20pt; -fx-text-fill: white;");
+		datePurchasedInput.setStyle("-fx-font-size: 20pt; -fx-text-fill: white;");
+		purchasedFromInput.setStyle("-fx-font-size: 20pt; -fx-text-fill: white;");
+		purchasedFromInput.setStyle("-fx-font-size: 20pt; -fx-text-fill: white;");
+		vaccinatedInput.setStyle("-fx-font-size: 20pt; -fx-text-fill: white;");
+		mothersIdInput.setStyle("-fx-font-size: 20pt; -fx-text-fill: white;");
+		fathersIdInput.setStyle("-fx-font-size: 20pt; -fx-text-fill: white;");
+		maleLabel.setStyle("-fx-font-size: 20pt; -fx-text-fill: white;");
+		femaleLabel.setStyle("-fx-font-size: 20pt; -fx-text-fill: white;");
+		castratedLabel.setStyle("-fx-font-size: 20pt; -fx-text-fill: white;");
+		castYesLabel.setStyle("-fx-font-size: 10pt; -fx-text-fill: white;");
+		castNoLabel.setStyle("-fx-font-size: 10pt; -fx-text-fill: white;");
 		
+		Button submitCowButton = new Button("Submit Cow");
+		submitCowButton.setMinSize(100, 80);
+		submitCowButton.setStyle("-fx-font-size: 30pt;");
+
 		TextField idField = new TextField();
+		TextField purchasedFromField = new TextField();
+		TextField tempVaccineField = new TextField();
+		TextField mothersIdField = new TextField();
+		TextField fathersIdField = new TextField();
+		
+		CheckBox male = new CheckBox();
+		CheckBox female = new CheckBox();
+		CheckBox castYes = new CheckBox();
+		CheckBox castNo = new CheckBox();
 		
 		idField.setMaxWidth(200);
+		purchasedFromField.setMaxWidth(200);
+		tempVaccineField.setMaxWidth(200);
+		mothersIdField.setMaxWidth(200);
+		fathersIdField.setMaxWidth(200);
 		
 		ObservableList<String> breedOptions = 
 			    FXCollections.observableArrayList(
 			        "Black Angus",
-			        "Option 2",
-			        "Option 3"
-			    );
+			        "Dairy");
+		
 		final ComboBox breedBox = new ComboBox(breedOptions);
 		
-		HBox dateBox = new HBox(5);
+		HBox idDateBox = new HBox(5);
 		
 		ObservableList<String> month = 
 			    FXCollections.observableArrayList(
@@ -115,19 +160,54 @@ public class AddCowLayout
 			    );
 		final ComboBox yearBox = new ComboBox(year);
 		
-		dateBox.getChildren().addAll(monthBox, dayBox, yearBox);
+		idDateBox.getChildren().addAll(monthBox, dayBox, yearBox);
+		
+		HBox submitCowButtonBox = new HBox();
+		submitCowButtonBox.getChildren().addAll(submitCowButton);
+		submitCowButtonBox.setAlignment(Pos.BOTTOM_CENTER);
+		
+		HBox blankHBox1 = new HBox();
+		blankHBox1.setMinHeight(100);
         
+		HBox castYesBox = new HBox(5);
+		HBox castNoBox = new HBox(5);
+		
+		castYesBox.getChildren().addAll(castYesLabel, castYes);
+		castNoBox.getChildren().addAll(castNoLabel, castNo);
+		
+		HBox castratedOptions = new HBox(20);
+		castratedOptions.getChildren().addAll(castYesBox, castNoBox);
+		
         HBox addCowLabelBox = new HBox();
 		addCowLabelBox.getChildren().addAll(addCowLabel);
 		addCowLabelBox.setAlignment(Pos.CENTER);
 		addCowLabelBox.setStyle("-fx-background-color: #1D1E1E;");
 		
-		VBox idBox = new VBox();
+		DateBox datePurchasedDate = new DateBox();
 		
-		idBox.getChildren().addAll(idInput, idField, breedInput, breedBox, birthdateInput, dateBox);
+		HBox row1 = new HBox(80);
+		VBox column0 = new VBox();
+		VBox column1 = new VBox();
+		VBox column2 = new VBox();
+		
+		column0.getChildren().addAll(maleLabel, male, blankLabel1, femaleLabel, female, blankLabel2,
+				idInput, idField, blankLabel3, breedInput, breedBox);
+		
+		column1.getChildren().addAll(birthdateInput, idDateBox, blankLabel4, datePurchasedInput, datePurchasedDate.createDateBox(),
+				blankLabel5, purchasedFromInput, purchasedFromField, blankLabel6, vaccinatedInput, tempVaccineField);
+		
+		column2.getChildren().addAll(mothersIdInput, mothersIdField, blankLabel7, fathersIdInput, fathersIdField,
+				blankLabel8, castratedLabel, castratedOptions);
+		
+		
+		row1.getChildren().addAll(column0, column1, column2);
 		
 		mainGrid.add(addCowLabelBox, 0, 0);
-		mainGrid.add(idBox, 0, 1);
+		mainGrid.add(row1, 0, 1);
+		mainGrid.add(blankHBox1, 0, 2);
+		mainGrid.add(submitCowButtonBox, 0, 3);
+		
+		submitCowButton.setOnAction(e -> AlertBox.display("Attention!", "Are you sure you would like to submit cow?"));
 		
 		dashButton.setOnAction(e -> window.setScene(dashboardScene));
 		

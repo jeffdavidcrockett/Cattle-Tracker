@@ -154,12 +154,14 @@ public class MainFile extends Application
 		Scene mainScene = new Scene(border, width, height);
 		window.setScene(mainScene);
 		
+		// Scenes
 		AddCowLayout cowScreen = new AddCowLayout();
 		Scene cowScreenScene = new Scene(cowScreen.display(width, height, mainScene, window), width, height);
 		
 		dashButton.setOnAction(e -> window.setScene(mainScene));
-		addCowButton.setOnAction(e -> {
-			window.setScene(cowScreenScene);});
+		
+		addCowButton.setOnAction(e -> window.setScene(cowScreenScene));
+		
 		
 		window.setMaximized(true);
 		window.show();
