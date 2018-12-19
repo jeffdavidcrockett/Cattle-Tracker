@@ -9,19 +9,21 @@ public class Cow
 	private String birthdate;
 	private String datePurchased;
 	private String purchasedFrom;
-	private boolean vaccines;
+	private String price;
+	private String vaccines;
 	private int mother;
 	private int father;
 	private String notes;
 	
 	public Cow(int id, String breed, String birthdate, String datePurchased, String purchasedFrom, 
-			boolean vaccines, int mother, int father, String notes)
+			String price, String vaccines, int mother, int father, String notes)
 	{
 		this.id = id;
 		this.breed = breed;
 		this.birthdate = birthdate;
 		this.datePurchased = datePurchased;
 		this.purchasedFrom = purchasedFrom;
+		this.price = price;
 		this.vaccines = vaccines;
 		this.mother = mother;
 		this.father = father;
@@ -31,7 +33,7 @@ public class Cow
 	public void writeCowToDb(DBConnect dbObj)
 	{
 		dbObj.insertCow(id, breed, birthdate, datePurchased, purchasedFrom,
-				vaccines, mother, father, notes);
+				price, vaccines, mother, father, notes);
 	}
 	
 	public void setDatePurchased(String month, String day, String year)
@@ -44,7 +46,7 @@ public class Cow
 		birthdate = date;
 	}
 	
-	public void setVaccines(boolean state)
+	public void setVaccines(String state)
 	{
 		vaccines = state;
 	}
@@ -89,7 +91,7 @@ public class Cow
 		return purchasedFrom;
 	}
 	
-	public boolean getVaccines()
+	public String getVaccines()
 	{
 		return vaccines;
 	}

@@ -20,6 +20,7 @@ public class MainFile extends Application
 {
 	Stage window;
 	Button button;
+	DBConnect db = new DBConnect();
 	
 	public static void main(String[] args)
 	{
@@ -156,7 +157,7 @@ public class MainFile extends Application
 		
 		// Scenes
 		AddCowLayout cowScreen = new AddCowLayout();
-		Scene cowScreenScene = new Scene(cowScreen.display(width, height, mainScene, window), width, height);
+		Scene cowScreenScene = new Scene(cowScreen.display(width, height, mainScene, window, db), width, height);
 		
 		dashButton.setOnAction(e -> window.setScene(mainScene));
 		

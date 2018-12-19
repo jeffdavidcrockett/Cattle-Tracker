@@ -18,8 +18,10 @@ import javafx.scene.Group;
 
 public class DateBox
 {
-	public static HBox createDateBox()
+	public static ComboBox[] createDateBox()
 	{
+		ComboBox[] dateBoxes = new ComboBox[3];
+		
 		HBox dateBox = new HBox(5);
 		
 		ObservableList<String> month = 
@@ -50,7 +52,7 @@ public class DateBox
 		ObservableList<String> year = 
 			    FXCollections.observableArrayList(
 			    	"2018", "2017", "2016",
-				       "2015", "2014", "2013",
+				    "2015", "2014", "2013",
 			        "2018", "2017", "2016",
 			        "2015", "2014", "2013",
 			        "2012", "2011", "2010",
@@ -61,10 +63,11 @@ public class DateBox
 			    );
 		final ComboBox yearBox = new ComboBox(year);
 		
-		dateBox.getChildren().addAll(monthBox, dayBox, yearBox);
+//		dateBox.getChildren().addAll(monthBox, dayBox, yearBox);
+		dateBoxes[0] = monthBox;
+		dateBoxes[1] = dayBox;
+		dateBoxes[2] = yearBox;
 		
-		return dateBox;
+		return dateBoxes;
 	}
-	
-	
 }

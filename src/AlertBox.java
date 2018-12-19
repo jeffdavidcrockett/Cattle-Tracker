@@ -16,28 +16,24 @@ public class AlertBox
 		alertWindow.setMinWidth(350);
 		alertWindow.setMinHeight(150);
 		
-		Label label = new Label();
-		label.setText(message);
-		label.setStyle("-fx-font-size: 15pt;");
+		Label messageLabel = new Label();
+		messageLabel.setText(message);
+		messageLabel.setStyle("-fx-font-size: 15pt;");
 		
-		Button yesButton = new Button("Yes");
-		Button noButton = new Button("No");
+		Button acknowledgeButton = new Button("Acknowledge");
 		
-		yesButton.setMinSize(80, 30);
-		noButton.setMinSize(80, 30);
+		acknowledgeButton.setMinSize(80, 30);
 		
-		yesButton.setStyle("-fx-font-size: 12pt;");
-		noButton.setStyle("-fx-font-size: 12pt;");
+		acknowledgeButton.setStyle("-fx-font-size: 12pt;");
 		
-		HBox yesNoButtons = new HBox(10);
-		yesNoButtons.getChildren().addAll(yesButton, noButton);
-		yesNoButtons.setAlignment(Pos.CENTER);
+		HBox buttons = new HBox(10);
+		buttons.getChildren().addAll(acknowledgeButton);
+		buttons.setAlignment(Pos.CENTER);
 		
-		yesButton.setOnAction(e -> alertWindow.close());
-		noButton.setOnAction(e -> alertWindow.close());
+		acknowledgeButton.setOnAction(e -> alertWindow.close());
 		
 		VBox layout = new VBox(10);
-		layout.getChildren().addAll(label, yesNoButtons);
+		layout.getChildren().addAll(messageLabel, buttons);
 		layout.setAlignment(Pos.CENTER);
 		
 		Scene scene = new Scene(layout);

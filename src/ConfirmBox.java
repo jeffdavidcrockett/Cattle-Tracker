@@ -9,18 +9,26 @@ public class ConfirmBox
 {
 	static boolean answer;
 	
-	public static boolean display(String title, String message)
+	public static boolean display(String title, String message1, String message2)
 	{
 		Stage window = new Stage();
 		
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle(title);
 		window.setMinWidth(250);
-		Label label = new Label();
-		label.setText(message);
+		
+		Label firstMessage = new Label();
+		firstMessage.setText(message1);
+		
+		Label secondMessage = new Label();
+		secondMessage.setText(message2);
 		
 		Button yesButton = new Button("Yes");
 		Button noButton = new Button("No");
+		
+		HBox yesNoButtons = new HBox(10);
+		yesNoButtons.getChildren().addAll(yesButton, noButton);
+		yesNoButtons.setAlignment(Pos.CENTER);
 		
 		yesButton.setOnAction(e -> {
 			answer = true;
@@ -33,7 +41,7 @@ public class ConfirmBox
 		});
 		
 		VBox layout = new VBox(10);
-		layout.getChildren().addAll(label, yesButton, noButton);
+		layout.getChildren().addAll(firstMessage, secondMessage, yesNoButtons);
 		layout.setAlignment(Pos.CENTER);
 		Scene scene = new Scene(layout);
 		window.setScene(scene);

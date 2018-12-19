@@ -65,9 +65,9 @@ public class DBConnect
 		try
 		{
 			stmt = conn.createStatement();
-			stmt.execute("CREATE TABLE IF NOT EXISTS " + tableName + " (id INTEGER, breed TEXT, "
-					+ "datePurchased DATE, birthdate DATE, purchasedFrom TEXT, vaccines TEXT, mother INTEGER,"
-					+ "father INTEGER, notes TEXT)");
+			stmt.execute("CREATE TABLE IF NOT EXISTS " + tableName + " (ID INTEGER, breed TEXT, "
+					+ "datePurchased DATE, birthdate DATE, purchasedFrom TEXT, pricePaid TEXT, "
+					+ "vaccines TEXT, motherID INTEGER, fatherID INTEGER, notes TEXT)");
 			stmt.close();
 		}
 		catch (SQLException e)
@@ -77,10 +77,10 @@ public class DBConnect
 	}
 	
 	public void insertCow(int id, String breed, String birthdate, String datePurchased, 
-			String purchasedFrom, boolean vaccines, int mother, int father, String notes)
+			String purchasedFrom, String price, String vaccines, int mother, int father, String notes)
 	{
-		String sql = "INSERT INTO " + tableName + "(id, breed, datePurchased, birthdate, purchasedFrom, "
-				+ "vaccines, mother, father, notes) VALUES(?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO " + tableName + "(ID, breed, datePurchased, birthdate, purchasedFrom, pricePaid, "
+				+ "vaccines, motherID, fatherID, notes) VALUES(?,?,?,?,?,?,?,?,?,?)";
 		
 		openConnection();
 		try
@@ -91,10 +91,11 @@ public class DBConnect
 			pstmt.setString(3, birthdate);
 			pstmt.setString(4, datePurchased);
 			pstmt.setString(5, purchasedFrom);
-			pstmt.setBoolean(6, vaccines);
-			pstmt.setInt(7, mother);
-			pstmt.setInt(8, father);
-			pstmt.setString(9, notes);
+			pstmt.setString(6, price);
+			pstmt.setString(7, vaccines);
+			pstmt.setInt(8, mother);
+			pstmt.setInt(9, father);
+			pstmt.setString(10, notes);
 			pstmt.executeUpdate();
 		}
 		catch(SQLException e)
