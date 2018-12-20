@@ -30,6 +30,14 @@ public class MainFile extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
+		int totalCows = db.getTotalCows();
+		int totalMales = db.getMaleCount();
+		
+		double malePercentage = totalMales / totalCows;
+		System.out.println(malePercentage);
+		
+		String totalCowsString = Integer.toString(totalCows);
+		
 		// Set primaryStage equal to window var and set title
 		window = primaryStage;
 		window.setTitle("Cattle Tracker");
@@ -70,7 +78,7 @@ public class MainFile extends Application
 		testPiePane.setAlignment(Pos.CENTER_LEFT);
 		
 		Label totalCowsLabel = new Label(" Total Cows");
-		Label numOfCowsLabel = new Label("  8");
+		Label numOfCowsLabel = new Label(totalCowsString);
 		Label totalInvestmentLabel = new Label(" Total Investment");
 		Label investmentValLabel = new Label("  $22,000.00");
 		
@@ -151,21 +159,23 @@ public class MainFile extends Application
 		border.setLeft(leftPane);
 		border.setRight(rightPane);
 		
-		// Entire Window
-		Scene mainScene = new Scene(border, width, height);
-		window.setScene(mainScene);
-		
 		// Scenes
+		Scene mainScene = new Scene(border, width, height);
+		
 		AddCowLayout cowScreen = new AddCowLayout();
-		Scene cowScreenScene = new Scene(cowScreen.display(width, height, mainScene, window, db), width, height);
+		Scene cowScreenScene = new Scene(cowScreen.display(mainScene, window, db), width, height);
 		
-		dashButton.setOnAction(e -> window.setScene(mainScene));
+		FinancialReports financialScreen = new FinancialReports();
+		Scene financialScreenScene = new Scene(financialScreen.display(mainScene, cowScreenScene,
+				window, db), width, height);
 		
-		addCowButton.setOnAction(e -> window.setScene(cowScreenScene));
-		
-		
+		window.setScene(mainScene);
 		window.setMaximized(true);
 		window.show();
+		
+		dashButton.setOnAction(e -> window.setScene(mainScene));
+		reportsButton.setOnAction(e -> window.setScene(financialScreenScene));
+		addCowButton.setOnAction(e -> window.setScene(cowScreenScene));
 	}
 }
 

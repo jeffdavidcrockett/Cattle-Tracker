@@ -6,6 +6,7 @@ public class Cow
 {
 	private int id;
 	private String breed;
+	private String gender;
 	private String birthdate;
 	private String datePurchased;
 	private String purchasedFrom;
@@ -15,11 +16,12 @@ public class Cow
 	private int father;
 	private String notes;
 	
-	public Cow(int id, String breed, String birthdate, String datePurchased, String purchasedFrom, 
+	public Cow(int id, String breed, String gender, String birthdate, String datePurchased, String purchasedFrom, 
 			String price, String vaccines, int mother, int father, String notes)
 	{
 		this.id = id;
 		this.breed = breed;
+		this.gender = gender;
 		this.birthdate = birthdate;
 		this.datePurchased = datePurchased;
 		this.purchasedFrom = purchasedFrom;
@@ -32,7 +34,7 @@ public class Cow
 	
 	public void writeCowToDb(DBConnect dbObj)
 	{
-		dbObj.insertCow(id, breed, birthdate, datePurchased, purchasedFrom,
+		dbObj.insertCow(id, breed, gender, birthdate, datePurchased, purchasedFrom,
 				price, vaccines, mother, father, notes);
 	}
 	

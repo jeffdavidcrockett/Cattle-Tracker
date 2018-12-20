@@ -16,14 +16,13 @@ import javafx.scene.chart.*;
 import javafx.scene.Group;
 
 
-
-
 public class AddCowLayout 
 {
 	boolean result;
 	boolean castrated;
+	String gender;
 	
-	public BorderPane display(int width, int height, Scene dashboardScene, Stage window, DBConnect db)
+	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db)
 	{
 		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
@@ -241,9 +240,17 @@ public class AddCowLayout
 				String notes = notesField.getText();
 				if (male.isSelected())
 				{
-					Bull bull = new Bull(cowId, cowBreed, birthdate, datePurchased, purchasedFrom, 
+					gender = "Male";
+					Bull bull = new Bull(cowId, cowBreed, gender, birthdate, datePurchased, purchasedFrom, 
 							price, vaccinated, mothersId, fathersId, notes, castrated);
 					bull.writeCowToDb(db);
+				}
+				else if (female.isSelected())
+				{
+					gender = "Female";
+					Heffer heffer = new Heffer(cowId, cowBreed, gender, birthdate, datePurchased, purchasedFrom, 
+							price, vaccinated, mothersId, fathersId, notes);
+					heffer.writeCowToDb(db);
 				}
 			}
 		});
@@ -254,7 +261,6 @@ public class AddCowLayout
 		BorderPane mainLayout = new BorderPane();
 		mainLayout.setCenter(mainGrid);
 		mainLayout.setRight(rightPane);
-		mainLayout.setMinWidth(width);
 		
 		return mainLayout;
 	}

@@ -4,10 +4,10 @@ public class Bull extends Cow
 {
 	private boolean fixed;
 	
-	public Bull(int id, String breed, String birthdate, String datePurchased, String purchasedFrom, 
+	public Bull(int id, String breed, String gender, String birthdate, String datePurchased, String purchasedFrom, 
 			String price, String vaccines, int mother, int father, String notes, boolean fixed)
 	{
-		super(id, breed, birthdate, datePurchased, purchasedFrom, price, vaccines, mother, father, notes);
+		super(id, breed, gender, birthdate, datePurchased, purchasedFrom, price, vaccines, mother, father, notes);
 		this.fixed = false;
 	}
 	
