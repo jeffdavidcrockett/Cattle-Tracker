@@ -1,5 +1,7 @@
 package Cows;
 
+import Data.DBConnect;
+
 public class Heffer extends Cow
 {
 	private int amountOfBabies;
@@ -9,6 +11,12 @@ public class Heffer extends Cow
 	{
 		super(id, breed, gender, birthdate, datePurchased, purchasedFrom, price, vaccines, mother, father, notes);
 		this.amountOfBabies = 0;
+	}
+	
+	public void writeHefferToDb(String tableName, DBConnect dbObj)
+	{
+		dbObj.insertHeffer(tableName, id, breed, gender, birthdate, datePurchased, purchasedFrom,
+				price, vaccines, mother, father, notes);
 	}
 	
 	public void setAmountOfBabies(int numOfBabies)

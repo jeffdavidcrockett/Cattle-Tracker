@@ -1,23 +1,31 @@
 package Cows;
 
+import Data.DBConnect;
+
 public class Bull extends Cow 
 {
-	private boolean fixed;
+	private String castrated;
 	
 	public Bull(int id, String breed, String gender, String birthdate, String datePurchased, String purchasedFrom, 
-			String price, String vaccines, int mother, int father, String notes, boolean fixed)
+			String price, String vaccines, int mother, int father, String notes, String fixed)
 	{
 		super(id, breed, gender, birthdate, datePurchased, purchasedFrom, price, vaccines, mother, father, notes);
-		this.fixed = false;
+		this.castrated = fixed;
 	}
 	
-	public void setFixed(boolean state)
+	public void writeBullToDb(String tableName, DBConnect dbObj)
 	{
-		fixed = state;
+		dbObj.insertBull(tableName, id, breed, gender, birthdate, datePurchased, purchasedFrom,
+				price, vaccines, mother, father, castrated, notes);
 	}
 	
-	public boolean getFixedState()
+	public void setFixed(String state)
 	{
-		return fixed;
+		castrated = state;
+	}
+	
+	public String getFixedState()
+	{
+		return castrated;
 	}
 }

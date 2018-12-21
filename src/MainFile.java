@@ -1,3 +1,5 @@
+import java.text.DecimalFormat;
+
 import Cows.Bull;
 import Cows.Heffer;
 import Data.DBConnect;
@@ -30,15 +32,20 @@ public class MainFile extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
-		int totalCows = db.getTotalCows();
-		int totalMales = db.getMaleCount();
 		
-		double malePercentage = totalMales / totalCows;
-		System.out.println(malePercentage);
+//		int totalCows = db.getTotalCows();
+//		double totalCowsDouble = totalCows;
+//		double totalMales = db.getMaleCount();
+//		
+//		double malePercentage = (totalMales / totalCowsDouble) * 100;
+//		DecimalFormat df = new DecimalFormat("#.##");
+//		malePercentage = Double.valueOf(df.format(malePercentage));
+//		double femalePercentage = 100.00 - malePercentage;
 		
-		String totalCowsString = Integer.toString(totalCows);
+//		String totalCowsString = Integer.toString(totalCows);
+		String totalCowsString = "0";
 		
-		// Set primaryStage equal to window var and set title
+		// Set primaryStage equal to window variable and set title
 		window = primaryStage;
 		window.setTitle("Cattle Tracker");
 		
@@ -89,8 +96,8 @@ public class MainFile extends Application
 		
 		ObservableList<PieChart.Data> genderChartData =
                 FXCollections.observableArrayList(
-                new PieChart.Data("Male", 13),
-                new PieChart.Data("Female", 25));
+                new PieChart.Data("Male", 50),
+                new PieChart.Data("Female", 50));
 		final PieChart genderChart = new PieChart(genderChartData);
 		genderChart.setTitle("Gender");
 		
@@ -136,22 +143,22 @@ public class MainFile extends Application
 		Label navigationLabel = new Label("Navigation");
 		navigationLabel.setStyle("-fx-text-fill: white; -fx-font-size: 40pt;");
 		
-		Button dashButton = new Button("Dashboard");
+//		Button dashButton = new Button("Dashboard");
 		Button reportsButton = new Button("Financial Reports");
-		Button addCowButton = new Button("Add Cow to Herd");
+		Button editHerdButton = new Button("Edit My Herd");
 		Button addExpenseButton = new Button("Add General Expense");
 		
-		dashButton.setStyle("-fx-font-size: 15pt;");
+//		dashButton.setStyle("-fx-font-size: 15pt;");
 		reportsButton.setStyle("-fx-font-size: 15pt;");
-		addCowButton.setStyle("-fx-font-size: 15pt;");
+		editHerdButton.setStyle("-fx-font-size: 15pt;");
 		addExpenseButton.setStyle("-fx-font-size: 15pt;");
 		
-		dashButton.setMaxWidth(Double.MAX_VALUE);
+//		dashButton.setMaxWidth(Double.MAX_VALUE);
 		reportsButton.setMaxWidth(Double.MAX_VALUE);
-		addCowButton.setMaxWidth(Double.MAX_VALUE);
+		editHerdButton.setMaxWidth(Double.MAX_VALUE);
 		addExpenseButton.setMaxWidth(Double.MAX_VALUE);
 		
-		rightPane.getChildren().addAll(navigationLabel, dashButton, reportsButton, addCowButton, addExpenseButton);
+		rightPane.getChildren().addAll(navigationLabel, editHerdButton, addExpenseButton, reportsButton);
 		
 		// Main layout
 		BorderPane border = new BorderPane();
@@ -163,19 +170,23 @@ public class MainFile extends Application
 		Scene mainScene = new Scene(border, width, height);
 		
 		AddCowLayout cowScreen = new AddCowLayout();
-		Scene cowScreenScene = new Scene(cowScreen.display(mainScene, window, db), width, height);
+		Scene cowScreenScene = new Scene(cowScreen.display(mainScene, window, db, width, height), width, height);
 		
 		FinancialReports financialScreen = new FinancialReports();
 		Scene financialScreenScene = new Scene(financialScreen.display(mainScene, cowScreenScene,
 				window, db), width, height);
 		
+		GeneralExpenses generalExpensesScreen = new GeneralExpenses();
+		Scene generalExpensesScene = new Scene(generalExpensesScreen.display(mainScene, window, db), width, height);
+		
 		window.setScene(mainScene);
 		window.setMaximized(true);
 		window.show();
 		
-		dashButton.setOnAction(e -> window.setScene(mainScene));
+//		dashButton.setOnAction(e -> window.setScene(mainScene));
 		reportsButton.setOnAction(e -> window.setScene(financialScreenScene));
-		addCowButton.setOnAction(e -> window.setScene(cowScreenScene));
+		editHerdButton.setOnAction(e -> window.setScene(cowScreenScene));
+		addExpenseButton.setOnAction(e -> window.setScene(generalExpensesScene));
 	}
 }
 

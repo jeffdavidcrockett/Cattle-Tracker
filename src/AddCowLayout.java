@@ -19,10 +19,10 @@ import javafx.scene.Group;
 public class AddCowLayout 
 {
 	boolean result;
-	boolean castrated;
+	String castrated;
 	String gender;
 	
-	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db)
+	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db, int width, int height)
 	{
 		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
@@ -34,27 +34,27 @@ public class AddCowLayout
 		navigationLabel.setStyle("-fx-text-fill: white; -fx-font-size: 40pt;");
 		
 		Button dashButton = new Button("Dashboard");
-		Button reportsButton = new Button("Financial Reports");
+		Button sellCowButton = new Button("Sell Cow");
 		Button addCowButton = new Button("Add Cow to Herd");
 		Button addExpenseButton = new Button("Add General Expense");
 		
 		dashButton.setStyle("-fx-font-size: 15pt;");
-		reportsButton.setStyle("-fx-font-size: 15pt;");
+		sellCowButton.setStyle("-fx-font-size: 15pt;");
 		addCowButton.setStyle("-fx-font-size: 15pt;");
 		addExpenseButton.setStyle("-fx-font-size: 15pt;");
 		
 		dashButton.setMaxWidth(Double.MAX_VALUE);
-		reportsButton.setMaxWidth(Double.MAX_VALUE);
+		sellCowButton.setMaxWidth(Double.MAX_VALUE);
 		addCowButton.setMaxWidth(Double.MAX_VALUE);
 		addExpenseButton.setMaxWidth(Double.MAX_VALUE);
 		
-		rightPane.getChildren().addAll(navigationLabel, dashButton, reportsButton, addCowButton, addExpenseButton);
+		rightPane.getChildren().addAll(navigationLabel, dashButton, sellCowButton, addCowButton, addExpenseButton);
 		
 		// Center pane *************************************************************************************
 		GridPane mainGrid = new GridPane();
 		mainGrid.setStyle("-fx-background-color: #1D1E1E;");
 		
-		Label addCowLabel = new Label("               Add Cow");
+		Label addCowLabel = new Label("          Add Cow");
 		Label idInput = new Label("ID");
 		Label breedInput = new Label("Breed");
 		Label birthdateInput = new Label("Birthdate");
@@ -137,6 +137,9 @@ public class AddCowLayout
 		DateBox birthdateBoxes = new DateBox();
 		ComboBox[] birthBoxes = birthdateBoxes.createDateBox();
 		
+		DateBox datePurchasedBoxes = new DateBox();
+		ComboBox[] boxes = datePurchasedBoxes.createDateBox();
+		
 		HBox priceBox = new HBox(5);
 		priceBox.getChildren().addAll(dollarSignLabel, pricePaidField);
 		priceBox.setAlignment(Pos.CENTER_LEFT);
@@ -165,16 +168,13 @@ public class AddCowLayout
 		addCowLabelBox.setAlignment(Pos.CENTER);
 		addCowLabelBox.setStyle("-fx-background-color: #1D1E1E;");
 		
-		DateBox datePurchasedBoxes = new DateBox();
-		ComboBox[] boxes = datePurchasedBoxes.createDateBox();
-		
 		HBox datePurchasedDate = new HBox(5);
 		datePurchasedDate.getChildren().addAll(boxes[0], boxes[1], boxes[2]);
 		
-		HBox row1 = new HBox(80);
 		VBox column0 = new VBox();
 		VBox column1 = new VBox();
 		VBox column2 = new VBox();
+		HBox row1 = new HBox(80);
 		
 		column0.getChildren().addAll(male, blankLabel1, female, blankLabel2,
 				idInput, idField, blankLabel3, breedInput, breedBox, blankLabel4, birthdateInput, idDateBox);
@@ -231,31 +231,39 @@ public class AddCowLayout
 				if (castYes.isSelected() == true)
 				{
 					// May not need "No" graphical check box with this logic setup
-					castrated = true;
+					castrated = "Yes";
 				}
 				else
 				{
-					castrated = false;
+					castrated = "No";
 				}
 				String notes = notesField.getText();
 				if (male.isSelected())
 				{
 					gender = "Male";
 					Bull bull = new Bull(cowId, cowBreed, gender, birthdate, datePurchased, purchasedFrom, 
-							price, vaccinated, mothersId, fathersId, notes, castrated);
-					bull.writeCowToDb(db);
+							price, vaccinated, mothersId, fathersId, castrated, notes);
+					bull.writeBullToDb("currentCows", db);
+					
+					AlertBox.display("", "Cow was added to database!");
 				}
 				else if (female.isSelected())
 				{
 					gender = "Female";
 					Heffer heffer = new Heffer(cowId, cowBreed, gender, birthdate, datePurchased, purchasedFrom, 
 							price, vaccinated, mothersId, fathersId, notes);
-					heffer.writeCowToDb(db);
+					heffer.writeHefferToDb("currentCows", db);
+					
+					AlertBox.display("", "Cow was added to database!");
 				}
 			}
 		});
 		
+		SellCow sellCowLayout = new SellCow();
+		Scene sellCowScene = new Scene(sellCowLayout.display(dashboardScene, window, db), width, height);
+		
 		dashButton.setOnAction(e -> window.setScene(dashboardScene));
+		sellCowButton.setOnAction(e -> window.setScene(sellCowScene));
 		
 		// Main layout
 		BorderPane mainLayout = new BorderPane();

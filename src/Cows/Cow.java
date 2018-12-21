@@ -4,17 +4,17 @@ import Data.DBConnect;
 
 public class Cow 
 {
-	private int id;
-	private String breed;
-	private String gender;
-	private String birthdate;
-	private String datePurchased;
-	private String purchasedFrom;
-	private String price;
-	private String vaccines;
-	private int mother;
-	private int father;
-	private String notes;
+	protected int id;
+	protected String breed;
+	protected String gender;
+	protected String birthdate;
+	protected String datePurchased;
+	protected String purchasedFrom;
+	protected String price;
+	protected String vaccines;
+	protected int mother;
+	protected int father;
+	protected String notes;
 	
 	public Cow(int id, String breed, String gender, String birthdate, String datePurchased, String purchasedFrom, 
 			String price, String vaccines, int mother, int father, String notes)
@@ -30,12 +30,6 @@ public class Cow
 		this.mother = mother;
 		this.father = father;
 		this.notes = notes;
-	}
-	
-	public void writeCowToDb(DBConnect dbObj)
-	{
-		dbObj.insertCow(id, breed, gender, birthdate, datePurchased, purchasedFrom,
-				price, vaccines, mother, father, notes);
 	}
 	
 	public void setDatePurchased(String month, String day, String year)
