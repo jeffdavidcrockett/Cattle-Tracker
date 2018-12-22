@@ -1,3 +1,8 @@
-#chart{
-	-fx-fill: #00CC99;
+.chart-pie-label {
+	-fx-fill: white;
+}
+
+.chart-title {
+	-fx-text-fill: white;
+	-fx-font-size: 20pt;
 }

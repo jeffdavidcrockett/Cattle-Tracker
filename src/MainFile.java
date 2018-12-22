@@ -33,21 +33,23 @@ public class MainFile extends Application
 	public void start(Stage primaryStage) throws Exception
 	{
 		
-//		int totalCows = db.getTotalCows();
-//		double totalCowsDouble = totalCows;
-//		double totalMales = db.getMaleCount();
-//		
-//		double malePercentage = (totalMales / totalCowsDouble) * 100;
-//		DecimalFormat df = new DecimalFormat("#.##");
-//		malePercentage = Double.valueOf(df.format(malePercentage));
-//		double femalePercentage = 100.00 - malePercentage;
+		int totalCows = db.getTotalCows();
+		double totalCowsDouble = totalCows;
+		double totalMales = db.getMaleCount();
 		
-//		String totalCowsString = Integer.toString(totalCows);
-		String totalCowsString = "0";
+		double malePercentage = (totalMales / totalCowsDouble) * 100;
+		DecimalFormat df = new DecimalFormat("#.##");
+		malePercentage = Double.valueOf(df.format(malePercentage));
+		double femalePercentage = 100.00 - malePercentage;
+		
+		String totalCowsString = Integer.toString(totalCows);
+//		String totalCowsString = "0";
 		
 		// Set primaryStage equal to window variable and set title
 		window = primaryStage;
 		window.setTitle("Cattle Tracker");
+		
+		
 		
 		// Get screen dimensions
 		int width = (int) Screen.getPrimary().getBounds().getWidth();
@@ -100,21 +102,23 @@ public class MainFile extends Application
                 new PieChart.Data("Female", 50));
 		final PieChart genderChart = new PieChart(genderChartData);
 		genderChart.setTitle("Gender");
+		genderChart.setLegendSide(Side.LEFT);
 		
 		ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                new PieChart.Data("2 months", 13),
-                new PieChart.Data("6 months", 25),
-                new PieChart.Data("1 year", 18),
-                new PieChart.Data("2 years", 13));
-		final PieChart chart = new PieChart(pieChartData);
-		chart.setTitle("Ages");
+                new PieChart.Data("Cows", 13),
+                new PieChart.Data("Feed", 25),
+                new PieChart.Data("Equipment", 18),
+                new PieChart.Data("Misc", 13));
+		final PieChart costsChart = new PieChart(pieChartData);
+		costsChart.setTitle("Overall Costs");
+		costsChart.setLegendSide(Side.LEFT);
 		
 		cowTotalPane.getChildren().addAll(totalCowsLabel);
 		numCowPane.getChildren().addAll(numOfCowsLabel);
 		totalInvestmentPane.getChildren().addAll(totalInvestmentLabel);
 		investmentValPane.getChildren().addAll(investmentValLabel);
-		genderPiePane.getChildren().addAll(genderChart, chart);
+		genderPiePane.getChildren().addAll(genderChart, costsChart);
 		
 		mainPane.add(cowTotalPane, 0, 0);
 		mainPane.add(numCowPane, 0, 1);
@@ -168,6 +172,7 @@ public class MainFile extends Application
 		
 		// Scenes
 		Scene mainScene = new Scene(border, width, height);
+		mainScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
 		
 		AddCowLayout cowScreen = new AddCowLayout();
 		Scene cowScreenScene = new Scene(cowScreen.display(mainScene, window, db, width, height), width, height);
@@ -175,6 +180,7 @@ public class MainFile extends Application
 		FinancialReports financialScreen = new FinancialReports();
 		Scene financialScreenScene = new Scene(financialScreen.display(mainScene, cowScreenScene,
 				window, db), width, height);
+		financialScreenScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
 		
 		GeneralExpenses generalExpensesScreen = new GeneralExpenses();
 		Scene generalExpensesScene = new Scene(generalExpensesScreen.display(mainScene, window, db), width, height);
@@ -183,7 +189,6 @@ public class MainFile extends Application
 		window.setMaximized(true);
 		window.show();
 		
-//		dashButton.setOnAction(e -> window.setScene(mainScene));
 		reportsButton.setOnAction(e -> window.setScene(financialScreenScene));
 		editHerdButton.setOnAction(e -> window.setScene(cowScreenScene));
 		addExpenseButton.setOnAction(e -> window.setScene(generalExpensesScene));

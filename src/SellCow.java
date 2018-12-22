@@ -19,6 +19,9 @@ import javafx.scene.Group;
 
 public class SellCow 
 {
+	public static Integer selectedCow = null;
+	public static HashMap<String, ArrayList> cowData = null;
+	
 	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db)
 	{
 		// Right pane ****************************************************************************
@@ -31,27 +34,24 @@ public class SellCow
 		navigationLabel.setStyle("-fx-text-fill: white; -fx-font-size: 40pt;");
 				
 		Button dashButton = new Button("Dashboard");
-		Button reportsButton = new Button("Financial Reports");
 		Button addCowButton = new Button("Add Cow to Herd");
 		Button addExpenseButton = new Button("Add General Expense");
 				
 		dashButton.setStyle("-fx-font-size: 15pt;");
-		reportsButton.setStyle("-fx-font-size: 15pt;");
 		addCowButton.setStyle("-fx-font-size: 15pt;");
 		addExpenseButton.setStyle("-fx-font-size: 15pt;");
 				
 		dashButton.setMaxWidth(Double.MAX_VALUE);
-		reportsButton.setMaxWidth(Double.MAX_VALUE);
 		addCowButton.setMaxWidth(Double.MAX_VALUE);
 		addExpenseButton.setMaxWidth(Double.MAX_VALUE);
 		
-		rightPane.getChildren().addAll(navigationLabel, dashButton, reportsButton, addCowButton, addExpenseButton);
+		rightPane.getChildren().addAll(navigationLabel, dashButton, addCowButton, addExpenseButton);
 		
 		// Center pane *********************************************************************************
 		GridPane mainGrid = new GridPane();
 		mainGrid.setStyle("-fx-background-color: #1D1E1E;");
 		
-		Label sellCowLabel = new Label("  Sell Cow");
+		Label sellCowLabel = new Label("Sell Cow");
 		Label lookupLabel = new Label("Lookup Cow by ID: ");
 		Label idLabel = new Label("ID: ");
 		Label idDisplayLabel = new Label();
@@ -188,24 +188,113 @@ public class SellCow
 		mainLayout.setCenter(mainGrid);
 		mainLayout.setRight(rightPane);
 		
+		dashButton.setOnAction(e -> window.setScene(dashboardScene));
+		
 		lookupButton.setOnAction(e -> {
-			HashMap<String, ArrayList> cowData = new HashMap<String, ArrayList>();
-			
 			int id = Integer.parseInt(lookupField.getText());
 			cowData = db.getRow(id);
 			
-			idDisplayLabel.setText(String.valueOf(cowData.get("integers").get(0)));
-			genderDisplayLabel.setText(String.valueOf(cowData.get("strings").get(0)));
-			breedDisplayLabel.setText(String.valueOf(cowData.get("strings").get(1)));
-			birthdateDisplayLabel.setText(String.valueOf(cowData.get("strings").get(2)));
-			datePurchasedDisplayLabel.setText(String.valueOf(cowData.get("strings").get(3)));
-			purchasedFromDisplayLabel.setText(String.valueOf(cowData.get("strings").get(4)));
-			pricePaidDisplayLabel.setText(String.valueOf(cowData.get("strings").get(5)));
-			mothersIdDisplayLabel.setText(String.valueOf(cowData.get("integers").get(1)));
-			fathersIdDisplayLabel.setText(String.valueOf(cowData.get("integers").get(2)));
-			castratedDisplayLabel.setText(String.valueOf(cowData.get("strings").get(7)));
+			if (cowData != null)
+			{
+				selectedCow = id;
+				
+				idDisplayLabel.setText(String.valueOf(cowData.get("integers").get(0)));
+				genderDisplayLabel.setText(String.valueOf(cowData.get("strings").get(1)));
+				breedDisplayLabel.setText(String.valueOf(cowData.get("strings").get(0)));
+				birthdateDisplayLabel.setText(String.valueOf(cowData.get("strings").get(2)));
+				datePurchasedDisplayLabel.setText(String.valueOf(cowData.get("strings").get(3)));
+				purchasedFromDisplayLabel.setText(String.valueOf(cowData.get("strings").get(4)));
+				pricePaidDisplayLabel.setText(String.valueOf(cowData.get("strings").get(5)));
+				mothersIdDisplayLabel.setText(String.valueOf(cowData.get("integers").get(1)));
+				fathersIdDisplayLabel.setText(String.valueOf(cowData.get("integers").get(2)));
+				castratedDisplayLabel.setText(String.valueOf(cowData.get("strings").get(7)));
+			}
+			else
+			{
+				selectedCow = null;
+				
+				idDisplayLabel.setText("");
+				genderDisplayLabel.setText("");
+				breedDisplayLabel.setText("");
+				birthdateDisplayLabel.setText("");
+				datePurchasedDisplayLabel.setText("");
+				purchasedFromDisplayLabel.setText("");
+				pricePaidDisplayLabel.setText("");
+				mothersIdDisplayLabel.setText("");
+				fathersIdDisplayLabel.setText("");
+				castratedDisplayLabel.setText("");
+				
+				AlertBox.display("Attention!", "No cows with that ID");
+			}
+			
+		});
+		
+		sellCowButton.setOnAction(e -> {
+			HashMap<String, ArrayList> sellData;
+			
+			if (selectedCow != null)
+			{
+				sellData = SellBox.display();
+				if (sellData != null)
+				{
+					if ((boolean) sellData.get("bools").get(0) == true)
+					{
+						if (String.valueOf(cowData.get("strings").get(1)).equals("Male"))
+						{
+							Bull bull = new Bull((Integer) cowData.get("integers").get(0), String.valueOf(cowData.get("strings").get(1)),
+									String.valueOf(cowData.get("strings").get(0)), String.valueOf(cowData.get("strings").get(2)), 
+									String.valueOf(cowData.get("strings").get(3)), String.valueOf(cowData.get("strings").get(4)),
+									String.valueOf(cowData.get("strings").get(5)), String.valueOf(cowData.get("strings").get(6)),
+									(Integer) cowData.get("integers").get(1), (Integer) cowData.get("integers").get(2),
+									String.valueOf(cowData.get("strings").get(8)), String.valueOf(cowData.get("strings").get(7)));
+							
+							bull.writeBullToPastDb(db, String.valueOf(sellData.get("strings").get(0)), 
+									String.valueOf(sellData.get("strings").get(0)));
+							
+							db.deleteRowFromCurrent(selectedCow);
+							AlertBox.display("Attention", "Cow sold!");
+						}
+						else if (String.valueOf(cowData.get("strings").get(1)).equals("Female"))
+						{
+							Heffer heffer = new Heffer((Integer) cowData.get("integers").get(0), String.valueOf(cowData.get("strings").get(1)),
+									String.valueOf(cowData.get("strings").get(0)), String.valueOf(cowData.get("strings").get(2)), 
+									String.valueOf(cowData.get("strings").get(3)), String.valueOf(cowData.get("strings").get(4)),
+									String.valueOf(cowData.get("strings").get(5)), String.valueOf(cowData.get("strings").get(6)),
+									(Integer) cowData.get("integers").get(1), (Integer) cowData.get("integers").get(2),
+									String.valueOf(cowData.get("strings").get(8)));
+							
+							heffer.writeHefferToPastDb(db, String.valueOf(sellData.get("strings").get(0)), 
+									String.valueOf(sellData.get("strings").get(1)));
+							
+							db.deleteRowFromCurrent(selectedCow);
+							AlertBox.display("Attention", "Cow sold!");
+						}
+					}
+				}
+			}
+			else
+			{
+				AlertBox.display("Attention!", "Please lookup cow to sell");
+			}
+			
 		});
 		
 		return mainLayout;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

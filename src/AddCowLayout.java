@@ -35,20 +35,17 @@ public class AddCowLayout
 		
 		Button dashButton = new Button("Dashboard");
 		Button sellCowButton = new Button("Sell Cow");
-		Button addCowButton = new Button("Add Cow to Herd");
 		Button addExpenseButton = new Button("Add General Expense");
 		
 		dashButton.setStyle("-fx-font-size: 15pt;");
 		sellCowButton.setStyle("-fx-font-size: 15pt;");
-		addCowButton.setStyle("-fx-font-size: 15pt;");
 		addExpenseButton.setStyle("-fx-font-size: 15pt;");
 		
 		dashButton.setMaxWidth(Double.MAX_VALUE);
 		sellCowButton.setMaxWidth(Double.MAX_VALUE);
-		addCowButton.setMaxWidth(Double.MAX_VALUE);
 		addExpenseButton.setMaxWidth(Double.MAX_VALUE);
 		
-		rightPane.getChildren().addAll(navigationLabel, dashButton, sellCowButton, addCowButton, addExpenseButton);
+		rightPane.getChildren().addAll(navigationLabel, dashButton, sellCowButton, addExpenseButton);
 		
 		// Center pane *************************************************************************************
 		GridPane mainGrid = new GridPane();
@@ -243,7 +240,7 @@ public class AddCowLayout
 					gender = "Male";
 					Bull bull = new Bull(cowId, cowBreed, gender, birthdate, datePurchased, purchasedFrom, 
 							price, vaccinated, mothersId, fathersId, castrated, notes);
-					bull.writeBullToDb("currentCows", db);
+					bull.writeBullToCurrentDb(db);
 					
 					AlertBox.display("", "Cow was added to database!");
 				}
@@ -252,7 +249,7 @@ public class AddCowLayout
 					gender = "Female";
 					Heffer heffer = new Heffer(cowId, cowBreed, gender, birthdate, datePurchased, purchasedFrom, 
 							price, vaccinated, mothersId, fathersId, notes);
-					heffer.writeHefferToDb("currentCows", db);
+					heffer.writeHefferToCurrentDb(db);
 					
 					AlertBox.display("", "Cow was added to database!");
 				}

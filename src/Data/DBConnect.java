@@ -93,7 +93,8 @@ public class DBConnect
 			stmt = conn.createStatement();
 			stmt.execute("CREATE TABLE IF NOT EXISTS " + pastCowsTable + " (ID INTEGER, breed TEXT, "
 					+ "gender TEXT, datePurchased TEXT, birthdate TEXT, purchasedFrom TEXT, pricePaid TEXT, "
-					+ "vaccines TEXT, motherID INTEGER, fatherID INTEGER, castrated TEXT, notes TEXT)");
+					+ "vaccines TEXT, motherID INTEGER, fatherID INTEGER, castrated TEXT, notes TEXT, soldFor TEXT, "
+					+ "soldTo TEXT)");
 			stmt.close();
 		}
 		catch (SQLException e)
@@ -116,10 +117,10 @@ public class DBConnect
 		}
 	}
 	
-	public void insertBull(String tableName, int id, String breed, String gender, String birthdate, String datePurchased, 
+	public void insertBullIntoCurrent(int id, String breed, String gender, String birthdate, String datePurchased, 
 			String purchasedFrom, String price, String vaccines, int mother, int father, String castrated, String notes)
 	{
-		String sql = "INSERT INTO " + tableName + " (ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "
+		String sql = "INSERT INTO " + currentCowsTable + " (ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "
 				+ "vaccines, motherID, fatherID, castrated, notes) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		openConnection();
@@ -147,10 +148,10 @@ public class DBConnect
 		closeConnection();
 	}
 	
-	public void insertHeffer(String tableName, int id, String breed, String gender, String birthdate, String datePurchased, 
+	public void insertHefferIntoCurrent(int id, String breed, String gender, String birthdate, String datePurchased, 
 			String purchasedFrom, String price, String vaccines, int mother, int father, String notes)
 	{
-		String sql = "INSERT INTO " + tableName + "(ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "
+		String sql = "INSERT INTO " + currentCowsTable + "(ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "
 				+ "vaccines, motherID, fatherID, notes) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 		
 		openConnection();
@@ -175,6 +176,107 @@ public class DBConnect
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
+	}
+	
+	public void insertBullIntoPast(int id, String breed, String gender, String birthdate, String datePurchased, 
+			String purchasedFrom, String price, String vaccines, int mother, int father, String castrated, 
+			String notes, String soldFor, String soldTo)
+	{
+		String sql = "INSERT INTO " + pastCowsTable + " (ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "
+				+ "vaccines, motherID, fatherID, castrated, notes, soldFor, soldTo) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		
+		openConnection();
+		try
+		{
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			pstmt.setString(2, breed);
+			pstmt.setString(3, gender);
+			pstmt.setString(4, birthdate);
+			pstmt.setString(5, datePurchased);
+			pstmt.setString(6, purchasedFrom);
+			pstmt.setString(7, price);
+			pstmt.setString(8, vaccines);
+			pstmt.setInt(9, mother);
+			pstmt.setInt(10, father);
+			pstmt.setString(11, castrated);
+			pstmt.setString(12, notes);
+			pstmt.setString(13, soldFor);
+			pstmt.setString(14, soldTo);
+			pstmt.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		closeConnection();
+	}
+	
+	public void insertHefferIntoPast(int id, String breed, String gender, String birthdate, String datePurchased, 
+			String purchasedFrom, String price, String vaccines, int mother, int father, String notes, 
+			String soldFor, String soldTo)
+	{
+		String sql = "INSERT INTO " + pastCowsTable + " (ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "
+				+ "vaccines, motherID, fatherID, notes, soldFor, soldTo) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		
+		openConnection();
+		try
+		{
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			pstmt.setString(2, breed);
+			pstmt.setString(3, gender);
+			pstmt.setString(4, birthdate);
+			pstmt.setString(5, datePurchased);
+			pstmt.setString(6, purchasedFrom);
+			pstmt.setString(7, price);
+			pstmt.setString(8, vaccines);
+			pstmt.setInt(9, mother);
+			pstmt.setInt(10, father);
+			pstmt.setString(11, notes);
+			pstmt.setString(12, soldFor);
+			pstmt.setString(13, soldTo);
+			pstmt.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		closeConnection();
+	}
+	
+	public void deleteRowFromCurrent(int id)
+	{
+		String sql = "DELETE FROM " + currentCowsTable + " WHERE ID = ?";
+		
+		openConnection();
+		try
+		{
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteRowFromPast(int id)
+	{
+		String sql = "DELETE FROM " + pastCowsTable + " WHERE ID = ?";
+		
+		openConnection();
+		try
+		{
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	public int getTotalCows()
@@ -222,48 +324,66 @@ public class DBConnect
 		ArrayList<String> stringList = new ArrayList<String>();
 		ArrayList<Integer> intList = new ArrayList<Integer>();
 		HashMap<String, ArrayList> sqlRowData = new HashMap<String, ArrayList>();
+		boolean controlVar = false;
 		
 		openConnection();
 		try
 		{
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM " + currentCowsTable + " WHERE ID = " + id);
-			int cowId = rs.getInt("ID");
-			String breed = rs.getString("breed");
-			String gender = rs.getString("gender");
-			String datePurchased = rs.getString("datePurchased");
-			String birthdate = rs.getString("birthdate");
-			String purchasedFrom = rs.getString("purchasedFrom");
-			String pricePaid = rs.getString("pricePaid");
-			String vaccines = rs.getString("vaccines");
-			int motherId = rs.getInt("motherId");
-			int fatherId = rs.getInt("fatherId");
-			String castrated = rs.getString("castrated");
-			String notes = rs.getString("notes");
-			
-			sqlRowData.put("strings", stringList);
-			sqlRowData.put("integers", intList);
-			
-			sqlRowData.get("strings").add(breed);
-			sqlRowData.get("strings").add(gender);
-			sqlRowData.get("strings").add(datePurchased);
-			sqlRowData.get("strings").add(birthdate);
-			sqlRowData.get("strings").add(purchasedFrom);
-			sqlRowData.get("strings").add(pricePaid);
-			sqlRowData.get("strings").add(vaccines);
-			sqlRowData.get("strings").add(castrated);
-			sqlRowData.get("strings").add(notes);
-			sqlRowData.get("integers").add(cowId);
-			sqlRowData.get("integers").add(motherId);
-			sqlRowData.get("integers").add(fatherId);			
+			if (!rs.isBeforeFirst())
+			{
+				controlVar = false;
+			}
+			else
+			{
+				int cowId = rs.getInt("ID");
+				String breed = rs.getString("breed");
+				String gender = rs.getString("gender");
+				String datePurchased = rs.getString("datePurchased");
+				String birthdate = rs.getString("birthdate");
+				String purchasedFrom = rs.getString("purchasedFrom");
+				String pricePaid = rs.getString("pricePaid");
+				String vaccines = rs.getString("vaccines");
+				int motherId = rs.getInt("motherId");
+				int fatherId = rs.getInt("fatherId");
+				String castrated = rs.getString("castrated");
+				String notes = rs.getString("notes");
+				
+				sqlRowData.put("strings", stringList);
+				sqlRowData.put("integers", intList);
+				
+				sqlRowData.get("strings").add(breed);
+				sqlRowData.get("strings").add(gender);
+				sqlRowData.get("strings").add(datePurchased);
+				sqlRowData.get("strings").add(birthdate);
+				sqlRowData.get("strings").add(purchasedFrom);
+				sqlRowData.get("strings").add(pricePaid);
+				sqlRowData.get("strings").add(vaccines);
+				sqlRowData.get("strings").add(castrated);
+				sqlRowData.get("strings").add(notes);
+				sqlRowData.get("integers").add(cowId);
+				sqlRowData.get("integers").add(motherId);
+				sqlRowData.get("integers").add(fatherId);
+				
+				controlVar = true;
+			}
 		}
 		catch (SQLException e)
 		{
 			System.out.println(e.getMessage());
 		}
+		closeConnection();
 		
-		return sqlRowData;
-	}	
+		if (controlVar == true)
+		{
+			return sqlRowData;
+		}
+		else
+		{
+			return null;
+		}
+	}
 }
 
 //ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "

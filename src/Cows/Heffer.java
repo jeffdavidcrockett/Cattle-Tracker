@@ -10,13 +10,19 @@ public class Heffer extends Cow
 			String price, String vaccines, int mother, int father, String notes)
 	{
 		super(id, breed, gender, birthdate, datePurchased, purchasedFrom, price, vaccines, mother, father, notes);
-		this.amountOfBabies = 0;
+//		this.amountOfBabies = 0;
 	}
 	
-	public void writeHefferToDb(String tableName, DBConnect dbObj)
+	public void writeHefferToCurrentDb(DBConnect dbObj)
 	{
-		dbObj.insertHeffer(tableName, id, breed, gender, birthdate, datePurchased, purchasedFrom,
+		dbObj.insertHefferIntoCurrent(id, breed, gender, birthdate, datePurchased, purchasedFrom,
 				price, vaccines, mother, father, notes);
+	}
+	
+	public void writeHefferToPastDb(DBConnect dbObj, String priceSoldFor, String soldTo)
+	{
+		dbObj.insertHefferIntoPast(id, breed, gender, birthdate, datePurchased, purchasedFrom,
+				price, vaccines, mother, father, notes, priceSoldFor, soldTo);
 	}
 	
 	public void setAmountOfBabies(int numOfBabies)
