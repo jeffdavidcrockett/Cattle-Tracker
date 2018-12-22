@@ -282,13 +282,19 @@ public class DBConnect
 	public int getTotalCows()
 	{
 		int numOfCows = 0;
-		
 		openConnection();
 		try
 		{
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM currentCows");
-			numOfCows = rs.getInt("total");
+			if (!rs.isBeforeFirst())
+			{
+				numOfCows = 0;
+			}
+			else
+			{
+				numOfCows = rs.getInt("total");
+			}
 		}
 		catch(SQLException e)
 		{
@@ -308,7 +314,14 @@ public class DBConnect
 		{
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM currentCows WHERE gender = 'Male'");
-			maleCount = rs.getInt("total");
+			if (!rs.isBeforeFirst())
+			{
+				maleCount = 0;
+			}
+			else
+			{
+				maleCount = rs.getInt("total");
+			}
 		}
 		catch(SQLException e)
 		{

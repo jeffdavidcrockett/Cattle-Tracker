@@ -37,10 +37,21 @@ public class MainFile extends Application
 		double totalCowsDouble = totalCows;
 		double totalMales = db.getMaleCount();
 		
-		double malePercentage = (totalMales / totalCowsDouble) * 100;
-		DecimalFormat df = new DecimalFormat("#.##");
-		malePercentage = Double.valueOf(df.format(malePercentage));
-		double femalePercentage = 100.00 - malePercentage;
+		if (totalCows != 0 && totalMales != 0)
+		{
+			double malePercentage = (totalMales / totalCowsDouble) * 100;
+			DecimalFormat df = new DecimalFormat("#.##");
+			malePercentage = Double.valueOf(df.format(malePercentage));
+			double femalePercentage = 100.00 - malePercentage;
+		}
+		else
+		{
+			double malePercentage = 0;
+			double femalePercentage = 0;
+			totalMales = 0;
+		}
+		
+		
 		
 		String totalCowsString = Integer.toString(totalCows);
 //		String totalCowsString = "0";
