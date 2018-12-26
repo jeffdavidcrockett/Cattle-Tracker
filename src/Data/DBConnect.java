@@ -1,5 +1,6 @@
 package Data;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -108,7 +109,7 @@ public class DBConnect
 		try
 		{
 		stmt = conn.createStatement();
-		stmt.execute("CREATE TABLE IF NOT EXISTS " + generalExpensesTable + " (type TEXT, pricePaid TEXT, amount TEXT)");
+		stmt.execute("CREATE TABLE IF NOT EXISTS " + generalExpensesTable + " (year TEXT, type TEXT, pricePer TEXT, totalCost TEXT)");
 		stmt.close();
 		}
 		catch (SQLException e)
@@ -260,6 +261,7 @@ public class DBConnect
 		{
 			System.out.println(e.getMessage());
 		}
+		closeConnection();
 	}
 	
 	public void deleteRowFromPast(int id)
@@ -277,6 +279,7 @@ public class DBConnect
 		{
 			System.out.println(e.getMessage());
 		}
+		closeConnection();
 	}
 	
 	public int getTotalCows()
@@ -397,12 +400,62 @@ public class DBConnect
 			return null;
 		}
 	}
+	
+	public void writeGeneralExpense(String year, String expenseType, String pricePer, String total)
+	{
+		String sql = "INSERT INTO " + generalExpensesTable + " (year, type, pricePer, totalCost) VALUES(?,?,?,?)";
+		
+		openConnection();
+		try
+		{
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, year);
+			pstmt.setString(2, expenseType);
+			pstmt.setString(3, pricePer);
+			pstmt.setString(4, total);
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		closeConnection();
+	}
+	
+	public ArrayList<String> getAvgHayPrices()
+	{
+		ArrayList<String> priceList = new ArrayList<String>();
+		String avgPrice = "0";
+		String sql = "SELECT pricePaid FROM " + generalExpensesTable + " WHERE type = 'Hay' AND year = '2018'";
+		
+		openConnection();
+		try
+		{
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if (!rs.isBeforeFirst())
+			{
+				avgPrice = "0";
+			}
+			else
+			{
+				int i = 1;
+				while (rs.next())
+				{
+					priceList.add(rs.getString(1));
+					i++;
+				}
+			}
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		closeConnection();
+		
+		return priceList;
+	}
 }
-
-//ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "
-//		+ "vaccines, motherID, fatherID, castrated, notes)
-
-
 
 
 

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import Cows.Bull;
 import Cows.Heffer;
 import Data.DBConnect;
@@ -18,11 +20,16 @@ import javafx.scene.Group;
 
 public class FinancialReports 
 {
-	final static String austria = "Austria";
-    final static String brazil = "Brazil";
-    final static String france = "France";
+	final static String feed = "Feed";
+    final static String equipment = "Equipment";
+    final static String vet = "Veterinary";
     final static String italy = "Italy";
     final static String usa = "USA";
+    final static String year2018 = "2018";
+    static String dynamicYear1;
+    static String dynamicYear2;
+    static String dynamicYear3;
+    public static ArrayList<String> hayPrices = new ArrayList<String>();
     
 	public BorderPane display(Scene dashboardScene, Scene cowScreenScene,
 			Stage window, DBConnect db)
@@ -54,60 +61,72 @@ public class FinancialReports
 		rightPane.getChildren().addAll(navigationLabel, dashButton, reportsButton, addCowButton, addExpenseButton);
 		
 		// Center pane ************************************************************************************************
+		
+//		hayPrices = db.getAvgHayPrices();
+//		int total = 0;
+//		for (int i = 0; i < hayPrices.size(); i++)
+//		{
+//			total += Integer.parseInt(hayPrices.get(i));
+//		}
+//		int average = total / hayPrices.size();
+		int average = 30;
+		
+		
+		// temp initializations for years
+		dynamicYear1 = "2019";
+		dynamicYear2 = "2020";
+		dynamicYear3 = "2021";
+		
+		
 		GridPane mainGrid = new GridPane();
 		mainGrid.setStyle("-fx-background-color: #1D1E1E;");
 		
 		final CategoryAxis xAxis = new CategoryAxis();
 		final NumberAxis yAxis = new NumberAxis();
-		final BarChart<String, Number> bc = 
+		final BarChart<String, Number> generalExpenses = 
 				new BarChart<String, Number>(xAxis, yAxis);
-		bc.setTitle("Test Chart");
-		xAxis.setLabel("Country");
-		yAxis.setLabel("Value");
+		generalExpenses.setTitle("General Expenses");
+		xAxis.setLabel("Items");
+		yAxis.setLabel("Total Cost");
 		
 		XYChart.Series series1 = new XYChart.Series();
-		series1.setName("2003");
-		series1.getData().add(new XYChart.Data(austria, 25601.34));
-		series1.getData().add(new XYChart.Data(brazil, 20148.82));
-		series1.getData().add(new XYChart.Data(france, 10000));
-		series1.getData().add(new XYChart.Data(italy, 35407));
-		series1.getData().add(new XYChart.Data(usa, 12000));
+		series1.setName("2018");
+		series1.getData().add(new XYChart.Data(feed, 25601.34));
+		series1.getData().add(new XYChart.Data(equipment, 20148.82));
+		series1.getData().add(new XYChart.Data(vet, 10000));
 		
 		XYChart.Series series2 = new XYChart.Series();
         series2.setName("2004");
-        series2.getData().add(new XYChart.Data(austria, 57401.85));
-        series2.getData().add(new XYChart.Data(brazil, 41941.19));
-        series2.getData().add(new XYChart.Data(france, 45263.37));
-        series2.getData().add(new XYChart.Data(italy, 117320.16));
-        series2.getData().add(new XYChart.Data(usa, 14845.27));
+        series2.getData().add(new XYChart.Data(feed, 57401.85));
+        series2.getData().add(new XYChart.Data(equipment, 41941.19));
+        series2.getData().add(new XYChart.Data(vet, 45263.37));
         
-        bc.getData().addAll(series1, series2);
+        generalExpenses.getData().addAll(series1, series2);
         
         final CategoryAxis xAxis2 = new CategoryAxis();
 		final NumberAxis yAxis2 = new NumberAxis();
-        final BarChart<String, Number> bc2 =
+        final BarChart<String, Number> avgHayPrices =
         		new BarChart<String, Number>(xAxis2, yAxis2);
-        bc2.setTitle("Test Chart 2");
-        xAxis2.setLabel("Country");
-		yAxis2.setLabel("Value");
+        avgHayPrices.setTitle("Average Hay Prices");
+        xAxis2.setLabel("Year");
+		yAxis2.setLabel("$ Price per Bail");
         
         XYChart.Series series3 = new XYChart.Series();
-		series3.setName("2003");
-		series3.getData().add(new XYChart.Data(austria, 25601.34));
-		series3.getData().add(new XYChart.Data(brazil, 20148.82));
-		series3.getData().add(new XYChart.Data(france, 10000));
-		series3.getData().add(new XYChart.Data(italy, 35407));
-		series3.getData().add(new XYChart.Data(usa, 12000));
+		series3.setName("Average Hay Price Paid");
+		series3.getData().add(new XYChart.Data(year2018, average));
+		series3.getData().add(new XYChart.Data(dynamicYear1, 25));
+		series3.getData().add(new XYChart.Data(dynamicYear2, 15));
+		series3.getData().add(new XYChart.Data(dynamicYear3, 32));
 		
-		XYChart.Series series4 = new XYChart.Series();
-        series4.setName("2004");
-        series4.getData().add(new XYChart.Data(austria, 57401.85));
-        series4.getData().add(new XYChart.Data(brazil, 41941.19));
-        series4.getData().add(new XYChart.Data(france, 45263.37));
-        series4.getData().add(new XYChart.Data(italy, 117320.16));
-        series4.getData().add(new XYChart.Data(usa, 14845.27));
+//		XYChart.Series series4 = new XYChart.Series();
+//        series4.setName("2004");
+//        series4.getData().add(new XYChart.Data(austria, 57401.85));
+//        series4.getData().add(new XYChart.Data(brazil, 41941.19));
+//        series4.getData().add(new XYChart.Data(france, 45263.37));
+//        series4.getData().add(new XYChart.Data(italy, 117320.16));
+//        series4.getData().add(new XYChart.Data(usa, 14845.27));
         
-        bc2.getData().addAll(series3, series4);
+        avgHayPrices.getData().addAll(series3);
         
         final CategoryAxis xAxis3 = new CategoryAxis();
 		final NumberAxis yAxis3 = new NumberAxis();
@@ -119,17 +138,11 @@ public class FinancialReports
 		
 		XYChart.Series series5 = new XYChart.Series();
 		series5.setName("2003");
-		series5.getData().add(new XYChart.Data(austria, 25601.34));
-		series5.getData().add(new XYChart.Data(brazil, 20148.82));
-		series5.getData().add(new XYChart.Data(france, 10000));
 		series5.getData().add(new XYChart.Data(italy, 35407));
 		series5.getData().add(new XYChart.Data(usa, 12000));
 		
 		XYChart.Series series6 = new XYChart.Series();
         series6.setName("2004");
-        series6.getData().add(new XYChart.Data(austria, 57401.85));
-        series6.getData().add(new XYChart.Data(brazil, 41941.19));
-        series6.getData().add(new XYChart.Data(france, 45263.37));
         series6.getData().add(new XYChart.Data(italy, 117320.16));
         series6.getData().add(new XYChart.Data(usa, 14845.27));
         
@@ -145,17 +158,11 @@ public class FinancialReports
 		
 		XYChart.Series series7 = new XYChart.Series();
 		series7.setName("2003");
-		series7.getData().add(new XYChart.Data(austria, 25601.34));
-		series7.getData().add(new XYChart.Data(brazil, 20148.82));
-		series7.getData().add(new XYChart.Data(france, 10000));
 		series7.getData().add(new XYChart.Data(italy, 35407));
 		series7.getData().add(new XYChart.Data(usa, 12000));
 		
 		XYChart.Series series8 = new XYChart.Series();
         series8.setName("2004");
-        series8.getData().add(new XYChart.Data(austria, 57401.85));
-        series8.getData().add(new XYChart.Data(brazil, 41941.19));
-        series8.getData().add(new XYChart.Data(france, 45263.37));
         series8.getData().add(new XYChart.Data(italy, 117320.16));
         series8.getData().add(new XYChart.Data(usa, 14845.27));
         
@@ -163,7 +170,7 @@ public class FinancialReports
         
         
         HBox graphBox1 = new HBox();
-        graphBox1.getChildren().addAll(bc, bc2);
+        graphBox1.getChildren().addAll(generalExpenses, avgHayPrices);
         graphBox1.setAlignment(Pos.CENTER);
         
         HBox graphBox2 = new HBox();

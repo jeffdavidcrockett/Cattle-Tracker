@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import Cows.Bull;
 import Cows.Heffer;
 import Data.DBConnect;
@@ -35,17 +37,14 @@ public class AddCowLayout
 		
 		Button dashButton = new Button("Dashboard");
 		Button sellCowButton = new Button("Sell Cow");
-		Button addExpenseButton = new Button("Add General Expense");
 		
 		dashButton.setStyle("-fx-font-size: 15pt;");
 		sellCowButton.setStyle("-fx-font-size: 15pt;");
-		addExpenseButton.setStyle("-fx-font-size: 15pt;");
 		
 		dashButton.setMaxWidth(Double.MAX_VALUE);
 		sellCowButton.setMaxWidth(Double.MAX_VALUE);
-		addExpenseButton.setMaxWidth(Double.MAX_VALUE);
 		
-		rightPane.getChildren().addAll(navigationLabel, dashButton, sellCowButton, addExpenseButton);
+		rightPane.getChildren().addAll(navigationLabel, dashButton, sellCowButton);
 		
 		// Center pane *************************************************************************************
 		GridPane mainGrid = new GridPane();
@@ -135,7 +134,7 @@ public class AddCowLayout
 		ComboBox[] birthBoxes = birthdateBoxes.createDateBox();
 		
 		DateBox datePurchasedBoxes = new DateBox();
-		ComboBox[] boxes = datePurchasedBoxes.createDateBox();
+		ComboBox[] purchasedBoxes = datePurchasedBoxes.createDateBox();
 		
 		HBox priceBox = new HBox(5);
 		priceBox.getChildren().addAll(dollarSignLabel, pricePaidField);
@@ -166,7 +165,7 @@ public class AddCowLayout
 		addCowLabelBox.setStyle("-fx-background-color: #1D1E1E;");
 		
 		HBox datePurchasedDate = new HBox(5);
-		datePurchasedDate.getChildren().addAll(boxes[0], boxes[1], boxes[2]);
+		datePurchasedDate.getChildren().addAll(purchasedBoxes[0], purchasedBoxes[1], purchasedBoxes[2]);
 		
 		VBox column0 = new VBox();
 		VBox column1 = new VBox();
@@ -218,8 +217,8 @@ public class AddCowLayout
 				String cowBreed = (String) breedBox.getValue();
 				String birthdate = (String) birthBoxes[0].getValue() + '-' + (String) birthBoxes[1].getValue() + 
 						'-' + (String) birthBoxes[2].getValue();
-				String datePurchased = (String) boxes[0].getValue() + '-' + (String) boxes[1].getValue() + 
-						'-' + (String) boxes[2].getValue();
+				String datePurchased = (String) purchasedBoxes[0].getValue() + '-' + (String) purchasedBoxes[1].getValue() + 
+						'-' + (String) purchasedBoxes[2].getValue();
 				String purchasedFrom = purchasedFromField.getText();
 				String price = pricePaidField.getText();
 				String vaccinated = tempVaccineField.getText();
@@ -243,6 +242,21 @@ public class AddCowLayout
 					bull.writeBullToCurrentDb(db);
 					
 					AlertBox.display("", "Cow was added to database!");
+					
+					male.setSelected(false);
+					idField.clear();
+					breedBox.valueProperty().set(null);
+					// Bug here, not clearing both dates out. Probably an issue with my class
+					birthdateBoxes.clearBoxes();
+					datePurchasedBoxes.clearBoxes();
+					purchasedFromField.clear();
+					pricePaidField.clear();
+					tempVaccineField.clear();
+					mothersIdField.clear();
+					fathersIdField.clear();
+					castYes.setSelected(false);
+					castNo.setSelected(false);
+					notesField.clear();
 				}
 				else if (female.isSelected())
 				{

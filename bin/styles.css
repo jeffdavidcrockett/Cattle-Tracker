@@ -2,7 +2,33 @@
 	-fx-fill: white;
 }
 
+.chart-bar-label {
+	-fx-fill:white;
+}
+
+.chart-plot-background {
+	-fx-background-color: black;
+}
+
+
+
+.default-color0.chart-bar { -fx-bar-fill: #25cdea}
+.default-color1.chart-bar { -fx-bar-fill: #ef537d}
+
 .chart-title {
 	-fx-text-fill: white;
 	-fx-font-size: 20pt;
 }
+
+.axis-label {
+  -fx-text-fill: white;
+}
+
+.axis {
+    -fx-font-size: 1.8em;   
+    -fx-tick-label-fill: white;
+    -fx-font-family: Tahoma;
+    -fx-tick-length: 20;
+    -fx-minor-tick-length: 10;
+}
+ 

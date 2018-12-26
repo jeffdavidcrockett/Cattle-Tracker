@@ -32,7 +32,6 @@ public class MainFile extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
-		
 		int totalCows = db.getTotalCows();
 		double totalCowsDouble = totalCows;
 		double totalMales = db.getMaleCount();
@@ -51,16 +50,11 @@ public class MainFile extends Application
 			totalMales = 0;
 		}
 		
-		
-		
 		String totalCowsString = Integer.toString(totalCows);
-//		String totalCowsString = "0";
 		
 		// Set primaryStage equal to window variable and set title
 		window = primaryStage;
 		window.setTitle("Cattle Tracker");
-		
-		
 		
 		// Get screen dimensions
 		int width = (int) Screen.getPrimary().getBounds().getWidth();
@@ -145,10 +139,6 @@ public class MainFile extends Application
 		leftPane.setAlignment(Pos.TOP_CENTER);
 		leftPane.setPadding(new Insets(20, 10, 10, 10));
 		
-		Button test = new Button("Test");
-		
-		leftPane.getChildren().addAll(test);
-		
 		// Right pane
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
@@ -158,17 +148,14 @@ public class MainFile extends Application
 		Label navigationLabel = new Label("Navigation");
 		navigationLabel.setStyle("-fx-text-fill: white; -fx-font-size: 40pt;");
 		
-//		Button dashButton = new Button("Dashboard");
 		Button reportsButton = new Button("Financial Reports");
 		Button editHerdButton = new Button("Edit My Herd");
 		Button addExpenseButton = new Button("Add General Expense");
 		
-//		dashButton.setStyle("-fx-font-size: 15pt;");
 		reportsButton.setStyle("-fx-font-size: 15pt;");
 		editHerdButton.setStyle("-fx-font-size: 15pt;");
 		addExpenseButton.setStyle("-fx-font-size: 15pt;");
 		
-//		dashButton.setMaxWidth(Double.MAX_VALUE);
 		reportsButton.setMaxWidth(Double.MAX_VALUE);
 		editHerdButton.setMaxWidth(Double.MAX_VALUE);
 		addExpenseButton.setMaxWidth(Double.MAX_VALUE);
