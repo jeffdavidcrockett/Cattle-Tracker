@@ -1,4 +1,6 @@
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import Cows.Bull;
 import Cows.Heffer;
@@ -24,6 +26,14 @@ public class MainFile extends Application
 	Button button;
 	DBConnect db = new DBConnect();
 	
+	double malePercentage;
+	double femalePercentage;
+	ArrayList<String> allFeedCosts = new ArrayList<String>();
+	ArrayList<String> allEquipCosts = new ArrayList<String>();
+	ArrayList<String> allCowCosts = new ArrayList<String>();
+	ArrayList<String> allVetCosts = new ArrayList<String>();
+	String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+	
 	public static void main(String[] args)
 	{
 		launch(args);
@@ -32,25 +42,71 @@ public class MainFile extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
+		// Get Total Cows and Male/Female percentages
 		int totalCows = db.getTotalCows();
 		double totalCowsDouble = totalCows;
 		double totalMales = db.getMaleCount();
 		
 		if (totalCows != 0 && totalMales != 0)
 		{
-			double malePercentage = (totalMales / totalCowsDouble) * 100;
+			malePercentage = (totalMales / totalCowsDouble) * 100;
 			DecimalFormat df = new DecimalFormat("#.##");
 			malePercentage = Double.valueOf(df.format(malePercentage));
-			double femalePercentage = 100.00 - malePercentage;
+			femalePercentage = 100.00 - malePercentage;
 		}
 		else
 		{
-			double malePercentage = 0;
-			double femalePercentage = 0;
+			malePercentage = 0;
+			femalePercentage = 0;
 			totalMales = 0;
 		}
 		
 		String totalCowsString = Integer.toString(totalCows);
+		
+		// Get Total Feed Costs
+		allFeedCosts = db.getTotalFeedCosts(year);
+		int feedCostsTotal = 0;
+		if (allFeedCosts != null)
+		{
+			for (int i = 0; i < allFeedCosts.size(); i++)
+			{
+				feedCostsTotal += Integer.parseInt(allFeedCosts.get(i));
+			}
+		}
+		
+		// Get Total Equipment Costs
+		allEquipCosts = db.getTotalEquipmentCosts(year);
+		int equipCostsTotal = 0;
+		if (allEquipCosts != null)
+		{
+			for (int i = 0; i < allEquipCosts.size(); i++)
+			{
+				equipCostsTotal += Integer.parseInt(allEquipCosts.get(i));
+			}
+		}
+		
+		// *** NEED TO QUERY COWS BOUGHT ONLY IN CURRENT YEAR ***
+		// Get Total Cow Cost
+		allCowCosts = db.getTotalCowsCost();
+		int cowCostsTotal = 0;
+		if (allCowCosts != null)
+		{
+			for (int i = 0; i < allCowCosts.size(); i++)
+			{
+				cowCostsTotal += Integer.parseInt(allCowCosts.get(i));
+			}
+		}
+		
+		// Get Total Veterinary Costs
+		allVetCosts = db.getTotalVetCosts(year);
+		int vetCostsTotal = 0;
+		if (allVetCosts != null)
+		{
+			for (int i = 0; i < allVetCosts.size(); i++)
+			{
+				vetCostsTotal += Integer.parseInt(allVetCosts.get(i));
+			}
+		}
 		
 		// Set primaryStage equal to window variable and set title
 		window = primaryStage;
@@ -103,18 +159,18 @@ public class MainFile extends Application
 		
 		ObservableList<PieChart.Data> genderChartData =
                 FXCollections.observableArrayList(
-                new PieChart.Data("Male", 50),
-                new PieChart.Data("Female", 50));
+                new PieChart.Data("Male", malePercentage),
+                new PieChart.Data("Female", femalePercentage));
 		final PieChart genderChart = new PieChart(genderChartData);
 		genderChart.setTitle("Gender");
 		genderChart.setLegendSide(Side.LEFT);
 		
 		ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                new PieChart.Data("Cows", 13),
-                new PieChart.Data("Feed", 25),
-                new PieChart.Data("Equipment", 18),
-                new PieChart.Data("Misc", 13));
+                new PieChart.Data("Cows", cowCostsTotal),
+                new PieChart.Data("Feed", feedCostsTotal),
+                new PieChart.Data("Equipment", equipCostsTotal),
+                new PieChart.Data("Veterinary", vetCostsTotal));
 		final PieChart costsChart = new PieChart(pieChartData);
 		costsChart.setTitle("Overall Costs");
 		costsChart.setLegendSide(Side.LEFT);
@@ -172,7 +228,7 @@ public class MainFile extends Application
 		Scene mainScene = new Scene(border, width, height);
 		mainScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
 		
-		AddCowLayout cowScreen = new AddCowLayout();
+		AddCow cowScreen = new AddCow();
 		Scene cowScreenScene = new Scene(cowScreen.display(mainScene, window, db, width, height), width, height);
 		
 		FinancialReports financialScreen = new FinancialReports();

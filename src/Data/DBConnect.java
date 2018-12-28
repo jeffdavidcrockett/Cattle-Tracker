@@ -335,6 +335,37 @@ public class DBConnect
 		return maleCount;
 	}
 	
+	public ArrayList<String> getTotalCowsCost()
+	{
+		ArrayList<String> costList = new ArrayList<String>();
+		String sql = "SELECT pricePaid FROM " + currentCowsTable;
+		
+		openConnection();
+		try
+		{
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if (!rs.isBeforeFirst())
+			{
+				costList = null;
+			}
+			else
+			{
+				while (rs.next())
+				{
+					costList.add(rs.getString(1));
+				}
+			}
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		closeConnection();
+		
+		return costList;
+	}
+	
 	public HashMap<String, ArrayList> getRow(int id)
 	{
 		ArrayList<String> stringList = new ArrayList<String>();
@@ -422,11 +453,10 @@ public class DBConnect
 		closeConnection();
 	}
 	
-	public ArrayList<String> getAvgHayPrices()
+	public ArrayList<String> getAvgHayPrices(String year)
 	{
 		ArrayList<String> priceList = new ArrayList<String>();
-		String avgPrice = "0";
-		String sql = "SELECT pricePaid FROM " + generalExpensesTable + " WHERE type = 'Hay' AND year = '2018'";
+		String sql = "SELECT pricePer FROM " + generalExpensesTable + " WHERE type = 'Hay' AND year = " + year;
 		
 		openConnection();
 		try
@@ -435,15 +465,13 @@ public class DBConnect
 			ResultSet rs = stmt.executeQuery(sql);
 			if (!rs.isBeforeFirst())
 			{
-				avgPrice = "0";
+				priceList = null;
 			}
 			else
 			{
-				int i = 1;
 				while (rs.next())
 				{
 					priceList.add(rs.getString(1));
-					i++;
 				}
 			}
 		}
@@ -454,6 +482,99 @@ public class DBConnect
 		closeConnection();
 		
 		return priceList;
+	}
+	
+	public ArrayList<String> getTotalFeedCosts(String year)
+	{
+		ArrayList<String> costList = new ArrayList<String>();
+		String sql = "SELECT totalCost FROM " + generalExpensesTable + " WHERE type = 'Feed' OR type = 'Hay' AND year = " + year;
+		
+		openConnection();
+		try
+		{
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if (!rs.isBeforeFirst())
+			{
+				costList = null;
+			}
+			else
+			{
+				while (rs.next())
+				{
+					costList.add(rs.getString(1));
+				}
+			}
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		closeConnection();
+		
+		return costList;
+	}
+	
+	public ArrayList<String> getTotalVetCosts(String year)
+	{
+		ArrayList<String> costList = new ArrayList<String>();
+		String sql = "SELECT totalCost FROM " + generalExpensesTable + " WHERE type = 'Vet' AND year = " + year;
+		
+		openConnection();
+		try
+		{
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if (!rs.isBeforeFirst())
+			{
+				costList = null;
+			}
+			else
+			{
+				while (rs.next())
+				{
+					costList.add(rs.getString(1));
+				}
+			}
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		closeConnection();
+		
+		return costList;
+	}
+	
+	public ArrayList<String> getTotalEquipmentCosts(String year)
+	{
+		ArrayList<String> costList = new ArrayList<String>();
+		String sql = "SELECT totalCost FROM " + generalExpensesTable + " WHERE type = 'Equipment' AND year = " + year;
+		
+		openConnection();
+		try
+		{
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if (!rs.isBeforeFirst())
+			{
+				costList = null;
+			}
+			else
+			{
+				while (rs.next())
+				{
+					costList.add(rs.getString(1));
+				}
+			}
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		closeConnection();
+		
+		return costList;
 	}
 }
 

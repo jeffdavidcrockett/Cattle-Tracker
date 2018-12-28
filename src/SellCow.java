@@ -35,17 +35,14 @@ public class SellCow
 				
 		Button dashButton = new Button("Dashboard");
 		Button addCowButton = new Button("Add Cow to Herd");
-		Button addExpenseButton = new Button("Add General Expense");
 				
 		dashButton.setStyle("-fx-font-size: 15pt;");
 		addCowButton.setStyle("-fx-font-size: 15pt;");
-		addExpenseButton.setStyle("-fx-font-size: 15pt;");
 				
 		dashButton.setMaxWidth(Double.MAX_VALUE);
 		addCowButton.setMaxWidth(Double.MAX_VALUE);
-		addExpenseButton.setMaxWidth(Double.MAX_VALUE);
 		
-		rightPane.getChildren().addAll(navigationLabel, dashButton, addCowButton, addExpenseButton);
+		rightPane.getChildren().addAll(navigationLabel, dashButton, addCowButton);
 		
 		// Center pane *********************************************************************************
 		GridPane mainGrid = new GridPane();

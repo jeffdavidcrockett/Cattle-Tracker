@@ -18,7 +18,7 @@ import javafx.scene.chart.*;
 import javafx.scene.Group;
 
 
-public class AddCowLayout 
+public class AddCow 
 {
 	boolean result;
 	String castrated;

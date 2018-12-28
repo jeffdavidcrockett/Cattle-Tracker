@@ -23,10 +23,16 @@ import javafx.scene.Group;
 
 public class GeneralExpenses 
 {
-	public static String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+	String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+	String previousYear1 = Integer.toString(Integer.parseInt(currentYear) - 1);
+	String previousYear2 = Integer.toString(Integer.parseInt(currentYear) - 2);
+	String previousYear3 = Integer.toString(Integer.parseInt(currentYear) - 3);
+	
 	
 	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db)
 	{
+		
+		
 		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
@@ -78,16 +84,26 @@ public class GeneralExpenses
 		
 		Button submitHayExpenseButton = new Button("Submit");
 		
+		ObservableList<String> hayYears = 
+			    FXCollections.observableArrayList(
+			        currentYear,
+			        previousYear1,
+			        previousYear2,
+			        previousYear3);
+		
+		final ComboBox hayYearsBox = new ComboBox(hayYears);
+		hayYearsBox.getSelectionModel().select(0);
+
 		HBox hayPricePerDetails = new HBox();
 		hayPricePerDetails.getChildren().addAll(hayPricePer, hayPricePerField);
 		
-		HBox hayBailDetails = new HBox();
-		hayBailDetails.getChildren().addAll(amountOfHayBailsLabel, amountOfHayBailsField);
+		HBox hayBailDetails = new HBox(10);
+		hayBailDetails.getChildren().addAll(amountOfHayBailsLabel, amountOfHayBailsField, hayYearsBox, submitHayExpenseButton);
 
 		HBox hayAllDetails = new HBox(20);
 		hayAllDetails.setAlignment(Pos.CENTER_LEFT);
 	    hayAllDetails.setPadding(new Insets(15, 12, 15, 12));
-		hayAllDetails.getChildren().addAll(hayPricePerDetails, hayBailDetails, submitHayExpenseButton);
+		hayAllDetails.getChildren().addAll(hayPricePerDetails, hayBailDetails);
 		
 		VBox hayVBox = new VBox();
 		hayVBox.getChildren().addAll(hayLabel, hayAllDetails, separator1);
@@ -105,18 +121,62 @@ public class GeneralExpenses
 		
 		Button submitOtherFeedButton = new Button("Submit");
 		
-		HBox otherFeedDetails = new HBox();
-		otherFeedDetails.getChildren().addAll(otherFeedAmountLabel, otherFeedField);
+		ObservableList<String> otherFeedYears = 
+			    FXCollections.observableArrayList(
+			        currentYear,
+			        previousYear1,
+			        previousYear2,
+			        previousYear3);
 		
-		HBox otherFeedAllDetails = new HBox(20);
+		final ComboBox otherFeedYearsBox = new ComboBox(otherFeedYears);
+		otherFeedYearsBox.getSelectionModel().select(0);
+		
+		HBox otherFeedDetails = new HBox(10);
+		otherFeedDetails.getChildren().addAll(otherFeedAmountLabel, otherFeedField, otherFeedYearsBox, submitOtherFeedButton);
+		
+		HBox otherFeedAllDetails = new HBox();
 		otherFeedAllDetails.setAlignment(Pos.CENTER_LEFT);
 		otherFeedAllDetails.setPadding(new Insets(15, 12, 15, 12));
-		otherFeedAllDetails.getChildren().addAll(otherFeedDetails, submitOtherFeedButton);
+		otherFeedAllDetails.getChildren().addAll(otherFeedDetails);
 		
 		VBox otherFeedVBox = new VBox();
 		otherFeedVBox.getChildren().addAll(otherFeedLabel, otherFeedAllDetails, separator2);
 		
-		//Veterinary Section
+		// Equipment Section
+		Label equipmentLabel = new Label("Equipment");
+		Label equipmentAmountLabel = new Label("Amount $: ");
+		
+		equipmentLabel.setStyle("-fx-font-size: 30pt; -fx-text-fill: white; -fx-padding: 10 10 10 10;");
+		equipmentAmountLabel.setStyle("-fx-font-size: 15pt; -fx-text-fill: white;");
+		
+		TextField equipmentField = new TextField();
+		
+		equipmentField.setMaxWidth(200);
+		
+		Button equipmentButton = new Button("Submit");
+		
+		ObservableList<String> equipmentYears = 
+			    FXCollections.observableArrayList(
+			        currentYear,
+			        previousYear1,
+			        previousYear2,
+			        previousYear3);
+		
+		final ComboBox equipmentYearsBox = new ComboBox(equipmentYears);
+		equipmentYearsBox.getSelectionModel().select(0);
+		
+		HBox equipmentDetails = new HBox(10);
+		equipmentDetails.getChildren().addAll(equipmentAmountLabel, equipmentField, equipmentYearsBox, equipmentButton);
+		
+		HBox equipmentAllDetails = new HBox();
+		equipmentAllDetails.setAlignment(Pos.CENTER_LEFT);
+		equipmentAllDetails.setPadding(new Insets(15, 12, 15, 12));
+		equipmentAllDetails.getChildren().addAll(equipmentDetails);
+		
+		VBox equipmentVBox = new VBox();
+		equipmentVBox.getChildren().addAll(equipmentLabel, equipmentAllDetails, separator3);
+		
+		// Veterinary Section
 		Label veterinaryLabel = new Label("Veterinary");
 		Label veterinaryAmountLabel = new Label("Amount $: ");
 		
@@ -129,13 +189,23 @@ public class GeneralExpenses
 		
 		Button veterinaryButton = new Button("Submit");
 		
-		HBox veterinaryDetails = new HBox();
-		veterinaryDetails.getChildren().addAll(veterinaryAmountLabel, veterinaryField);
+		ObservableList<String> veterinaryYears = 
+			    FXCollections.observableArrayList(
+			        currentYear,
+			        previousYear1,
+			        previousYear2,
+			        previousYear3);
 		
-		HBox veterinaryAllDetails = new HBox(20);
+		final ComboBox veterinaryYearsBox = new ComboBox(veterinaryYears);
+		veterinaryYearsBox.getSelectionModel().select(0);
+		
+		HBox veterinaryDetails = new HBox(10);
+		veterinaryDetails.getChildren().addAll(veterinaryAmountLabel, veterinaryField, veterinaryYearsBox, veterinaryButton);
+		
+		HBox veterinaryAllDetails = new HBox();
 		veterinaryAllDetails.setAlignment(Pos.CENTER_LEFT);
 		veterinaryAllDetails.setPadding(new Insets(15, 12, 15, 12));
-		veterinaryAllDetails.getChildren().addAll(veterinaryDetails, veterinaryButton);
+		veterinaryAllDetails.getChildren().addAll(veterinaryDetails);
 		
 		VBox veterinaryVBox = new VBox();
 		veterinaryVBox.getChildren().addAll(veterinaryLabel, veterinaryAllDetails);
@@ -144,7 +214,9 @@ public class GeneralExpenses
 		mainGrid.add(mainLabelBox, 0, 0);
 		mainGrid.add(hayVBox, 0, 1);
 		mainGrid.add(otherFeedVBox, 0, 2);
-		mainGrid.add(veterinaryVBox, 0, 3);
+		mainGrid.add(equipmentVBox, 0, 3);
+		mainGrid.add(veterinaryVBox, 0, 4);
+		
 		
 		// Main layout
 		BorderPane mainLayout = new BorderPane();
@@ -166,7 +238,7 @@ public class GeneralExpenses
 				
 				if (answer)
 				{
-					db.writeGeneralExpense(year, "Hay", pricePerBail, totalCost);
+					db.writeGeneralExpense((String) hayYearsBox.getValue(), "Hay", pricePerBail, totalCost);
 					AlertBox.display("Attention!", "Expense was added to database");
 					hayPricePerField.clear();
 					amountOfHayBailsField.clear();
@@ -188,9 +260,30 @@ public class GeneralExpenses
 				
 				if (answer)
 				{
-					db.writeGeneralExpense(year, "Feed", null, totalCost);
+					db.writeGeneralExpense((String) otherFeedYearsBox.getValue(), "Feed", null, totalCost);
 					AlertBox.display("Attention!", "Expense was added to database");
 					otherFeedField.clear();
+				}
+			}
+			else
+			{
+				AlertBox.display("Attention!", "Please fill out cost field");
+			}
+		});
+		
+		equipmentButton.setOnAction(e -> {
+			if (!equipmentField.getText().trim().isEmpty())
+			{
+				String totalCost = equipmentField.getText();
+				
+				boolean answer = ConfirmBox.display("Equipment Expense", "Are you sure you would like to add", 
+						"an equipment expense of $" + totalCost + "?");
+				
+				if (answer)
+				{
+					db.writeGeneralExpense((String) equipmentYearsBox.getValue(), "Equipment", null, totalCost);
+					AlertBox.display("Attention!", "Expense was added to database");
+					equipmentField.clear();
 				}
 			}
 			else
@@ -209,7 +302,7 @@ public class GeneralExpenses
 				
 				if (answer)
 				{
-					db.writeGeneralExpense(year, "Vet", null, totalCost);
+					db.writeGeneralExpense((String) veterinaryYearsBox.getValue(), "Vet", null, totalCost);
 					AlertBox.display("Attention!", "Expense was added to database");
 					veterinaryField.clear();
 				}

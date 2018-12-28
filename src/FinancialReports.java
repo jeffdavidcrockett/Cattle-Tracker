@@ -1,21 +1,12 @@
 import java.util.ArrayList;
-
-import Cows.Bull;
-import Cows.Heffer;
+import java.util.Calendar;
 import Data.DBConnect;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.geometry.*;
-import javafx.scene.image.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
-import javafx.scene.Group;
 
 
 public class FinancialReports 
@@ -25,11 +16,81 @@ public class FinancialReports
     final static String vet = "Veterinary";
     final static String italy = "Italy";
     final static String usa = "USA";
-    final static String year2018 = "2018";
-    static String dynamicYear1;
-    static String dynamicYear2;
-    static String dynamicYear3;
-    public static ArrayList<String> hayPrices = new ArrayList<String>();
+    String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+	String previousYear1 = Integer.toString(Integer.parseInt(currentYear) - 1);
+	String previousYear2 = Integer.toString(Integer.parseInt(currentYear) - 2);
+	String previousYear3 = Integer.toString(Integer.parseInt(currentYear) - 3);
+    static String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+    
+    private int getAvgHayPricePaid(String year, DBConnect db)
+    {
+    	ArrayList<String> hayPrices = new ArrayList<String>();
+    	
+    	hayPrices = db.getAvgHayPrices(year);
+		int hayAverage = 0;
+		if (hayPrices != null)
+		{
+			int hayTotalCurrent = 0;
+			for (int i = 0; i < hayPrices.size(); i++)
+			{
+				hayTotalCurrent += Integer.parseInt(hayPrices.get(i));
+			}
+			hayAverage = hayTotalCurrent / hayPrices.size();
+		}
+		
+		return hayAverage;
+    }
+    
+    private int getFeedCosts(String year, DBConnect db)
+    {
+    	ArrayList<String> allFeedCosts = new ArrayList<String>();
+    	
+    	allFeedCosts = db.getTotalFeedCosts(year);
+		int feedCost = 0;
+		if (allFeedCosts != null)
+		{
+			for (int i = 0; i < allFeedCosts.size(); i++)
+			{
+				feedCost += Integer.parseInt(allFeedCosts.get(i));
+			}
+		}
+		
+		return feedCost;
+    }
+    
+    private int getEquipCost(String year, DBConnect db)
+    {
+    	ArrayList<String> allEquipmentCosts = new ArrayList<String>();
+    	
+    	allEquipmentCosts = db.getTotalEquipmentCosts(year);
+		int equipCost = 0;
+		if (allEquipmentCosts != null)
+		{
+			for (int i = 0; i < allEquipmentCosts.size(); i++)
+			{
+				equipCost += Integer.parseInt(allEquipmentCosts.get(i));
+			}
+		}
+		
+		return equipCost;
+    }
+    
+    private int getVetCost(String year, DBConnect db)
+    {
+    	ArrayList<String> allVeterinaryCosts = new ArrayList<String>();
+    	
+    	allVeterinaryCosts = db.getTotalVetCosts(year);
+		int vetCost = 0;
+		if (allVeterinaryCosts != null)
+		{
+			for (int i = 0; i < allVeterinaryCosts.size(); i++)
+			{
+				vetCost += Integer.parseInt(allVeterinaryCosts.get(i));
+			}
+		}
+		
+		return vetCost;
+    }
     
 	public BorderPane display(Scene dashboardScene, Scene cowScreenScene,
 			Stage window, DBConnect db)
@@ -44,43 +105,44 @@ public class FinancialReports
 		navigationLabel.setStyle("-fx-text-fill: white; -fx-font-size: 40pt;");
 		
 		Button dashButton = new Button("Dashboard");
-		Button reportsButton = new Button("Financial Reports");
-		Button addCowButton = new Button("Add Cow to Herd");
-		Button addExpenseButton = new Button("Add General Expense");
 		
 		dashButton.setStyle("-fx-font-size: 15pt;");
-		reportsButton.setStyle("-fx-font-size: 15pt;");
-		addCowButton.setStyle("-fx-font-size: 15pt;");
-		addExpenseButton.setStyle("-fx-font-size: 15pt;");
 		
 		dashButton.setMaxWidth(Double.MAX_VALUE);
-		reportsButton.setMaxWidth(Double.MAX_VALUE);
-		addCowButton.setMaxWidth(Double.MAX_VALUE);
-		addExpenseButton.setMaxWidth(Double.MAX_VALUE);
 		
-		rightPane.getChildren().addAll(navigationLabel, dashButton, reportsButton, addCowButton, addExpenseButton);
+		rightPane.getChildren().addAll(navigationLabel, dashButton);
 		
 		// Center pane ************************************************************************************************
 		
-//		hayPrices = db.getAvgHayPrices();
-//		int total = 0;
-//		for (int i = 0; i < hayPrices.size(); i++)
-//		{
-//			total += Integer.parseInt(hayPrices.get(i));
-//		}
-//		int average = total / hayPrices.size();
-		int average = 30;
+		// Get Average Hay Prices
+		int avgHayPriceCurrent = getAvgHayPricePaid(currentYear, db);
+		int avgHayPricePrev1 = getAvgHayPricePaid(previousYear1, db);
+		int avgHayPricePrev2 = getAvgHayPricePaid(previousYear2, db);
+		int avgHayPricePrev3 = getAvgHayPricePaid(previousYear3, db);
 		
+		// Get Total Feed Costs
+		int feedCostCurrent = getFeedCosts(currentYear, db);
+		int feedCostPrev1 = getFeedCosts(previousYear1, db);
+		int feedCostPrev2 = getFeedCosts(previousYear2, db);
+		int feedCostPrev3 = getFeedCosts(previousYear3, db);
+		System.out.println(feedCostCurrent);
 		
-		// temp initializations for years
-		dynamicYear1 = "2019";
-		dynamicYear2 = "2020";
-		dynamicYear3 = "2021";
+		// Get Total Equipment Costs
+		int equipCostCurrent = getEquipCost(currentYear, db);
+		int equipCostPrev1 = getEquipCost(previousYear1, db);
+		int equipCostPrev2 = getEquipCost(previousYear2, db);
+		int equipCostPrev3 = getEquipCost(previousYear3, db);
 		
+		// Get Total Veterinary Costs
+		int vetCostCurrent = getVetCost(currentYear, db);
+		int vetCostPrev1 = getVetCost(previousYear1, db);
+		int vetCostPrev2 = getVetCost(previousYear2, db);
+		int vetCostPrev3 = getVetCost(previousYear3, db);
 		
 		GridPane mainGrid = new GridPane();
 		mainGrid.setStyle("-fx-background-color: #1D1E1E;");
 		
+		// General Expenses Bar Chart
 		final CategoryAxis xAxis = new CategoryAxis();
 		final NumberAxis yAxis = new NumberAxis();
 		final BarChart<String, Number> generalExpenses = 
@@ -89,20 +151,33 @@ public class FinancialReports
 		xAxis.setLabel("Items");
 		yAxis.setLabel("Total Cost");
 		
-		XYChart.Series series1 = new XYChart.Series();
-		series1.setName("2018");
-		series1.getData().add(new XYChart.Data(feed, 25601.34));
-		series1.getData().add(new XYChart.Data(equipment, 20148.82));
-		series1.getData().add(new XYChart.Data(vet, 10000));
+		XYChart.Series generalSeries1 = new XYChart.Series();
+		generalSeries1.setName(currentYear);
+		generalSeries1.getData().add(new XYChart.Data(feed, feedCostCurrent));
+		generalSeries1.getData().add(new XYChart.Data(equipment, equipCostCurrent));
+		generalSeries1.getData().add(new XYChart.Data(vet, vetCostCurrent));
 		
-		XYChart.Series series2 = new XYChart.Series();
-        series2.setName("2004");
-        series2.getData().add(new XYChart.Data(feed, 57401.85));
-        series2.getData().add(new XYChart.Data(equipment, 41941.19));
-        series2.getData().add(new XYChart.Data(vet, 45263.37));
+		XYChart.Series generalSeries2 = new XYChart.Series();
+		generalSeries2.setName(previousYear1);
+		generalSeries2.getData().add(new XYChart.Data(feed, feedCostPrev1));
+		generalSeries2.getData().add(new XYChart.Data(equipment, equipCostPrev1));
+		generalSeries2.getData().add(new XYChart.Data(vet, vetCostPrev1));
+		
+		XYChart.Series generalSeries3 = new XYChart.Series();
+		generalSeries3.setName(previousYear2);
+		generalSeries3.getData().add(new XYChart.Data(feed, feedCostPrev2));
+		generalSeries3.getData().add(new XYChart.Data(equipment, equipCostPrev2));
+		generalSeries3.getData().add(new XYChart.Data(vet, vetCostPrev2));
+		
+		XYChart.Series generalSeries4 = new XYChart.Series();
+		generalSeries4.setName(previousYear3);
+		generalSeries4.getData().add(new XYChart.Data(feed, feedCostPrev3));
+		generalSeries4.getData().add(new XYChart.Data(equipment, equipCostPrev3));
+		generalSeries4.getData().add(new XYChart.Data(vet, vetCostPrev3));
         
-        generalExpenses.getData().addAll(series1, series2);
+        generalExpenses.getData().addAll(generalSeries4, generalSeries3, generalSeries2, generalSeries1);
         
+        // Average Hay Prices Chart
         final CategoryAxis xAxis2 = new CategoryAxis();
 		final NumberAxis yAxis2 = new NumberAxis();
         final BarChart<String, Number> avgHayPrices =
@@ -113,18 +188,10 @@ public class FinancialReports
         
         XYChart.Series series3 = new XYChart.Series();
 		series3.setName("Average Hay Price Paid");
-		series3.getData().add(new XYChart.Data(year2018, average));
-		series3.getData().add(new XYChart.Data(dynamicYear1, 25));
-		series3.getData().add(new XYChart.Data(dynamicYear2, 15));
-		series3.getData().add(new XYChart.Data(dynamicYear3, 32));
-		
-//		XYChart.Series series4 = new XYChart.Series();
-//        series4.setName("2004");
-//        series4.getData().add(new XYChart.Data(austria, 57401.85));
-//        series4.getData().add(new XYChart.Data(brazil, 41941.19));
-//        series4.getData().add(new XYChart.Data(france, 45263.37));
-//        series4.getData().add(new XYChart.Data(italy, 117320.16));
-//        series4.getData().add(new XYChart.Data(usa, 14845.27));
+		series3.getData().add(new XYChart.Data(previousYear3, avgHayPricePrev3));
+		series3.getData().add(new XYChart.Data(previousYear2, avgHayPricePrev2));
+		series3.getData().add(new XYChart.Data(previousYear1, avgHayPricePrev1));
+		series3.getData().add(new XYChart.Data(currentYear, avgHayPriceCurrent));
         
         avgHayPrices.getData().addAll(series3);
         
@@ -187,7 +254,6 @@ public class FinancialReports
 		mainLayout.setCenter(mainGrid);
 		
 		dashButton.setOnAction(e -> window.setScene(dashboardScene));
-		addCowButton.setOnAction(e -> window.setScene(cowScreenScene));
 		
 		
 		
