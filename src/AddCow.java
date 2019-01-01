@@ -18,14 +18,12 @@ import javafx.scene.chart.*;
 import javafx.scene.Group;
 
 
-public class AddCow 
-{
+public class AddCow {
 	boolean result;
 	String castrated;
 	String gender;
 	
-	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db, int width, int height)
-	{
+	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db, int width, int height) {
 		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
@@ -227,28 +225,23 @@ public class AddCow
 		mainGrid.add(submitCowButtonBox, 0, 3);
 		
 		submitCowButton.setOnAction(e -> {
-			if (male.isSelected() == true && female.isSelected() == true || castYes.isSelected() == true && castNo.isSelected() == true)
-			{
-				if (male.isSelected() == true && female.isSelected() == true) 
-				{
+			if (male.isSelected() == true && female.isSelected() == true || castYes.isSelected() == true && 
+					castNo.isSelected() == true) {
+				if (male.isSelected() == true && female.isSelected() == true) {
 					AlertBox.display("Attention!", "Please check only male or female. Both are currently selected.");
 				}
-				else if (castYes.isSelected() == true && castNo.isSelected() == true)
-				{
+				else if (castYes.isSelected() == true && castNo.isSelected() == true) {
 					AlertBox.display("Attention!", "Both castrated options are selected. Please select only one.");
 				}
 			}
-			else
-			{
+			else {
 				result = ConfirmBox.display("Cow Submission","Any unfilled parameters will be defaulted to 'Uknown'.", 
 						"Are you sure you would like to submit this cow?");
 			}
-			if (male.isSelected() == false && female.isSelected() == false)
-			{
+			if (male.isSelected() == false && female.isSelected() == false) {
 				AlertBox.display("Attention!", "Please select either male or female.");
 			}
-			else if (result == true && male.isSelected() == true || female.isSelected() == true)
-			{
+			else if (result == true && male.isSelected() == true || female.isSelected() == true) {
 				int cowId = Integer.parseInt(idField.getText());
 				String cowBreed = (String) breedBox.getValue();
 				String birthdate = (String) monthBoxBirth.getValue() + '-' + (String) dayBoxBirth.getValue() + 
@@ -260,18 +253,15 @@ public class AddCow
 				String vaccinated = tempVaccineField.getText();
 				int mothersId = Integer.parseInt(mothersIdField.getText());
 				int fathersId = Integer.parseInt(fathersIdField.getText());
-				if (castYes.isSelected() == true)
-				{
+				if (castYes.isSelected() == true) {
 					// May not need "No" graphical check box with this logic setup
 					castrated = "Yes";
 				}
-				else
-				{
+				else {
 					castrated = "No";
 				}
 				String notes = notesField.getText();
-				if (male.isSelected())
-				{
+				if (male.isSelected()) {
 					gender = "Male";
 					Bull bull = new Bull(cowId, cowBreed, gender, birthdate, datePurchased, purchasedFrom, 
 							price, vaccinated, mothersId, fathersId, castrated, notes);
@@ -282,7 +272,6 @@ public class AddCow
 					male.setSelected(false);
 					idField.clear();
 					breedBox.valueProperty().set(null);
-					// Bug here, not clearing both dates out. Probably an issue with my class
 					dayBoxBirth.valueProperty().set(null);
 					dayBoxPurchased.valueProperty().set(null);
 					monthBoxBirth.valueProperty().set(null);
@@ -298,8 +287,7 @@ public class AddCow
 					castNo.setSelected(false);
 					notesField.clear();
 				}
-				else if (female.isSelected())
-				{
+				else if (female.isSelected()) {
 					gender = "Female";
 					Heffer heffer = new Heffer(cowId, cowBreed, gender, birthdate, datePurchased, purchasedFrom, 
 							price, vaccinated, mothersId, fathersId, notes);

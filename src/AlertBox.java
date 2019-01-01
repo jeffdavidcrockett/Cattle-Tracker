@@ -5,10 +5,8 @@ import javafx.scene.control.*;
 import javafx.geometry.*;
 
 
-public class AlertBox 
-{
-	public static void display(String title, String message)
-	{
+public class AlertBox {
+	public static void display(String title, String message) {
 		Stage alertWindow = new Stage();
 		
 		alertWindow.initModality(Modality.APPLICATION_MODAL);

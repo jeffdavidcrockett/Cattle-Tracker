@@ -2,8 +2,7 @@ package Cows;
 
 import Data.DBConnect;
 
-public class Cow 
-{
+public class Cow {
 	protected int id;
 	protected String breed;
 	protected String gender;
@@ -17,8 +16,7 @@ public class Cow
 	protected String notes;
 	
 	public Cow(int id, String breed, String gender, String birthdate, String datePurchased, String purchasedFrom, 
-			String price, String vaccines, int mother, int father, String notes)
-	{
+			String price, String vaccines, int mother, int father, String notes) {
 		this.id = id;
 		this.breed = breed;
 		this.gender = gender;
@@ -32,78 +30,63 @@ public class Cow
 		this.notes = notes;
 	}
 	
-	public void setDatePurchased(String month, String day, String year)
-	{
+	public void setDatePurchased(String month, String day, String year) {
 		datePurchased = month + '-' + day + '-' + year;
 	}
 	
-	public void setBirthdate(String date)
-	{
+	public void setBirthdate(String date) {
 		birthdate = date;
 	}
 	
-	public void setVaccines(String state)
-	{
+	public void setVaccines(String state) {
 		vaccines = state;
 	}
 	
-	public void setMother(int mother)
-	{
+	public void setMother(int mother) {
 		this.mother = mother;
 	}
 	
-	public void setFather(int father)
-	{
+	public void setFather(int father) {
 		this.father = father;
 	}
 	
-	public void setNotes(String notes)
-	{
+	public void setNotes(String notes) {
 		this.notes = notes;
 	}
 	
-	public int getId()
-	{
+	public int getId() {
 		return id;
 	}
 	
-	public String getBreed()
-	{
+	public String getBreed() {
 		return breed;
 	}
 	
-	public String getBirthdate()
-	{
+	public String getBirthdate() {
 		return birthdate;
 	}
 	
-	public String getDatePurchased()
-	{
+	public String getDatePurchased() {
 		return datePurchased;
 	}
 	
-	public String getPurchasedFrom()
-	{
+	public String getPurchasedFrom() {
 		return purchasedFrom;
 	}
 	
-	public String getVaccines()
-	{
+	public String getVaccines() {
 		return vaccines;
 	}
 	
-	public int getMother()
-	{
+	public int getMother() {
 		return mother;
 	}
 	
-	public int getFather()
-	{
+	public int getFather() {
 		return father;
 	}
 	
-	public String getNotes()
-	{
+	public String getNotes() {
 		return notes;
 	}
 }

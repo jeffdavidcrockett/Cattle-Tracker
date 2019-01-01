@@ -13,8 +13,7 @@ import java.util.Map;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class DBConnect 
-{
+public class DBConnect {
 	private String url = "jdbc:sqlite:cowss.db";
 	private String currentCowsTable = "currentCows";
 	private String pastCowsTable = "pastCows";
@@ -24,8 +23,7 @@ public class DBConnect
 	private PreparedStatement pstmt = null;
 	
 	// constructor
-	public DBConnect()
-	{
+	public DBConnect() {
 		openConnection();
 		createCurrentCowsTable();
 		createPastCowsTable();
@@ -34,63 +32,49 @@ public class DBConnect
 	}
 	
 	// Opens a connection to database
-	public void openConnection() 
-	{
-		try
-		{
+	public void openConnection() {
+		try {
 			conn = DriverManager.getConnection(url);
 		}
-		catch(SQLException e)
-		{
+		catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
 	// Closes connection to database
-	public void closeConnection()
-	{
-		try
-		{
-			if (stmt != null)
-			{
+	public void closeConnection() {
+		try {
+			if (stmt != null) {
 				stmt.close();
 			}
-			if (pstmt != null)
-			{
+			if (pstmt != null) {
 				pstmt.close();
 			}
-			if (conn != null)
-			{
+			if (conn != null) {
 				conn.close();
 			}
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
 	// Creates database table if it does not exist
-	public void createCurrentCowsTable()
-	{
-		try
-		{
+	public void createCurrentCowsTable() {
+		try {
 			stmt = conn.createStatement();
 			stmt.execute("CREATE TABLE IF NOT EXISTS " + currentCowsTable + " (ID INTEGER, breed TEXT, "
 					+ "gender TEXT, datePurchased TEXT, birthdate TEXT, purchasedFrom TEXT, pricePaid TEXT, "
 					+ "vaccines TEXT, motherID INTEGER, fatherID INTEGER, castrated TEXT, notes TEXT)");
 			stmt.close();
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
-	public void createPastCowsTable()
-	{
-		try
-		{
+	public void createPastCowsTable() {
+		try {
 			stmt = conn.createStatement();
 			stmt.execute("CREATE TABLE IF NOT EXISTS " + pastCowsTable + " (ID INTEGER, breed TEXT, "
 					+ "gender TEXT, datePurchased TEXT, birthdate TEXT, purchasedFrom TEXT, pricePaid TEXT, "
@@ -98,35 +82,29 @@ public class DBConnect
 					+ "soldTo TEXT)");
 			stmt.close();
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
-	public void createGeneralExpensesTable()
-	{
-		try
-		{
+	public void createGeneralExpensesTable() {
+		try {
 		stmt = conn.createStatement();
 		stmt.execute("CREATE TABLE IF NOT EXISTS " + generalExpensesTable + " (year TEXT, type TEXT, pricePer TEXT, totalCost TEXT)");
 		stmt.close();
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
 	public void insertBullIntoCurrent(int id, String breed, String gender, String birthdate, String datePurchased, 
-			String purchasedFrom, String price, String vaccines, int mother, int father, String castrated, String notes)
-	{
+			String purchasedFrom, String price, String vaccines, int mother, int father, String castrated, String notes) {
 		String sql = "INSERT INTO " + currentCowsTable + " (ID, breed, gender, birthdate, datePurchased, purchasedFrom, pricePaid, "
 				+ "vaccines, motherID, fatherID, castrated, notes) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		openConnection();
-		try
-		{
+		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			pstmt.setString(2, breed);
@@ -142,22 +120,19 @@ public class DBConnect
 			pstmt.setString(12, notes);
 			pstmt.executeUpdate();
 		}
-		catch(SQLException e)
-		{
+		catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
 	}
 	
 	public void insertHefferIntoCurrent(int id, String breed, String gender, String birthdate, String datePurchased, 
-			String purchasedFrom, String price, String vaccines, int mother, int father, String notes)
-	{
+			String purchasedFrom, String price, String vaccines, int mother, int father, String notes) {
 		String sql = "INSERT INTO " + currentCowsTable + "(ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "
 				+ "vaccines, motherID, fatherID, notes) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 		
 		openConnection();
-		try
-		{
+		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			pstmt.setString(2, breed);
@@ -172,8 +147,7 @@ public class DBConnect
 			pstmt.setString(11, notes);
 			pstmt.executeUpdate();
 		}
-		catch(SQLException e)
-		{
+		catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
@@ -181,14 +155,12 @@ public class DBConnect
 	
 	public void insertBullIntoPast(int id, String breed, String gender, String birthdate, String datePurchased, 
 			String purchasedFrom, String price, String vaccines, int mother, int father, String castrated, 
-			String notes, String soldFor, String soldTo)
-	{
+			String notes, String soldFor, String soldTo) {
 		String sql = "INSERT INTO " + pastCowsTable + " (ID, breed, gender, birthdate, datePurchased, purchasedFrom, pricePaid, "
 				+ "vaccines, motherID, fatherID, castrated, notes, soldFor, soldTo) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		openConnection();
-		try
-		{
+		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			pstmt.setString(2, breed);
@@ -206,8 +178,7 @@ public class DBConnect
 			pstmt.setString(14, soldTo);
 			pstmt.executeUpdate();
 		}
-		catch(SQLException e)
-		{
+		catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
@@ -215,14 +186,12 @@ public class DBConnect
 	
 	public void insertHefferIntoPast(int id, String breed, String gender, String birthdate, String datePurchased, 
 			String purchasedFrom, String price, String vaccines, int mother, int father, String notes, 
-			String soldFor, String soldTo)
-	{
+			String soldFor, String soldTo) {
 		String sql = "INSERT INTO " + pastCowsTable + " (ID, breed, gender, birthdate, datePurchased, purchasedFrom, pricePaid, "
 				+ "vaccines, motherID, fatherID, notes, soldFor, soldTo) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		openConnection();
-		try
-		{
+		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			pstmt.setString(2, breed);
@@ -239,68 +208,56 @@ public class DBConnect
 			pstmt.setString(13, soldTo);
 			pstmt.executeUpdate();
 		}
-		catch(SQLException e)
-		{
+		catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
 	}
 	
-	public void deleteRowFromCurrent(int id)
-	{
+	public void deleteRowFromCurrent(int id) {
 		String sql = "DELETE FROM " + currentCowsTable + " WHERE ID = ?";
 		
 		openConnection();
-		try
-		{
+		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
 	}
 	
-	public void deleteRowFromPast(int id)
-	{
+	public void deleteRowFromPast(int id) {
 		String sql = "DELETE FROM " + pastCowsTable + " WHERE ID = ?";
 		
 		openConnection();
-		try
-		{
+		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
 	}
 	
-	public int getTotalCows()
-	{
+	public int getTotalCows() {
 		int numOfCows = 0;
 		openConnection();
-		try
-		{
+		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM currentCows");
-			if (!rs.isBeforeFirst())
-			{
+			if (!rs.isBeforeFirst()) {
 				numOfCows = 0;
 			}
-			else
-			{
+			else {
 				numOfCows = rs.getInt("total");
 			}
 		}
-		catch(SQLException e)
-		{
+		catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
@@ -308,26 +265,21 @@ public class DBConnect
 		return numOfCows;
 	}
 	
-	public int getMaleCount()
-	{
+	public int getMaleCount() {
 		int maleCount = 0;
 		
 		openConnection();
-		try
-		{
+		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM currentCows WHERE gender = 'Male'");
-			if (!rs.isBeforeFirst())
-			{
+			if (!rs.isBeforeFirst()) {
 				maleCount = 0;
 			}
-			else
-			{
+			else {
 				maleCount = rs.getInt("total");
 			}
 		}
-		catch(SQLException e)
-		{
+		catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
@@ -335,31 +287,25 @@ public class DBConnect
 		return maleCount;
 	}
 	
-	public ArrayList<String> getCowCosts(String year)
-	{
+	public ArrayList<String> getCowCosts(String year) {
 		ArrayList<String> costList = new ArrayList<String>();
 		String sql = "SELECT pricePaid FROM currentCows WHERE datePurchased LIKE '%" + year + "%' UNION ALL SELECT "
 				+ "pricePaid FROM pastCows WHERE datePurchased LIKE '%" + year + "%'";
 		
 		openConnection();
-		try
-		{
+		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			if (!rs.isBeforeFirst())
-			{
+			if (!rs.isBeforeFirst()) {
 				costList = null;
 			}
-			else
-			{
-				while (rs.next())
-				{
+			else {
+				while (rs.next()) {
 					costList.add(rs.getString(1));
 				}
 			}
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
@@ -367,30 +313,24 @@ public class DBConnect
 		return costList;
 	}
 	
-	public ArrayList<String> getCurrentCowsCost()
-	{
+	public ArrayList<String> getCurrentCowsCost() {
 		ArrayList<String> costList = new ArrayList<String>();
 		String sql = "SELECT pricePaid FROM " + currentCowsTable;
 		
 		openConnection();
-		try
-		{
+		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			if (!rs.isBeforeFirst())
-			{
+			if (!rs.isBeforeFirst()) {
 				costList = null;
 			}
-			else
-			{
-				while (rs.next())
-				{
+			else {
+				while (rs.next()) {
 					costList.add(rs.getString(1));
 				}
 			}
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
@@ -398,24 +338,20 @@ public class DBConnect
 		return costList;
 	}
 	
-	public HashMap<String, ArrayList> getRow(int id)
-	{
+	public HashMap<String, ArrayList> getRow(int id) {
 		ArrayList<String> stringList = new ArrayList<String>();
 		ArrayList<Integer> intList = new ArrayList<Integer>();
 		HashMap<String, ArrayList> sqlRowData = new HashMap<String, ArrayList>();
 		boolean controlVar = false;
 		
 		openConnection();
-		try
-		{
+		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM " + currentCowsTable + " WHERE ID = " + id);
-			if (!rs.isBeforeFirst())
-			{
+			if (!rs.isBeforeFirst()) {
 				controlVar = false;
 			}
-			else
-			{
+			else {
 				int cowId = rs.getInt("ID");
 				String breed = rs.getString("breed");
 				String gender = rs.getString("gender");
@@ -448,29 +384,24 @@ public class DBConnect
 				controlVar = true;
 			}
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
 		
-		if (controlVar == true)
-		{
+		if (controlVar == true) {
 			return sqlRowData;
 		}
-		else
-		{
+		else {
 			return null;
 		}
 	}
 	
-	public void writeGeneralExpense(String year, String expenseType, String pricePer, String total)
-	{
+	public void writeGeneralExpense(String year, String expenseType, String pricePer, String total) {
 		String sql = "INSERT INTO " + generalExpensesTable + " (year, type, pricePer, totalCost) VALUES(?,?,?,?)";
 		
 		openConnection();
-		try
-		{
+		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, year);
 			pstmt.setString(2, expenseType);
@@ -478,37 +409,30 @@ public class DBConnect
 			pstmt.setString(4, total);
 			pstmt.executeUpdate();
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
 	}
 	
-	public ArrayList<String> getHayPrices(String year)
-	{
+	public ArrayList<String> getHayPrices(String year) {
 		ArrayList<String> priceList = new ArrayList<String>();
 		String sql = "SELECT pricePer FROM " + generalExpensesTable + " WHERE type = 'Hay' AND year = " + year;
 		
 		openConnection();
-		try
-		{
+		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			if (!rs.isBeforeFirst())
-			{
+			if (!rs.isBeforeFirst()) {
 				priceList = null;
 			}
-			else
-			{
-				while (rs.next())
-				{
+			else {
+				while (rs.next()) {
 					priceList.add(rs.getString(1));
 				}
 			}
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
@@ -516,31 +440,25 @@ public class DBConnect
 		return priceList;
 	}
 	
-	public ArrayList<String> getTotalFeedCosts(String year)
-	{
+	public ArrayList<String> getTotalFeedCosts(String year) {
 		ArrayList<String> costList = new ArrayList<String>();
 		String sql = "SELECT totalCost FROM " + generalExpensesTable + " WHERE type = 'Feed' AND year = " + 
 		year + " OR type = 'Hay' AND year = " + year;
 		
 		openConnection();
-		try
-		{
+		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			if (!rs.isBeforeFirst())
-			{
+			if (!rs.isBeforeFirst()) {
 				costList = null;
 			}
-			else
-			{
-				while (rs.next())
-				{
+			else {
+				while (rs.next()) {
 					costList.add(rs.getString(1));
 				}
 			}
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
@@ -548,30 +466,24 @@ public class DBConnect
 		return costList;
 	}
 	
-	public ArrayList<String> getTotalVetCosts(String year)
-	{
+	public ArrayList<String> getTotalVetCosts(String year) {
 		ArrayList<String> costList = new ArrayList<String>();
 		String sql = "SELECT totalCost FROM " + generalExpensesTable + " WHERE type = 'Vet' AND year = " + year;
 		
 		openConnection();
-		try
-		{
+		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			if (!rs.isBeforeFirst())
-			{
+			if (!rs.isBeforeFirst()) {
 				costList = null;
 			}
-			else
-			{
-				while (rs.next())
-				{
+			else {
+				while (rs.next()) {
 					costList.add(rs.getString(1));
 				}
 			}
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
@@ -579,30 +491,24 @@ public class DBConnect
 		return costList;
 	}
 	
-	public ArrayList<String> getTotalEquipmentCosts(String year)
-	{
+	public ArrayList<String> getTotalEquipmentCosts(String year) {
 		ArrayList<String> costList = new ArrayList<String>();
 		String sql = "SELECT totalCost FROM " + generalExpensesTable + " WHERE type = 'Equipment' AND year = " + year;
 		
 		openConnection();
-		try
-		{
+		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			if (!rs.isBeforeFirst())
-			{
+			if (!rs.isBeforeFirst()) {
 				costList = null;
 			}
-			else
-			{
-				while (rs.next())
-				{
+			else {
+				while (rs.next()) {
 					costList.add(rs.getString(1));
 				}
 			}
 		}
-		catch (SQLException e)
-		{
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		closeConnection();
@@ -610,16 +516,3 @@ public class DBConnect
 		return costList;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

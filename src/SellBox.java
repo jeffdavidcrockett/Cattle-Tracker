@@ -9,15 +9,13 @@ import java.util.HashMap;
 import javafx.geometry.*;
 
 
-public class SellBox 
-{
+public class SellBox {
 	static boolean answer;
 	static ArrayList<Boolean> boolList = new ArrayList<Boolean>();
 	static ArrayList<String> stringList = new ArrayList<String>();
 	static HashMap<String, ArrayList> sellData = new HashMap<String, ArrayList>();
 	
-	public static HashMap<String, ArrayList> display()
-	{
+	public static HashMap<String, ArrayList> display() {
 		Stage window = new Stage();
 		
 		window.initModality(Modality.APPLICATION_MODAL);
@@ -53,12 +51,10 @@ public class SellBox
 		mainHBox.getChildren().addAll(labelVBox, fieldVBox);
 		
 		sellButton.setOnAction(e -> {
-			if (soldForField.getText().trim().isEmpty() || soldToField.getText().trim().isEmpty())
-			{
+			if (soldForField.getText().trim().isEmpty() || soldToField.getText().trim().isEmpty()) {
 				AlertBox.display("Attention!", "Please fill out all fields");
 			}
-			else
-			{
+			else {
 				answer = true;
 				
 				sellData.put("strings", stringList);

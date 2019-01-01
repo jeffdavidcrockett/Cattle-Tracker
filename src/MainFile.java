@@ -20,8 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
 import javafx.scene.Group;
 
-public class MainFile extends Application
-{
+public class MainFile extends Application {
 	Stage window;
 	Button button;
 	DBConnect db = new DBConnect();
@@ -34,28 +33,24 @@ public class MainFile extends Application
 	ArrayList<String> allVetCosts = new ArrayList<String>();
 	String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 	
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		launch(args);
 	}
 	
 	@Override
-	public void start(Stage primaryStage) throws Exception
-	{
+	public void start(Stage primaryStage) throws Exception {
 		// Get Total Cows and Male/Female percentages
 		int totalCows = db.getTotalCows();
 		double totalCowsDouble = totalCows;
 		double totalMales = db.getMaleCount();
 		
-		if (totalCows != 0 && totalMales != 0)
-		{
+		if (totalCows != 0 && totalMales != 0) {
 			malePercentage = (totalMales / totalCowsDouble) * 100;
 			DecimalFormat df = new DecimalFormat("#.##");
 			malePercentage = Double.valueOf(df.format(malePercentage));
 			femalePercentage = 100.00 - malePercentage;
 		}
-		else
-		{
+		else {
 			malePercentage = 0;
 			femalePercentage = 0;
 			totalMales = 0;
@@ -66,10 +61,8 @@ public class MainFile extends Application
 		// Get Total Feed Costs
 		allFeedCosts = db.getTotalFeedCosts(year);
 		int feedCostsTotal = 0;
-		if (allFeedCosts != null)
-		{
-			for (int i = 0; i < allFeedCosts.size(); i++)
-			{
+		if (allFeedCosts != null) {
+			for (int i = 0; i < allFeedCosts.size(); i++) {
 				feedCostsTotal += Integer.parseInt(allFeedCosts.get(i));
 			}
 		}
@@ -77,22 +70,17 @@ public class MainFile extends Application
 		// Get Total Equipment Costs
 		allEquipCosts = db.getTotalEquipmentCosts(year);
 		int equipCostsTotal = 0;
-		if (allEquipCosts != null)
-		{
-			for (int i = 0; i < allEquipCosts.size(); i++)
-			{
+		if (allEquipCosts != null) {
+			for (int i = 0; i < allEquipCosts.size(); i++) {
 				equipCostsTotal += Integer.parseInt(allEquipCosts.get(i));
 			}
 		}
 		
-		// *** NEED TO QUERY COWS BOUGHT ONLY IN CURRENT YEAR ***
 		// Get Total Cow Cost
 		allCowCosts = db.getCurrentCowsCost();
 		int cowCostsTotal = 0;
-		if (allCowCosts != null)
-		{
-			for (int i = 0; i < allCowCosts.size(); i++)
-			{
+		if (allCowCosts != null) {
+			for (int i = 0; i < allCowCosts.size(); i++) {
 				cowCostsTotal += Integer.parseInt(allCowCosts.get(i));
 			}
 		}
@@ -100,10 +88,8 @@ public class MainFile extends Application
 		// Get Total Veterinary Costs
 		allVetCosts = db.getTotalVetCosts(year);
 		int vetCostsTotal = 0;
-		if (allVetCosts != null)
-		{
-			for (int i = 0; i < allVetCosts.size(); i++)
-			{
+		if (allVetCosts != null) {
+			for (int i = 0; i < allVetCosts.size(); i++) {
 				vetCostsTotal += Integer.parseInt(allVetCosts.get(i));
 			}
 		}
@@ -205,7 +191,7 @@ public class MainFile extends Application
 		navigationLabel.setStyle("-fx-text-fill: white; -fx-font-size: 40pt;");
 		
 		Button reportsButton = new Button("Financial Reports");
-		Button editHerdButton = new Button("Edit My Herd");
+		Button editHerdButton = new Button("My Herd");
 		Button addExpenseButton = new Button("Add General Expense");
 		
 		reportsButton.setStyle("-fx-font-size: 15pt;");
@@ -248,23 +234,3 @@ public class MainFile extends Application
 		addExpenseButton.setOnAction(e -> window.setScene(generalExpensesScene));
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

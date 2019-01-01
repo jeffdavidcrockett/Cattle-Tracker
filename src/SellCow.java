@@ -17,13 +17,11 @@ import javafx.scene.chart.*;
 import javafx.scene.Group;
 
 
-public class SellCow 
-{
+public class SellCow {
 	public static Integer selectedCow = null;
 	public static HashMap<String, ArrayList> cowData = null;
 	
-	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db)
-	{
+	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db) {
 		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
@@ -191,8 +189,7 @@ public class SellCow
 			int id = Integer.parseInt(lookupField.getText());
 			cowData = db.getRow(id);
 			
-			if (cowData != null)
-			{
+			if (cowData != null) {
 				selectedCow = id;
 				
 				idDisplayLabel.setText(String.valueOf(cowData.get("integers").get(0)));
@@ -206,8 +203,7 @@ public class SellCow
 				fathersIdDisplayLabel.setText(String.valueOf(cowData.get("integers").get(2)));
 				castratedDisplayLabel.setText(String.valueOf(cowData.get("strings").get(7)));
 			}
-			else
-			{
+			else {
 				selectedCow = null;
 				
 				idDisplayLabel.setText("");
@@ -229,15 +225,11 @@ public class SellCow
 		sellCowButton.setOnAction(e -> {
 			HashMap<String, ArrayList> sellData;
 			
-			if (selectedCow != null)
-			{
+			if (selectedCow != null) {
 				sellData = SellBox.display();
-				if (sellData != null)
-				{
-					if ((boolean) sellData.get("bools").get(0) == true)
-					{
-						if (String.valueOf(cowData.get("strings").get(1)).equals("Male"))
-						{
+				if (sellData != null) {
+					if ((boolean) sellData.get("bools").get(0) == true) {
+						if (String.valueOf(cowData.get("strings").get(1)).equals("Male")) {
 							Bull bull = new Bull((Integer) cowData.get("integers").get(0), String.valueOf(cowData.get("strings").get(1)),
 									String.valueOf(cowData.get("strings").get(0)), String.valueOf(cowData.get("strings").get(3)), 
 									String.valueOf(cowData.get("strings").get(2)), String.valueOf(cowData.get("strings").get(4)),
@@ -251,8 +243,7 @@ public class SellCow
 							db.deleteRowFromCurrent(selectedCow);
 							AlertBox.display("Attention", "Cow sold!");
 						}
-						else if (String.valueOf(cowData.get("strings").get(1)).equals("Female"))
-						{
+						else if (String.valueOf(cowData.get("strings").get(1)).equals("Female")) {
 							Heffer heffer = new Heffer((Integer) cowData.get("integers").get(0), String.valueOf(cowData.get("strings").get(1)),
 									String.valueOf(cowData.get("strings").get(0)), String.valueOf(cowData.get("strings").get(3)), 
 									String.valueOf(cowData.get("strings").get(2)), String.valueOf(cowData.get("strings").get(4)),
@@ -269,8 +260,7 @@ public class SellCow
 					}
 				}
 			}
-			else
-			{
+			else {
 				AlertBox.display("Attention!", "Please lookup cow to sell");
 			}
 			

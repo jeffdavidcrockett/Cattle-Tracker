@@ -9,8 +9,7 @@ import javafx.geometry.*;
 import javafx.scene.chart.*;
 
 
-public class FinancialReports 
-{
+public class FinancialReports {
 	final static String feed = "Feed";
     final static String equipment = "Equipment";
     final static String vet = "Veterinary";
@@ -193,14 +192,14 @@ public class FinancialReports
         xAxis2.setLabel("Year");
 		yAxis2.setLabel("$ Price per Bail");
         
-        XYChart.Series series3 = new XYChart.Series();
-		series3.setName("Average Hay Price Paid");
-		series3.getData().add(new XYChart.Data(previousYear3, avgHayPricePrev3));
-		series3.getData().add(new XYChart.Data(previousYear2, avgHayPricePrev2));
-		series3.getData().add(new XYChart.Data(previousYear1, avgHayPricePrev1));
-		series3.getData().add(new XYChart.Data(currentYear, avgHayPriceCurrent));
+        XYChart.Series avgHaySeries1 = new XYChart.Series();
+        avgHaySeries1.setName("Average Hay Price Paid");
+        avgHaySeries1.getData().add(new XYChart.Data(previousYear3, avgHayPricePrev3));
+        avgHaySeries1.getData().add(new XYChart.Data(previousYear2, avgHayPricePrev2));
+        avgHaySeries1.getData().add(new XYChart.Data(previousYear1, avgHayPricePrev1));
+        avgHaySeries1.getData().add(new XYChart.Data(currentYear, avgHayPriceCurrent));
         
-        avgHayPrices.getData().addAll(series3);
+        avgHayPrices.getData().addAll(avgHaySeries1);
         
         // Average Cow Prices Chart
         final CategoryAxis xAxis3 = new CategoryAxis();
@@ -211,35 +210,15 @@ public class FinancialReports
 		xAxis3.setLabel("Year");
 		yAxis3.setLabel("$ Avg Price per Cow");
 		
-		XYChart.Series series5 = new XYChart.Series();
-		series5.setName("Average Cow Price Paid");
-		series5.getData().add(new XYChart.Data(previousYear3, avgCowPricePrev3));
-		series5.getData().add(new XYChart.Data(previousYear2, avgCowPricePrev2));
-		series5.getData().add(new XYChart.Data(previousYear1, avgCowPricePrev1));
-		series5.getData().add(new XYChart.Data(currentYear, avgCowPriceCurrent));
+		XYChart.Series avgCowSeries1 = new XYChart.Series();
+		avgCowSeries1.setName("Average Cow Price Paid");
+		avgCowSeries1.getData().add(new XYChart.Data(previousYear3, avgCowPricePrev3));
+		avgCowSeries1.getData().add(new XYChart.Data(previousYear2, avgCowPricePrev2));
+		avgCowSeries1.getData().add(new XYChart.Data(previousYear1, avgCowPricePrev1));
+		avgCowSeries1.getData().add(new XYChart.Data(currentYear, avgCowPriceCurrent));
         
-        avgCowPrices.getData().addAll(series5);
-        
-        final CategoryAxis xAxis4 = new CategoryAxis();
-		final NumberAxis yAxis4 = new NumberAxis();
-		final BarChart<String, Number> bc4 = 
-				new BarChart<String, Number>(xAxis4, yAxis4);
-		bc4.setTitle("Test Chart");
-		xAxis4.setLabel("Country");
-		yAxis4.setLabel("Value");
-		
-		XYChart.Series series7 = new XYChart.Series();
-		series7.setName("2003");
-		series7.getData().add(new XYChart.Data(italy, 35407));
-		series7.getData().add(new XYChart.Data(usa, 12000));
-		
-		XYChart.Series series8 = new XYChart.Series();
-        series8.setName("2004");
-        series8.getData().add(new XYChart.Data(italy, 117320.16));
-        series8.getData().add(new XYChart.Data(usa, 14845.27));
-        
-        bc4.getData().addAll(series7, series8);
-        
+        avgCowPrices.getData().addAll(avgCowSeries1);
+     
         Separator separator1 = new Separator();
         separator1.setMinWidth(980);
         HBox separatorBox = new HBox();
@@ -250,7 +229,7 @@ public class FinancialReports
         graphBox1.setAlignment(Pos.CENTER);
         
         HBox graphBox2 = new HBox();
-        graphBox2.getChildren().addAll(avgCowPrices, bc4);
+        graphBox2.getChildren().addAll(avgCowPrices);
         graphBox2.setAlignment(Pos.CENTER);
         
         mainGrid.add(graphBox1, 0, 0);

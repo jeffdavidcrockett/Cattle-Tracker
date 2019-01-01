@@ -5,12 +5,10 @@ import javafx.scene.control.*;
 import javafx.geometry.*;
 
 
-public class ConfirmBox 
-{
+public class ConfirmBox {
 	static boolean answer;
 	
-	public static boolean display(String title, String message1, String message2)
-	{
+	public static boolean display(String title, String message1, String message2) {
 		Stage window = new Stage();
 		
 		window.initModality(Modality.APPLICATION_MODAL);

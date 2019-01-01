@@ -21,16 +21,14 @@ import javafx.scene.Group;
 
 
 
-public class GeneralExpenses 
-{
+public class GeneralExpenses {
 	String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 	String previousYear1 = Integer.toString(Integer.parseInt(currentYear) - 1);
 	String previousYear2 = Integer.toString(Integer.parseInt(currentYear) - 2);
 	String previousYear3 = Integer.toString(Integer.parseInt(currentYear) - 3);
 	
 	
-	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db)
-	{
+	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db) {
 		
 		
 		// Right pane ****************************************************************************
@@ -227,8 +225,7 @@ public class GeneralExpenses
 		dashButton.setOnAction(e -> window.setScene(dashboardScene));
 		
 		submitHayExpenseButton.setOnAction(e -> {
-			if (!hayPricePerField.getText().trim().isEmpty() || !amountOfHayBailsField.getText().trim().isEmpty())
-			{
+			if (!hayPricePerField.getText().trim().isEmpty() || !amountOfHayBailsField.getText().trim().isEmpty()) {
 				String pricePerBail = hayPricePerField.getText();
 				String amountOfBails = amountOfHayBailsField.getText();
 				String totalCost = Integer.toString(Integer.parseInt(pricePerBail) * Integer.parseInt(amountOfBails));
@@ -236,79 +233,68 @@ public class GeneralExpenses
 				boolean answer = ConfirmBox.display("Add Hay Expense", "Are you sure you would like to add", 
 						amountOfBails + " bails of hay at $" + pricePerBail + " a bail?");
 				
-				if (answer)
-				{
+				if (answer) {
 					db.writeGeneralExpense((String) hayYearsBox.getValue(), "Hay", pricePerBail, totalCost);
 					AlertBox.display("Attention!", "Expense was added to database");
 					hayPricePerField.clear();
 					amountOfHayBailsField.clear();
 				}
 			}
-			else
-			{
+			else {
 				AlertBox.display("Attention!", "Please fill out all Hay expense fields");
 			}
 		});
 		
 		submitOtherFeedButton.setOnAction(e -> {
-			if (!otherFeedField.getText().trim().isEmpty())
-			{
+			if (!otherFeedField.getText().trim().isEmpty()) {
 				String totalCost = otherFeedField.getText();
 				
 				boolean answer = ConfirmBox.display("Feed Expense", "Are you sure you would like to add", 
 						"a feed expense of $" + totalCost + "?");
 				
-				if (answer)
-				{
+				if (answer) {
 					db.writeGeneralExpense((String) otherFeedYearsBox.getValue(), "Feed", null, totalCost);
 					AlertBox.display("Attention!", "Expense was added to database");
 					otherFeedField.clear();
 				}
 			}
-			else
-			{
+			else {
 				AlertBox.display("Attention!", "Please fill out cost field");
 			}
 		});
 		
 		equipmentButton.setOnAction(e -> {
-			if (!equipmentField.getText().trim().isEmpty())
-			{
+			if (!equipmentField.getText().trim().isEmpty()) {
 				String totalCost = equipmentField.getText();
 				
 				boolean answer = ConfirmBox.display("Equipment Expense", "Are you sure you would like to add", 
 						"an equipment expense of $" + totalCost + "?");
 				
-				if (answer)
-				{
+				if (answer) {
 					db.writeGeneralExpense((String) equipmentYearsBox.getValue(), "Equipment", null, totalCost);
 					AlertBox.display("Attention!", "Expense was added to database");
 					equipmentField.clear();
 				}
 			}
-			else
-			{
+			else {
 				AlertBox.display("Attention!", "Please fill out cost field");
 			}
 		});
 		
 		veterinaryButton.setOnAction(e -> {
-			if (!veterinaryField.getText().trim().isEmpty())
-			{
+			if (!veterinaryField.getText().trim().isEmpty()) {
 				String totalCost = veterinaryField.getText();
 				
 				boolean answer = ConfirmBox.display("Veterinary Cost", "Are you sure you would like to add", 
 						"a veterinary expense of $" + totalCost + "?");
 				
-				if (answer)
-				{
+				if (answer) {
 					db.writeGeneralExpense((String) veterinaryYearsBox.getValue(), "Vet", null, totalCost);
 					AlertBox.display("Attention!", "Expense was added to database");
 					veterinaryField.clear();
 				}
 			}
-			else
-			{
+			else {
 				AlertBox.display("Attention!", "Please fill out cost field");
 			}
 		});
