@@ -20,19 +20,15 @@ public class FinancialReports
 	String previousYear1 = Integer.toString(Integer.parseInt(currentYear) - 1);
 	String previousYear2 = Integer.toString(Integer.parseInt(currentYear) - 2);
 	String previousYear3 = Integer.toString(Integer.parseInt(currentYear) - 3);
-    static String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
     
-    private int getAvgHayPricePaid(String year, DBConnect db)
-    {
+    private int getAvgHayPricePaid(String year, DBConnect db) {
     	ArrayList<String> hayPrices = new ArrayList<String>();
     	
-    	hayPrices = db.getAvgHayPrices(year);
+    	hayPrices = db.getHayPrices(year);
 		int hayAverage = 0;
-		if (hayPrices != null)
-		{
+		if (hayPrices != null) {
 			int hayTotalCurrent = 0;
-			for (int i = 0; i < hayPrices.size(); i++)
-			{
+			for (int i = 0; i < hayPrices.size(); i++) {
 				hayTotalCurrent += Integer.parseInt(hayPrices.get(i));
 			}
 			hayAverage = hayTotalCurrent / hayPrices.size();
@@ -41,16 +37,13 @@ public class FinancialReports
 		return hayAverage;
     }
     
-    private int getFeedCosts(String year, DBConnect db)
-    {
+    private int getFeedCosts(String year, DBConnect db) {
     	ArrayList<String> allFeedCosts = new ArrayList<String>();
     	
     	allFeedCosts = db.getTotalFeedCosts(year);
 		int feedCost = 0;
-		if (allFeedCosts != null)
-		{
-			for (int i = 0; i < allFeedCosts.size(); i++)
-			{
+		if (allFeedCosts != null) {
+			for (int i = 0; i < allFeedCosts.size(); i++) {
 				feedCost += Integer.parseInt(allFeedCosts.get(i));
 			}
 		}
@@ -58,16 +51,13 @@ public class FinancialReports
 		return feedCost;
     }
     
-    private int getEquipCost(String year, DBConnect db)
-    {
+    private int getEquipCost(String year, DBConnect db) {
     	ArrayList<String> allEquipmentCosts = new ArrayList<String>();
     	
     	allEquipmentCosts = db.getTotalEquipmentCosts(year);
 		int equipCost = 0;
-		if (allEquipmentCosts != null)
-		{
-			for (int i = 0; i < allEquipmentCosts.size(); i++)
-			{
+		if (allEquipmentCosts != null) {
+			for (int i = 0; i < allEquipmentCosts.size(); i++) {
 				equipCost += Integer.parseInt(allEquipmentCosts.get(i));
 			}
 		}
@@ -75,16 +65,13 @@ public class FinancialReports
 		return equipCost;
     }
     
-    private int getVetCost(String year, DBConnect db)
-    {
+    private int getVetCost(String year, DBConnect db) {
     	ArrayList<String> allVeterinaryCosts = new ArrayList<String>();
+    	int vetCost = 0;
     	
     	allVeterinaryCosts = db.getTotalVetCosts(year);
-		int vetCost = 0;
-		if (allVeterinaryCosts != null)
-		{
-			for (int i = 0; i < allVeterinaryCosts.size(); i++)
-			{
+		if (allVeterinaryCosts != null) {
+			for (int i = 0; i < allVeterinaryCosts.size(); i++) {
 				vetCost += Integer.parseInt(allVeterinaryCosts.get(i));
 			}
 		}
@@ -92,9 +79,24 @@ public class FinancialReports
 		return vetCost;
     }
     
+    private int getAvgCowPrices(String year, DBConnect db) {
+    	ArrayList<String> prices = new ArrayList<String>();
+    	int totalCowCost = 0;
+    	int avgCowPrice = 0;
+    	
+    	prices = db.getCowCosts(year);
+    	if (prices != null) {
+    		for (int i = 0; i < prices.size(); i++) {
+    			totalCowCost += Integer.parseInt(prices.get(i));
+    		}
+    		avgCowPrice = totalCowCost / prices.size();
+    	}
+    	
+    	return avgCowPrice;
+    }
+    
 	public BorderPane display(Scene dashboardScene, Scene cowScreenScene,
-			Stage window, DBConnect db)
-	{
+			Stage window, DBConnect db) {
 		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
@@ -125,7 +127,6 @@ public class FinancialReports
 		int feedCostPrev1 = getFeedCosts(previousYear1, db);
 		int feedCostPrev2 = getFeedCosts(previousYear2, db);
 		int feedCostPrev3 = getFeedCosts(previousYear3, db);
-		System.out.println(feedCostCurrent);
 		
 		// Get Total Equipment Costs
 		int equipCostCurrent = getEquipCost(currentYear, db);
@@ -138,6 +139,12 @@ public class FinancialReports
 		int vetCostPrev1 = getVetCost(previousYear1, db);
 		int vetCostPrev2 = getVetCost(previousYear2, db);
 		int vetCostPrev3 = getVetCost(previousYear3, db);
+		
+		// Get Average Cow Prices Paid
+		int avgCowPriceCurrent = getAvgCowPrices(currentYear, db);
+		int avgCowPricePrev1 = getAvgCowPrices(previousYear1, db);
+		int avgCowPricePrev2 = getAvgCowPrices(previousYear2, db);
+		int avgCowPricePrev3 = getAvgCowPrices(previousYear3, db);
 		
 		GridPane mainGrid = new GridPane();
 		mainGrid.setStyle("-fx-background-color: #1D1E1E;");
@@ -195,25 +202,23 @@ public class FinancialReports
         
         avgHayPrices.getData().addAll(series3);
         
+        // Average Cow Prices Chart
         final CategoryAxis xAxis3 = new CategoryAxis();
 		final NumberAxis yAxis3 = new NumberAxis();
-		final BarChart<String, Number> bc3 = 
+		final BarChart<String, Number> avgCowPrices = 
 				new BarChart<String, Number>(xAxis3, yAxis3);
-		bc3.setTitle("Test Chart");
-		xAxis3.setLabel("Country");
-		yAxis3.setLabel("Value");
+		avgCowPrices.setTitle("Average Cow Prices");
+		xAxis3.setLabel("Year");
+		yAxis3.setLabel("$ Avg Price per Cow");
 		
 		XYChart.Series series5 = new XYChart.Series();
-		series5.setName("2003");
-		series5.getData().add(new XYChart.Data(italy, 35407));
-		series5.getData().add(new XYChart.Data(usa, 12000));
-		
-		XYChart.Series series6 = new XYChart.Series();
-        series6.setName("2004");
-        series6.getData().add(new XYChart.Data(italy, 117320.16));
-        series6.getData().add(new XYChart.Data(usa, 14845.27));
+		series5.setName("Average Cow Price Paid");
+		series5.getData().add(new XYChart.Data(previousYear3, avgCowPricePrev3));
+		series5.getData().add(new XYChart.Data(previousYear2, avgCowPricePrev2));
+		series5.getData().add(new XYChart.Data(previousYear1, avgCowPricePrev1));
+		series5.getData().add(new XYChart.Data(currentYear, avgCowPriceCurrent));
         
-        bc3.getData().addAll(series5, series6);
+        avgCowPrices.getData().addAll(series5);
         
         final CategoryAxis xAxis4 = new CategoryAxis();
 		final NumberAxis yAxis4 = new NumberAxis();
@@ -235,18 +240,22 @@ public class FinancialReports
         
         bc4.getData().addAll(series7, series8);
         
+        Separator separator1 = new Separator();
+        separator1.setMinWidth(980);
+        HBox separatorBox = new HBox();
+        separatorBox.getChildren().addAll(separator1);
         
         HBox graphBox1 = new HBox();
         graphBox1.getChildren().addAll(generalExpenses, avgHayPrices);
         graphBox1.setAlignment(Pos.CENTER);
         
         HBox graphBox2 = new HBox();
-        graphBox2.getChildren().addAll(bc3, bc4);
+        graphBox2.getChildren().addAll(avgCowPrices, bc4);
         graphBox2.setAlignment(Pos.CENTER);
         
         mainGrid.add(graphBox1, 0, 0);
-        mainGrid.add(graphBox2, 0, 1);
-		
+        mainGrid.add(separatorBox, 0, 1);
+        mainGrid.add(graphBox2, 0, 2);
 		
 		// Main layout ************************************************************************************************
 		BorderPane mainLayout = new BorderPane();
@@ -254,8 +263,6 @@ public class FinancialReports
 		mainLayout.setCenter(mainGrid);
 		
 		dashButton.setOnAction(e -> window.setScene(dashboardScene));
-		
-		
 		
 		return mainLayout;
 	}

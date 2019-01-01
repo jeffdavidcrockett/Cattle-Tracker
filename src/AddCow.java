@@ -130,18 +130,54 @@ public class AddCow
 		
 		final ComboBox breedBox = new ComboBox(breedOptions);
 		
-		DateBox birthdateBoxes = new DateBox();
-		ComboBox[] birthBoxes = birthdateBoxes.createDateBox();
+		ObservableList<String> month = 
+			    FXCollections.observableArrayList(
+			        "01", "02", "03",
+			        "04", "05", "06",
+			        "07", "08", "09",
+			        "10", "11", "12"
+			    );
+		ComboBox monthBoxPurchased = new ComboBox(month);
+		ComboBox monthBoxBirth = new ComboBox(month);
 		
-		DateBox datePurchasedBoxes = new DateBox();
-		ComboBox[] purchasedBoxes = datePurchasedBoxes.createDateBox();
+		ObservableList<String> day = 
+			    FXCollections.observableArrayList(
+			        "01", "02", "03",
+			        "04", "05", "06",
+			        "07", "08", "09",
+			        "10", "11", "12",
+			        "13", "14", "15",
+			        "16", "17", "18",
+			        "19", "20", "21",
+			        "22", "23", "24",
+			        "25", "26", "27",
+			        "28", "29", "30",
+			        "31"
+			    );
+		ComboBox dayBoxPurchased = new ComboBox(day);
+		ComboBox dayBoxBirth = new ComboBox(day);
+		
+		ObservableList<String> year = 
+			    FXCollections.observableArrayList(
+			    	"2018", "2017", "2016",
+				    "2015", "2014", "2013",
+			        "2018", "2017", "2016",
+			        "2015", "2014", "2013",
+			        "2012", "2011", "2010",
+			        "2009", "2008", "2007",
+			        "2006", "2005", "2004",
+			        "2003", "2002", "2001",
+			        "2000"
+			    );
+		ComboBox yearBoxPurchased = new ComboBox(year);
+		ComboBox yearBoxBirth = new ComboBox(year);
 		
 		HBox priceBox = new HBox(5);
 		priceBox.getChildren().addAll(dollarSignLabel, pricePaidField);
 		priceBox.setAlignment(Pos.CENTER_LEFT);
 		
 		HBox idDateBox = new HBox(5);
-		idDateBox.getChildren().addAll(birthBoxes[0], birthBoxes[1], birthBoxes[2]);
+		idDateBox.getChildren().addAll(monthBoxBirth, dayBoxBirth, yearBoxBirth);
 		
 		HBox submitCowButtonBox = new HBox();
 		submitCowButtonBox.getChildren().addAll(submitCowButton);
@@ -165,7 +201,7 @@ public class AddCow
 		addCowLabelBox.setStyle("-fx-background-color: #1D1E1E;");
 		
 		HBox datePurchasedDate = new HBox(5);
-		datePurchasedDate.getChildren().addAll(purchasedBoxes[0], purchasedBoxes[1], purchasedBoxes[2]);
+		datePurchasedDate.getChildren().addAll(monthBoxPurchased, dayBoxPurchased, yearBoxPurchased);
 		
 		VBox column0 = new VBox();
 		VBox column1 = new VBox();
@@ -215,10 +251,10 @@ public class AddCow
 			{
 				int cowId = Integer.parseInt(idField.getText());
 				String cowBreed = (String) breedBox.getValue();
-				String birthdate = (String) birthBoxes[0].getValue() + '-' + (String) birthBoxes[1].getValue() + 
-						'-' + (String) birthBoxes[2].getValue();
-				String datePurchased = (String) purchasedBoxes[0].getValue() + '-' + (String) purchasedBoxes[1].getValue() + 
-						'-' + (String) purchasedBoxes[2].getValue();
+				String birthdate = (String) monthBoxBirth.getValue() + '-' + (String) dayBoxBirth.getValue() + 
+						'-' + (String) yearBoxBirth.getValue();
+				String datePurchased = (String) monthBoxPurchased.getValue() + '-' + (String) dayBoxPurchased.getValue() + 
+						'-' + (String) yearBoxPurchased.getValue();
 				String purchasedFrom = purchasedFromField.getText();
 				String price = pricePaidField.getText();
 				String vaccinated = tempVaccineField.getText();
@@ -247,8 +283,12 @@ public class AddCow
 					idField.clear();
 					breedBox.valueProperty().set(null);
 					// Bug here, not clearing both dates out. Probably an issue with my class
-					birthdateBoxes.clearBoxes();
-					datePurchasedBoxes.clearBoxes();
+					dayBoxBirth.valueProperty().set(null);
+					dayBoxPurchased.valueProperty().set(null);
+					monthBoxBirth.valueProperty().set(null);
+					monthBoxPurchased.valueProperty().set(null);
+					yearBoxBirth.valueProperty().set(null);
+					yearBoxPurchased.valueProperty().set(null);
 					purchasedFromField.clear();
 					pricePaidField.clear();
 					tempVaccineField.clear();

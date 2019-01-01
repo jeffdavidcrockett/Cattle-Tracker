@@ -87,7 +87,7 @@ public class MainFile extends Application
 		
 		// *** NEED TO QUERY COWS BOUGHT ONLY IN CURRENT YEAR ***
 		// Get Total Cow Cost
-		allCowCosts = db.getTotalCowsCost();
+		allCowCosts = db.getCurrentCowsCost();
 		int cowCostsTotal = 0;
 		if (allCowCosts != null)
 		{

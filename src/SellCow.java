@@ -198,8 +198,8 @@ public class SellCow
 				idDisplayLabel.setText(String.valueOf(cowData.get("integers").get(0)));
 				genderDisplayLabel.setText(String.valueOf(cowData.get("strings").get(1)));
 				breedDisplayLabel.setText(String.valueOf(cowData.get("strings").get(0)));
-				birthdateDisplayLabel.setText(String.valueOf(cowData.get("strings").get(2)));
-				datePurchasedDisplayLabel.setText(String.valueOf(cowData.get("strings").get(3)));
+				birthdateDisplayLabel.setText(String.valueOf(cowData.get("strings").get(3)));
+				datePurchasedDisplayLabel.setText(String.valueOf(cowData.get("strings").get(2)));
 				purchasedFromDisplayLabel.setText(String.valueOf(cowData.get("strings").get(4)));
 				pricePaidDisplayLabel.setText(String.valueOf(cowData.get("strings").get(5)));
 				mothersIdDisplayLabel.setText(String.valueOf(cowData.get("integers").get(1)));
@@ -239,8 +239,8 @@ public class SellCow
 						if (String.valueOf(cowData.get("strings").get(1)).equals("Male"))
 						{
 							Bull bull = new Bull((Integer) cowData.get("integers").get(0), String.valueOf(cowData.get("strings").get(1)),
-									String.valueOf(cowData.get("strings").get(0)), String.valueOf(cowData.get("strings").get(2)), 
-									String.valueOf(cowData.get("strings").get(3)), String.valueOf(cowData.get("strings").get(4)),
+									String.valueOf(cowData.get("strings").get(0)), String.valueOf(cowData.get("strings").get(3)), 
+									String.valueOf(cowData.get("strings").get(2)), String.valueOf(cowData.get("strings").get(4)),
 									String.valueOf(cowData.get("strings").get(5)), String.valueOf(cowData.get("strings").get(6)),
 									(Integer) cowData.get("integers").get(1), (Integer) cowData.get("integers").get(2),
 									String.valueOf(cowData.get("strings").get(8)), String.valueOf(cowData.get("strings").get(7)));
@@ -254,8 +254,8 @@ public class SellCow
 						else if (String.valueOf(cowData.get("strings").get(1)).equals("Female"))
 						{
 							Heffer heffer = new Heffer((Integer) cowData.get("integers").get(0), String.valueOf(cowData.get("strings").get(1)),
-									String.valueOf(cowData.get("strings").get(0)), String.valueOf(cowData.get("strings").get(2)), 
-									String.valueOf(cowData.get("strings").get(3)), String.valueOf(cowData.get("strings").get(4)),
+									String.valueOf(cowData.get("strings").get(0)), String.valueOf(cowData.get("strings").get(3)), 
+									String.valueOf(cowData.get("strings").get(2)), String.valueOf(cowData.get("strings").get(4)),
 									String.valueOf(cowData.get("strings").get(5)), String.valueOf(cowData.get("strings").get(6)),
 									(Integer) cowData.get("integers").get(1), (Integer) cowData.get("integers").get(2),
 									String.valueOf(cowData.get("strings").get(8)));

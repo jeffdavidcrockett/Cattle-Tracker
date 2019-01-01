@@ -121,7 +121,7 @@ public class DBConnect
 	public void insertBullIntoCurrent(int id, String breed, String gender, String birthdate, String datePurchased, 
 			String purchasedFrom, String price, String vaccines, int mother, int father, String castrated, String notes)
 	{
-		String sql = "INSERT INTO " + currentCowsTable + " (ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "
+		String sql = "INSERT INTO " + currentCowsTable + " (ID, breed, gender, birthdate, datePurchased, purchasedFrom, pricePaid, "
 				+ "vaccines, motherID, fatherID, castrated, notes) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		openConnection();
@@ -183,7 +183,7 @@ public class DBConnect
 			String purchasedFrom, String price, String vaccines, int mother, int father, String castrated, 
 			String notes, String soldFor, String soldTo)
 	{
-		String sql = "INSERT INTO " + pastCowsTable + " (ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "
+		String sql = "INSERT INTO " + pastCowsTable + " (ID, breed, gender, birthdate, datePurchased, purchasedFrom, pricePaid, "
 				+ "vaccines, motherID, fatherID, castrated, notes, soldFor, soldTo) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		openConnection();
@@ -217,7 +217,7 @@ public class DBConnect
 			String purchasedFrom, String price, String vaccines, int mother, int father, String notes, 
 			String soldFor, String soldTo)
 	{
-		String sql = "INSERT INTO " + pastCowsTable + " (ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "
+		String sql = "INSERT INTO " + pastCowsTable + " (ID, breed, gender, birthdate, datePurchased, purchasedFrom, pricePaid, "
 				+ "vaccines, motherID, fatherID, notes, soldFor, soldTo) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		openConnection();
@@ -335,7 +335,39 @@ public class DBConnect
 		return maleCount;
 	}
 	
-	public ArrayList<String> getTotalCowsCost()
+	public ArrayList<String> getCowCosts(String year)
+	{
+		ArrayList<String> costList = new ArrayList<String>();
+		String sql = "SELECT pricePaid FROM currentCows WHERE datePurchased LIKE '%" + year + "%' UNION ALL SELECT "
+				+ "pricePaid FROM pastCows WHERE datePurchased LIKE '%" + year + "%'";
+		
+		openConnection();
+		try
+		{
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if (!rs.isBeforeFirst())
+			{
+				costList = null;
+			}
+			else
+			{
+				while (rs.next())
+				{
+					costList.add(rs.getString(1));
+				}
+			}
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		closeConnection();
+		
+		return costList;
+	}
+	
+	public ArrayList<String> getCurrentCowsCost()
 	{
 		ArrayList<String> costList = new ArrayList<String>();
 		String sql = "SELECT pricePaid FROM " + currentCowsTable;
@@ -453,7 +485,7 @@ public class DBConnect
 		closeConnection();
 	}
 	
-	public ArrayList<String> getAvgHayPrices(String year)
+	public ArrayList<String> getHayPrices(String year)
 	{
 		ArrayList<String> priceList = new ArrayList<String>();
 		String sql = "SELECT pricePer FROM " + generalExpensesTable + " WHERE type = 'Hay' AND year = " + year;
@@ -487,7 +519,8 @@ public class DBConnect
 	public ArrayList<String> getTotalFeedCosts(String year)
 	{
 		ArrayList<String> costList = new ArrayList<String>();
-		String sql = "SELECT totalCost FROM " + generalExpensesTable + " WHERE type = 'Feed' OR type = 'Hay' AND year = " + year;
+		String sql = "SELECT totalCost FROM " + generalExpensesTable + " WHERE type = 'Feed' AND year = " + 
+		year + " OR type = 'Hay' AND year = " + year;
 		
 		openConnection();
 		try
