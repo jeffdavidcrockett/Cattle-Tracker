@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.geometry.*;
 import javafx.scene.image.*;
@@ -22,14 +23,15 @@ import javafx.scene.Group;
 
 
 public class GeneralExpenses {
-	String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-	String previousYear1 = Integer.toString(Integer.parseInt(currentYear) - 1);
-	String previousYear2 = Integer.toString(Integer.parseInt(currentYear) - 2);
-	String previousYear3 = Integer.toString(Integer.parseInt(currentYear) - 3);
+	static String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+	static String previousYear1 = Integer.toString(Integer.parseInt(currentYear) - 1);
+	static String previousYear2 = Integer.toString(Integer.parseInt(currentYear) - 2);
+	static String previousYear3 = Integer.toString(Integer.parseInt(currentYear) - 3);
 	
 	
-	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db) {
-		
+	public static Scene getScene(DBConnect db) {
+		int width = (int) Screen.getPrimary().getBounds().getWidth();
+		int height = (int) Screen.getPrimary().getBounds().getHeight();
 		
 		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
@@ -221,8 +223,10 @@ public class GeneralExpenses {
 		mainLayout.setCenter(mainGrid);
 		mainLayout.setRight(rightPane);
 		
+		Scene generalScene = new Scene(mainLayout, width, height);
+		
 		// Button actions
-		dashButton.setOnAction(e -> window.setScene(dashboardScene));
+		dashButton.setOnAction(e -> MainFile.window.setScene(MainFile.getScene()));
 		
 		submitHayExpenseButton.setOnAction(e -> {
 			if (!hayPricePerField.getText().trim().isEmpty() || !amountOfHayBailsField.getText().trim().isEmpty()) {
@@ -299,6 +303,6 @@ public class GeneralExpenses {
 			}
 		});
 				
-		return mainLayout;
+		return generalScene;
 	}
 }

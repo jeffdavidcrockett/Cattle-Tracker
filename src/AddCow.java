@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.geometry.*;
 import javafx.scene.image.*;
@@ -19,11 +20,14 @@ import javafx.scene.Group;
 
 
 public class AddCow {
-	boolean result;
-	String castrated;
-	String gender;
+	static boolean result;
+	static String castrated;
+	static String gender;
 	
-	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db, int width, int height) {
+	public static Scene getScene(DBConnect db) {
+		int width = (int) Screen.getPrimary().getBounds().getWidth();
+		int height = (int) Screen.getPrimary().getBounds().getHeight();
+		
 		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
@@ -297,18 +301,17 @@ public class AddCow {
 				}
 			}
 		});
-		
-		SellCow sellCowLayout = new SellCow();
-		Scene sellCowScene = new Scene(sellCowLayout.display(dashboardScene, window, db), width, height);
-		
-		dashButton.setOnAction(e -> window.setScene(dashboardScene));
-		sellCowButton.setOnAction(e -> window.setScene(sellCowScene));
+
+		dashButton.setOnAction(e -> MainFile.window.setScene(MainFile.getScene()));
+		sellCowButton.setOnAction(e -> MainFile.window.setScene(SellCow.getScene(db)));
 		
 		// Main layout
 		BorderPane mainLayout = new BorderPane();
 		mainLayout.setCenter(mainGrid);
 		mainLayout.setRight(rightPane);
 		
-		return mainLayout;
+		Scene addCowScene = new Scene(mainLayout, width, height);
+		
+		return addCowScene;
 	}
 }

@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.geometry.*;
 import javafx.scene.image.*;
@@ -21,7 +22,10 @@ public class SellCow {
 	public static Integer selectedCow = null;
 	public static HashMap<String, ArrayList> cowData = null;
 	
-	public BorderPane display(Scene dashboardScene, Stage window, DBConnect db) {
+	public static Scene getScene(DBConnect db) {
+		int width = (int) Screen.getPrimary().getBounds().getWidth();
+		int height = (int) Screen.getPrimary().getBounds().getHeight();
+		
 		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
@@ -183,7 +187,10 @@ public class SellCow {
 		mainLayout.setCenter(mainGrid);
 		mainLayout.setRight(rightPane);
 		
-		dashButton.setOnAction(e -> window.setScene(dashboardScene));
+		Scene sellCowScene = new Scene(mainLayout, width, height);
+		
+		dashButton.setOnAction(e -> MainFile.window.setScene(MainFile.getScene()));
+		addCowButton.setOnAction(e -> MainFile.window.setScene(AddCow.getScene(db)));
 		
 		lookupButton.setOnAction(e -> {
 			int id = Integer.parseInt(lookupField.getText());
@@ -266,7 +273,7 @@ public class SellCow {
 			
 		});
 		
-		return mainLayout;
+		return sellCowScene;
 	}
 }
 

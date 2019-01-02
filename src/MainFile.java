@@ -1,7 +1,6 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import Cows.Bull;
 import Cows.Heffer;
 import Data.DBConnect;
@@ -21,9 +20,10 @@ import javafx.scene.chart.*;
 import javafx.scene.Group;
 
 public class MainFile extends Application {
-	Stage window;
+	public static Stage window;
 	Button button;
 	DBConnect db = new DBConnect();
+	static Scene mainScene;
 	
 	double malePercentage;
 	double femalePercentage;
@@ -35,6 +35,10 @@ public class MainFile extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	public static Scene getScene() {
+		return mainScene;
 	}
 	
 	@Override
@@ -211,26 +215,26 @@ public class MainFile extends Application {
 		border.setRight(rightPane);
 		
 		// Scenes
-		Scene mainScene = new Scene(border, width, height);
+		mainScene = new Scene(border, width, height);
 		mainScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
 		
-		AddCow cowScreen = new AddCow();
-		Scene cowScreenScene = new Scene(cowScreen.display(mainScene, window, db, width, height), width, height);
+//		AddCow cowScreen = new AddCow();
+//		Scene cowScreenScene = new Scene(cowScreen.display(mainScene, window, db, width, height), width, height);
 		
-		FinancialReports financialScreen = new FinancialReports();
-		Scene financialScreenScene = new Scene(financialScreen.display(mainScene, cowScreenScene,
-				window, db), width, height);
-		financialScreenScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
+//		FinancialReports financialScreen = new FinancialReports();
+//		Scene financialScreenScene = new Scene(financialScreen.display(mainScene, cowScreenScene,
+//				window, db), width, height);
+//		financialScreenScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
 		
-		GeneralExpenses generalExpensesScreen = new GeneralExpenses();
-		Scene generalExpensesScene = new Scene(generalExpensesScreen.display(mainScene, window, db), width, height);
+//		GeneralExpenses generalExpensesScreen = new GeneralExpenses();
+//		Scene generalExpensesScene = new Scene(generalExpensesScreen.display(mainScene, window, db), width, height);
 		
 		window.setScene(mainScene);
 		window.setMaximized(true);
 		window.show();
 		
-		reportsButton.setOnAction(e -> window.setScene(financialScreenScene));
-		editHerdButton.setOnAction(e -> window.setScene(cowScreenScene));
-		addExpenseButton.setOnAction(e -> window.setScene(generalExpensesScene));
+		reportsButton.setOnAction(e -> window.setScene(FinancialReports.getScene(db)));
+		editHerdButton.setOnAction(e -> window.setScene(AddCow.getScene(db)));
+		addExpenseButton.setOnAction(e -> window.setScene(GeneralExpenses.getScene(db)));
 	}
 }

@@ -4,6 +4,7 @@ import Data.DBConnect;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.geometry.*;
 import javafx.scene.chart.*;
@@ -15,12 +16,12 @@ public class FinancialReports {
     final static String vet = "Veterinary";
     final static String italy = "Italy";
     final static String usa = "USA";
-    String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-	String previousYear1 = Integer.toString(Integer.parseInt(currentYear) - 1);
-	String previousYear2 = Integer.toString(Integer.parseInt(currentYear) - 2);
-	String previousYear3 = Integer.toString(Integer.parseInt(currentYear) - 3);
+    static String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+	static String previousYear1 = Integer.toString(Integer.parseInt(currentYear) - 1);
+	static String previousYear2 = Integer.toString(Integer.parseInt(currentYear) - 2);
+	static String previousYear3 = Integer.toString(Integer.parseInt(currentYear) - 3);
     
-    private int getAvgHayPricePaid(String year, DBConnect db) {
+    private static int getAvgHayPricePaid(String year, DBConnect db) {
     	ArrayList<String> hayPrices = new ArrayList<String>();
     	
     	hayPrices = db.getHayPrices(year);
@@ -36,7 +37,7 @@ public class FinancialReports {
 		return hayAverage;
     }
     
-    private int getFeedCosts(String year, DBConnect db) {
+    private static int getFeedCosts(String year, DBConnect db) {
     	ArrayList<String> allFeedCosts = new ArrayList<String>();
     	
     	allFeedCosts = db.getTotalFeedCosts(year);
@@ -50,7 +51,7 @@ public class FinancialReports {
 		return feedCost;
     }
     
-    private int getEquipCost(String year, DBConnect db) {
+    private static int getEquipCost(String year, DBConnect db) {
     	ArrayList<String> allEquipmentCosts = new ArrayList<String>();
     	
     	allEquipmentCosts = db.getTotalEquipmentCosts(year);
@@ -64,7 +65,7 @@ public class FinancialReports {
 		return equipCost;
     }
     
-    private int getVetCost(String year, DBConnect db) {
+    private static int getVetCost(String year, DBConnect db) {
     	ArrayList<String> allVeterinaryCosts = new ArrayList<String>();
     	int vetCost = 0;
     	
@@ -78,7 +79,7 @@ public class FinancialReports {
 		return vetCost;
     }
     
-    private int getAvgCowPrices(String year, DBConnect db) {
+    private static int getAvgCowPrices(String year, DBConnect db) {
     	ArrayList<String> prices = new ArrayList<String>();
     	int totalCowCost = 0;
     	int avgCowPrice = 0;
@@ -94,8 +95,10 @@ public class FinancialReports {
     	return avgCowPrice;
     }
     
-	public BorderPane display(Scene dashboardScene, Scene cowScreenScene,
-			Stage window, DBConnect db) {
+	public static Scene getScene(DBConnect db) {
+		int width = (int) Screen.getPrimary().getBounds().getWidth();
+		int height = (int) Screen.getPrimary().getBounds().getHeight();
+		
 		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
@@ -241,8 +244,11 @@ public class FinancialReports {
 		mainLayout.setRight(rightPane);
 		mainLayout.setCenter(mainGrid);
 		
-		dashButton.setOnAction(e -> window.setScene(dashboardScene));
+		dashButton.setOnAction(e -> MainFile.window.setScene(MainFile.getScene()));
 		
-		return mainLayout;
+		Scene theScene = new Scene(mainLayout, width, height);
+		theScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
+		
+		return theScene;
 	}
 }
