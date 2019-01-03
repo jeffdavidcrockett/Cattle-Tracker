@@ -1,25 +1,13 @@
-import java.util.ArrayList;
 import java.util.Calendar;
 
-import Cows.Bull;
-import Cows.Heffer;
 import Data.DBConnect;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Line;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.geometry.*;
-import javafx.scene.image.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.*;
-import javafx.scene.Group;
-
 
 
 public class GeneralExpenses {

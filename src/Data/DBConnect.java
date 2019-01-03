@@ -287,6 +287,33 @@ public class DBConnect {
 		return maleCount;
 	}
 	
+	public ArrayList<String> getTotalExpenses(String year) {
+		ArrayList<String> expenseList = new ArrayList<String>();
+		String sql = "SELECT pricePaid FROM currentCows WHERE datePurchased LIKE '%" + year + "%' UNION ALL"
+				+ " SELECT pricePaid FROM pastCows WHERE datePurchased LIKE '%" + year + "%' UNION ALL "
+						+ "SELECT totalCost FROM generalExpenses WHERE year = " + year;
+		
+		openConnection();
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if (!rs.isBeforeFirst()) {
+				expenseList = null;
+			}
+			else {
+				while (rs.next()) {
+					expenseList.add(rs.getString(1));
+				}
+			}
+		}
+		catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		closeConnection();
+		
+		return expenseList;
+	}
+	
 	public ArrayList<String> getCowCosts(String year) {
 		ArrayList<String> costList = new ArrayList<String>();
 		String sql = "SELECT pricePaid FROM currentCows WHERE datePurchased LIKE '%" + year + "%' UNION ALL SELECT "

@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.geometry.*;
 import javafx.scene.chart.*;
 
@@ -246,9 +245,9 @@ public class FinancialReports {
 		
 		dashButton.setOnAction(e -> MainFile.window.setScene(MainFile.getScene()));
 		
-		Scene theScene = new Scene(mainLayout, width, height);
-		theScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
+		Scene financialReportsScene = new Scene(mainLayout, width, height);
+		financialReportsScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
 		
-		return theScene;
+		return financialReportsScene;
 	}
 }

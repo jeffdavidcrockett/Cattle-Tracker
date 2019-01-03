@@ -2,10 +2,8 @@ import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javafx.geometry.*;
 
 

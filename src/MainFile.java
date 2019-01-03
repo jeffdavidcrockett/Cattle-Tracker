@@ -1,37 +1,31 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import Cows.Bull;
-import Cows.Heffer;
 import Data.DBConnect;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.geometry.*;
-import javafx.scene.image.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
-import javafx.scene.Group;
 
 public class MainFile extends Application {
 	public static Stage window;
-	Button button;
 	DBConnect db = new DBConnect();
 	static Scene mainScene;
 	
 	double malePercentage;
 	double femalePercentage;
+	ArrayList<String> allExpenses = new ArrayList<String>();
 	ArrayList<String> allFeedCosts = new ArrayList<String>();
 	ArrayList<String> allEquipCosts = new ArrayList<String>();
 	ArrayList<String> allCowCosts = new ArrayList<String>();
 	ArrayList<String> allVetCosts = new ArrayList<String>();
-	String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+	String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -62,8 +56,17 @@ public class MainFile extends Application {
 		
 		String totalCowsString = Integer.toString(totalCows);
 		
+		// Get Total Expenses For Current Year
+		allExpenses = db.getTotalExpenses(currentYear);
+		int totalExpenses = 0;
+		if (allExpenses != null) {
+			for (int i = 0; i < allExpenses.size(); i++) {
+				totalExpenses += Integer.parseInt(allExpenses.get(i));
+			}
+		}
+		
 		// Get Total Feed Costs
-		allFeedCosts = db.getTotalFeedCosts(year);
+		allFeedCosts = db.getTotalFeedCosts(currentYear);
 		int feedCostsTotal = 0;
 		if (allFeedCosts != null) {
 			for (int i = 0; i < allFeedCosts.size(); i++) {
@@ -72,7 +75,7 @@ public class MainFile extends Application {
 		}
 		
 		// Get Total Equipment Costs
-		allEquipCosts = db.getTotalEquipmentCosts(year);
+		allEquipCosts = db.getTotalEquipmentCosts(currentYear);
 		int equipCostsTotal = 0;
 		if (allEquipCosts != null) {
 			for (int i = 0; i < allEquipCosts.size(); i++) {
@@ -90,7 +93,7 @@ public class MainFile extends Application {
 		}
 		
 		// Get Total Veterinary Costs
-		allVetCosts = db.getTotalVetCosts(year);
+		allVetCosts = db.getTotalVetCosts(currentYear);
 		int vetCostsTotal = 0;
 		if (allVetCosts != null) {
 			for (int i = 0; i < allVetCosts.size(); i++) {
@@ -139,12 +142,12 @@ public class MainFile extends Application {
 		
 		Label totalCowsLabel = new Label(" Total Cows");
 		Label numOfCowsLabel = new Label(totalCowsString);
-		Label totalInvestmentLabel = new Label(" Total Investment");
-		Label investmentValLabel = new Label("  $22,000.00");
+		Label totalExpensesLabel = new Label("Total Expenses for " + currentYear);
+		Label investmentValLabel = new Label("$" + totalExpenses);
 		
 		totalCowsLabel.setStyle("-fx-font-size: 70pt; -fx-text-fill: white;");
 		numOfCowsLabel.setStyle("-fx-font-size: 50pt; -fx-text-fill: orange;");
-		totalInvestmentLabel.setStyle("-fx-font-size: 60pt; -fx-text-fill: white;");
+		totalExpensesLabel.setStyle("-fx-font-size: 50pt; -fx-text-fill: white;");
 		investmentValLabel.setStyle("-fx-font-size: 50pt; -fx-text-fill: orange;");
 		
 		ObservableList<PieChart.Data> genderChartData =
@@ -167,7 +170,7 @@ public class MainFile extends Application {
 		
 		cowTotalPane.getChildren().addAll(totalCowsLabel);
 		numCowPane.getChildren().addAll(numOfCowsLabel);
-		totalInvestmentPane.getChildren().addAll(totalInvestmentLabel);
+		totalInvestmentPane.getChildren().addAll(totalExpensesLabel);
 		investmentValPane.getChildren().addAll(investmentValLabel);
 		genderPiePane.getChildren().addAll(genderChart, costsChart);
 		
@@ -176,7 +179,6 @@ public class MainFile extends Application {
 		mainPane.add(totalInvestmentPane, 0, 2);
 		mainPane.add(investmentValPane, 0, 3);
 		mainPane.add(genderPiePane, 0, 4);
-		
 		
 		// Left pane
 		VBox leftPane = new VBox();
@@ -217,17 +219,6 @@ public class MainFile extends Application {
 		// Scenes
 		mainScene = new Scene(border, width, height);
 		mainScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
-		
-//		AddCow cowScreen = new AddCow();
-//		Scene cowScreenScene = new Scene(cowScreen.display(mainScene, window, db, width, height), width, height);
-		
-//		FinancialReports financialScreen = new FinancialReports();
-//		Scene financialScreenScene = new Scene(financialScreen.display(mainScene, cowScreenScene,
-//				window, db), width, height);
-//		financialScreenScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
-		
-//		GeneralExpenses generalExpensesScreen = new GeneralExpenses();
-//		Scene generalExpensesScene = new Scene(generalExpensesScreen.display(mainScene, window, db), width, height);
 		
 		window.setScene(mainScene);
 		window.setMaximized(true);

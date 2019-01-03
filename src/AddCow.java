@@ -1,22 +1,13 @@
-import java.util.ArrayList;
-
 import Cows.Bull;
 import Cows.Heffer;
 import Data.DBConnect;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.geometry.*;
-import javafx.scene.image.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.*;
-import javafx.scene.Group;
 
 
 public class AddCow {
@@ -163,8 +154,6 @@ public class AddCow {
 			    FXCollections.observableArrayList(
 			    	"2018", "2017", "2016",
 				    "2015", "2014", "2013",
-			        "2018", "2017", "2016",
-			        "2015", "2014", "2013",
 			        "2012", "2011", "2010",
 			        "2009", "2008", "2007",
 			        "2006", "2005", "2004",
@@ -239,8 +228,7 @@ public class AddCow {
 				}
 			}
 			else {
-				result = ConfirmBox.display("Cow Submission","Any unfilled parameters will be defaulted to 'Uknown'.", 
-						"Are you sure you would like to submit this cow?");
+				result = ConfirmBox.display("Cow Submission","", "Are you sure you would like to submit this cow?");
 			}
 			if (male.isSelected() == false && female.isSelected() == false) {
 				AlertBox.display("Attention!", "Please select either male or female.");
