@@ -1,7 +1,7 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import Data.DBConnect;
+import src.Data.DBConnect;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -17,7 +17,6 @@ public class MainFile extends Application {
 	public static Stage window;
 	DBConnect db = new DBConnect();
 	static Scene mainScene;
-	String hi = "hello";
 	
 	double malePercentage;
 	double femalePercentage;

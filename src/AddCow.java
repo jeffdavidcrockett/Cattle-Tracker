@@ -1,6 +1,6 @@
-import Cows.Bull;
-import Cows.Heffer;
-import Data.DBConnect;
+import src.Cows.Bull;
+import src.Cows.Heffer;
+import src.Data.DBConnect;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
