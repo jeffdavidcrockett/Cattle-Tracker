@@ -1,3 +1,5 @@
 cowss.db
 bin/
 .settings/
+.classpath
+.project
