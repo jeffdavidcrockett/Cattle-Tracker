@@ -13,8 +13,6 @@ public class FinancialReports {
 	final static String feed = "Feed";
     final static String equipment = "Equipment";
     final static String vet = "Veterinary";
-    final static String italy = "Italy";
-    final static String usa = "USA";
     static String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 	static String previousYear1 = Integer.toString(Integer.parseInt(currentYear) - 1);
 	static String previousYear2 = Integer.toString(Integer.parseInt(currentYear) - 2);
