@@ -17,6 +17,7 @@ public class MainFile extends Application {
 	public static Stage window;
 	DBConnect db = new DBConnect();
 	static Scene mainScene;
+	String hi = "hello";
 	
 	double malePercentage;
 	double femalePercentage;
