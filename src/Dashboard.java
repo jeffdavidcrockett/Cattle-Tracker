@@ -15,6 +15,8 @@ import javafx.scene.chart.*;
 
 
 public class Dashboard {
+	static int width = (int) Screen.getPrimary().getBounds().getWidth();
+	static int height = (int) Screen.getPrimary().getBounds().getHeight();
 	static double malePercentage;
 	static double femalePercentage;
 	static ArrayList<String> allExpenses = new ArrayList<String>();
@@ -88,42 +90,8 @@ public class Dashboard {
 				vetCostsTotal += Integer.parseInt(allVetCosts.get(i));
 			}
 		}
-		
-		// Get screen dimensions
-		int width = (int) Screen.getPrimary().getBounds().getWidth();
-		int height = (int) Screen.getPrimary().getBounds().getHeight();
-		
+
 		// Center pane
-		GridPane mainPane = new GridPane();
-		mainPane.setStyle("-fx-background-color: #1D1E1E;");
-		mainPane.setMinWidth(800);
-		
-		HBox cowTotalPane = new HBox();
-		HBox numCowPane = new HBox();
-		HBox totalInvestmentPane = new HBox();
-		HBox investmentValPane = new HBox();
-		HBox genderPiePane = new HBox();
-		HBox testPiePane = new HBox();
-		
-		cowTotalPane.setMinWidth(800);
-		numCowPane.setMinWidth(800);
-		totalInvestmentPane.setMinWidth(800);
-		investmentValPane.setMinWidth(800);
-		
-		cowTotalPane.setStyle("-fx-background-color: #1D1E1E;");
-		numCowPane.setStyle("-fx-background-color: #1D1E1E;");
-		totalInvestmentPane.setStyle("-fx-background-color: #1D1E1E;");
-		investmentValPane.setStyle("-fx-background-color: #1D1E1E;");
-		genderPiePane.setStyle("-fx-background-color: #1D1E1E;");
-		testPiePane.setStyle("-fx-background-color: #1D1E1E;");
-		
-		cowTotalPane.setAlignment(Pos.CENTER);
-		numCowPane.setAlignment(Pos.CENTER);
-		totalInvestmentPane.setAlignment(Pos.CENTER);
-		investmentValPane.setAlignment(Pos.CENTER);
-		genderPiePane.setAlignment(Pos.CENTER_LEFT);
-		testPiePane.setAlignment(Pos.CENTER_LEFT);
-		
 		Label totalCowsLabel = new Label(" Total Cows");
 		Label numOfCowsLabel = new Label(totalCowsString);
 		Label totalExpensesLabel = new Label("Total Expenses for " + currentYear);
@@ -152,11 +120,41 @@ public class Dashboard {
 		costsChart.setTitle("Overall Costs");
 		costsChart.setLegendSide(Side.LEFT);
 		
+		HBox cowTotalPane = new HBox();
+		HBox numCowPane = new HBox();
+		HBox totalInvestmentPane = new HBox();
+		HBox investmentValPane = new HBox();
+		HBox genderPiePane = new HBox();
+		HBox testPiePane = new HBox();
+		
+		cowTotalPane.setMinWidth(800);
+		numCowPane.setMinWidth(800);
+		totalInvestmentPane.setMinWidth(800);
+		investmentValPane.setMinWidth(800);
+		
+		cowTotalPane.setStyle("-fx-background-color: #1D1E1E;");
+		numCowPane.setStyle("-fx-background-color: #1D1E1E;");
+		totalInvestmentPane.setStyle("-fx-background-color: #1D1E1E;");
+		investmentValPane.setStyle("-fx-background-color: #1D1E1E;");
+		genderPiePane.setStyle("-fx-background-color: #1D1E1E;");
+		testPiePane.setStyle("-fx-background-color: #1D1E1E;");
+		
+		cowTotalPane.setAlignment(Pos.CENTER);
+		numCowPane.setAlignment(Pos.CENTER);
+		totalInvestmentPane.setAlignment(Pos.CENTER);
+		investmentValPane.setAlignment(Pos.CENTER);
+		genderPiePane.setAlignment(Pos.CENTER_LEFT);
+		testPiePane.setAlignment(Pos.CENTER_LEFT);
+		
 		cowTotalPane.getChildren().addAll(totalCowsLabel);
 		numCowPane.getChildren().addAll(numOfCowsLabel);
 		totalInvestmentPane.getChildren().addAll(totalExpensesLabel);
 		investmentValPane.getChildren().addAll(investmentValLabel);
 		genderPiePane.getChildren().addAll(genderChart, costsChart);
+		
+		GridPane mainPane = new GridPane();
+		mainPane.setStyle("-fx-background-color: #1D1E1E;");
+		mainPane.setMinWidth(800);
 		
 		mainPane.add(cowTotalPane, 0, 0);
 		mainPane.add(numCowPane, 0, 1);
@@ -172,11 +170,6 @@ public class Dashboard {
 		leftPane.setPadding(new Insets(20, 10, 10, 10));
 		
 		// Right pane
-		VBox rightPane = new VBox(20);
-		rightPane.setMinWidth(300);
-		rightPane.setStyle("-fx-background-color: #1B4040;");
-		rightPane.setAlignment(Pos.CENTER);
-		
 		Label navigationLabel = new Label("Navigation");
 		navigationLabel.setStyle("-fx-text-fill: white; -fx-font-size: 40pt;");
 		
@@ -192,6 +185,11 @@ public class Dashboard {
 		editHerdButton.setMaxWidth(Double.MAX_VALUE);
 		addExpenseButton.setMaxWidth(Double.MAX_VALUE);
 		
+		VBox rightPane = new VBox(20);
+		rightPane.setMinWidth(300);
+		rightPane.setStyle("-fx-background-color: #1B4040;");
+		rightPane.setAlignment(Pos.CENTER);
+		
 		rightPane.getChildren().addAll(navigationLabel, editHerdButton, addExpenseButton, reportsButton);
 		
 		// Main layout
@@ -200,10 +198,12 @@ public class Dashboard {
 		border.setLeft(leftPane);
 		border.setRight(rightPane);
 		
+		// Button actions
 		reportsButton.setOnAction(e -> MainFile.window.setScene(FinancialReports.getScene(db)));
 		editHerdButton.setOnAction(e -> MainFile.window.setScene(AddCow.getScene(db)));
 		addExpenseButton.setOnAction(e -> MainFile.window.setScene(GeneralExpenses.getScene(db)));
 		
+		// Create scene and styles
 		Scene dashboardScene = new Scene(border, width, height);
 		dashboardScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
 		
