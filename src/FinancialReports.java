@@ -10,6 +10,8 @@ import javafx.scene.chart.*;
 
 
 public class FinancialReports {
+	static int width = (int) Screen.getPrimary().getBounds().getWidth();
+	static int height = (int) Screen.getPrimary().getBounds().getHeight();
 	final static String feed = "Feed";
     final static String equipment = "Equipment";
     final static String vet = "Veterinary";
@@ -93,9 +95,6 @@ public class FinancialReports {
     }
     
 	public static Scene getScene(DBConnect db) {
-		int width = (int) Screen.getPrimary().getBounds().getWidth();
-		int height = (int) Screen.getPrimary().getBounds().getHeight();
-		
 		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
