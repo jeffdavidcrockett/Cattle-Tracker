@@ -128,7 +128,7 @@ public class DBConnect {
 	
 	public void insertHefferIntoCurrent(int id, String breed, String gender, String birthdate, String datePurchased, 
 			String purchasedFrom, String price, String vaccines, int mother, int father, String notes) {
-		String sql = "INSERT INTO " + currentCowsTable + "(ID, breed, gender, datePurchased, birthdate, purchasedFrom, pricePaid, "
+		String sql = "INSERT INTO " + currentCowsTable + "(ID, breed, gender, birthdate, datePurchased, purchasedFrom, pricePaid, "
 				+ "vaccines, motherID, fatherID, notes) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 		
 		openConnection();

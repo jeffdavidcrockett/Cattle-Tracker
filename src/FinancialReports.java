@@ -241,7 +241,7 @@ public class FinancialReports {
 		mainLayout.setRight(rightPane);
 		mainLayout.setCenter(mainGrid);
 		
-		dashButton.setOnAction(e -> MainFile.window.setScene(MainFile.getScene()));
+		dashButton.setOnAction(e -> MainFile.window.setScene(Dashboard.getScene(db)));
 		
 		Scene financialReportsScene = new Scene(mainLayout, width, height);
 		financialReportsScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());

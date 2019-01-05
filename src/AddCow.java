@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import Cows.Bull;
 import Cows.Heffer;
 import Data.DBConnect;
@@ -14,17 +17,13 @@ public class AddCow {
 	static boolean result;
 	static String castrated;
 	static String gender;
+	static String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 	
 	public static Scene getScene(DBConnect db) {
 		int width = (int) Screen.getPrimary().getBounds().getWidth();
 		int height = (int) Screen.getPrimary().getBounds().getHeight();
 		
 		// Right pane ****************************************************************************
-		VBox rightPane = new VBox(20);
-		rightPane.setMinWidth(300);
-		rightPane.setStyle("-fx-background-color: #1B4040;");
-		rightPane.setAlignment(Pos.CENTER);
-		
 		Label navigationLabel = new Label("Navigation");
 		navigationLabel.setStyle("-fx-text-fill: white; -fx-font-size: 40pt;");
 		
@@ -37,6 +36,10 @@ public class AddCow {
 		dashButton.setMaxWidth(Double.MAX_VALUE);
 		sellCowButton.setMaxWidth(Double.MAX_VALUE);
 		
+		VBox rightPane = new VBox(20);
+		rightPane.setMinWidth(300);
+		rightPane.setStyle("-fx-background-color: #1B4040;");
+		rightPane.setAlignment(Pos.CENTER);
 		rightPane.getChildren().addAll(navigationLabel, dashButton, sellCowButton);
 		
 		// Center pane *************************************************************************************
@@ -123,6 +126,14 @@ public class AddCow {
 		
 		final ComboBox breedBox = new ComboBox(breedOptions);
 		
+		// Create list of years from current year to 10 years back
+		ArrayList<String> yearList = new ArrayList<String>();
+		int i = 1;
+		while (i != 11) {
+			yearList.add(Integer.toString(Calendar.getInstance().get(Calendar.YEAR) - i));
+			i++;
+		}
+		
 		ObservableList<String> month = 
 			    FXCollections.observableArrayList(
 			        "01", "02", "03",
@@ -152,13 +163,10 @@ public class AddCow {
 		
 		ObservableList<String> year = 
 			    FXCollections.observableArrayList(
-			    	"2018", "2017", "2016",
-				    "2015", "2014", "2013",
-			        "2012", "2011", "2010",
-			        "2009", "2008", "2007",
-			        "2006", "2005", "2004",
-			        "2003", "2002", "2001",
-			        "2000"
+			    	currentYear, yearList.get(0), yearList.get(1),
+			    	yearList.get(2), yearList.get(3), yearList.get(4),
+			    	yearList.get(5), yearList.get(6), yearList.get(7),
+			    	yearList.get(8), yearList.get(9)
 			    );
 		ComboBox yearBoxPurchased = new ComboBox(year);
 		ComboBox yearBoxBirth = new ComboBox(year);
@@ -290,7 +298,7 @@ public class AddCow {
 			}
 		});
 
-		dashButton.setOnAction(e -> MainFile.window.setScene(MainFile.getScene()));
+		dashButton.setOnAction(e -> MainFile.window.setScene(Dashboard.getScene(db)));
 		sellCowButton.setOnAction(e -> MainFile.window.setScene(SellCow.getScene(db)));
 		
 		// Main layout

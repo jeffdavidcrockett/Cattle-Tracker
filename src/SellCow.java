@@ -180,7 +180,7 @@ public class SellCow {
 		
 		Scene sellCowScene = new Scene(mainLayout, width, height);
 		
-		dashButton.setOnAction(e -> MainFile.window.setScene(MainFile.getScene()));
+		dashButton.setOnAction(e -> MainFile.window.setScene(Dashboard.getScene(db)));
 		addCowButton.setOnAction(e -> MainFile.window.setScene(AddCow.getScene(db)));
 		
 		lookupButton.setOnAction(e -> {

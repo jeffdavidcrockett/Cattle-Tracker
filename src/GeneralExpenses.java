@@ -214,7 +214,7 @@ public class GeneralExpenses {
 		Scene generalScene = new Scene(mainLayout, width, height);
 		
 		// Button actions
-		dashButton.setOnAction(e -> MainFile.window.setScene(MainFile.getScene()));
+		dashButton.setOnAction(e -> MainFile.window.setScene(Dashboard.getScene(db)));
 		
 		submitHayExpenseButton.setOnAction(e -> {
 			if (!hayPricePerField.getText().trim().isEmpty() || !amountOfHayBailsField.getText().trim().isEmpty()) {
