@@ -56,8 +56,8 @@ public class GeneralExpenses {
 		
 		// Hay Section
 		Label hayLabel = new Label("Hay");
-		Label hayPricePer = new Label("Price Per Bail: ");
-		Label amountOfHayBailsLabel = new Label("Number of Bails: ");
+		Label hayPricePer = new Label("Price Per Bale: ");
+		Label amountOfHayBailsLabel = new Label("Number of Bales: ");
 		
 		hayLabel.setStyle("-fx-font-size: 30pt; -fx-text-fill: white; -fx-padding: 10 10 10 10;");
 		hayPricePer.setStyle("-fx-font-size: 15pt; -fx-text-fill: white;");

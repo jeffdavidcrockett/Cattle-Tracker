@@ -291,6 +291,24 @@ public class AddCow {
 					heffer.writeHefferToCurrentDb(db);
 					
 					AlertBox.display("", "Cow was added to database!");
+					
+					female.setSelected(false);
+					idField.clear();
+					breedBox.valueProperty().set(null);
+					dayBoxBirth.valueProperty().set(null);
+					dayBoxPurchased.valueProperty().set(null);
+					monthBoxBirth.valueProperty().set(null);
+					monthBoxPurchased.valueProperty().set(null);
+					yearBoxBirth.valueProperty().set(null);
+					yearBoxPurchased.valueProperty().set(null);
+					purchasedFromField.clear();
+					pricePaidField.clear();
+					tempVaccineField.clear();
+					mothersIdField.clear();
+					fathersIdField.clear();
+					castYes.setSelected(false);
+					castNo.setSelected(false);
+					notesField.clear();
 				}
 			}
 		});
