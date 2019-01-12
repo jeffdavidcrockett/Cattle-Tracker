@@ -86,7 +86,10 @@ public class Dashboard {
 			}
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 0262f4550c25dd8f730c085f0a311b8caa89081c
 		
 		// Right pane ****************************************************************************
 		Label navigationLabel = new Label("Navigation");
@@ -201,6 +204,7 @@ public class Dashboard {
 		leftPane.setPadding(new Insets(20, 10, 10, 10));
 		
 <<<<<<< HEAD
+<<<<<<< HEAD
 		// Right pane
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
@@ -226,6 +230,8 @@ public class Dashboard {
 		
 =======
 >>>>>>> Getting rid of raw types
+=======
+>>>>>>> 0262f4550c25dd8f730c085f0a311b8caa89081c
 		// Main layout
 		BorderPane border = new BorderPane();
 		border.setCenter(mainPane);
