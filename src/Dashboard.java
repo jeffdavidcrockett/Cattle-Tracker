@@ -204,7 +204,7 @@ public class Dashboard {
 		
 		Scene dashboardScene = new Scene(border, width, height);
 		dashboardScene.getStylesheets().add(MainFile.class.getResource("styles.css").toExternalForm());
-		System.out.println("Hello");
+		
 		return dashboardScene;
 	}
 }
