@@ -11,6 +11,8 @@ import javafx.collections.ObservableList;
 
 
 public class GeneralExpenses {
+	static int width = (int) Screen.getPrimary().getBounds().getWidth();
+	static int height = (int) Screen.getPrimary().getBounds().getHeight();
 	static String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 	static String previousYear1 = Integer.toString(Integer.parseInt(currentYear) - 1);
 	static String previousYear2 = Integer.toString(Integer.parseInt(currentYear) - 2);
@@ -18,9 +20,6 @@ public class GeneralExpenses {
 	
 	
 	public static Scene getScene(DBConnect db) {
-		int width = (int) Screen.getPrimary().getBounds().getWidth();
-		int height = (int) Screen.getPrimary().getBounds().getHeight();
-		
 		// Right pane ****************************************************************************
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
@@ -79,7 +78,7 @@ public class GeneralExpenses {
 			        previousYear2,
 			        previousYear3);
 		
-		final ComboBox hayYearsBox = new ComboBox(hayYears);
+		final ComboBox<String> hayYearsBox = new ComboBox<String>(hayYears);
 		hayYearsBox.getSelectionModel().select(0);
 
 		HBox hayPricePerDetails = new HBox();
@@ -116,7 +115,7 @@ public class GeneralExpenses {
 			        previousYear2,
 			        previousYear3);
 		
-		final ComboBox otherFeedYearsBox = new ComboBox(otherFeedYears);
+		final ComboBox<String> otherFeedYearsBox = new ComboBox<String>(otherFeedYears);
 		otherFeedYearsBox.getSelectionModel().select(0);
 		
 		HBox otherFeedDetails = new HBox(10);
@@ -150,7 +149,7 @@ public class GeneralExpenses {
 			        previousYear2,
 			        previousYear3);
 		
-		final ComboBox equipmentYearsBox = new ComboBox(equipmentYears);
+		final ComboBox<String> equipmentYearsBox = new ComboBox<String>(equipmentYears);
 		equipmentYearsBox.getSelectionModel().select(0);
 		
 		HBox equipmentDetails = new HBox(10);
@@ -184,7 +183,7 @@ public class GeneralExpenses {
 			        previousYear2,
 			        previousYear3);
 		
-		final ComboBox veterinaryYearsBox = new ComboBox(veterinaryYears);
+		final ComboBox<String> veterinaryYearsBox = new ComboBox<String>(veterinaryYears);
 		veterinaryYearsBox.getSelectionModel().select(0);
 		
 		HBox veterinaryDetails = new HBox(10);

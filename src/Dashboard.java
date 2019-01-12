@@ -2,12 +2,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import Data.DBConnect;
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.geometry.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +25,7 @@ public class Dashboard {
 	public static Scene getScene(DBConnect db) {
 		// Get Total Cows and Male/Female percentages
 		int totalCows = db.getTotalCows();
+		String totalCowsString = Integer.toString(totalCows);
 		double totalCowsDouble = totalCows;
 		double totalMales = db.getMaleCount();
 		
@@ -41,8 +40,6 @@ public class Dashboard {
 			femalePercentage = 0;
 			totalMales = 0;
 		}
-		
-		String totalCowsString = Integer.toString(totalCows);
 		
 		// Get Total Expenses For Current Year
 		allExpenses = db.getTotalExpenses(currentYear);
@@ -88,6 +85,38 @@ public class Dashboard {
 				vetCostsTotal += Integer.parseInt(allVetCosts.get(i));
 			}
 		}
+<<<<<<< HEAD
+=======
+		
+		// Right pane ****************************************************************************
+		Label navigationLabel = new Label("Navigation");
+		navigationLabel.setStyle("-fx-text-fill: white; -fx-font-size: 40pt;");
+				
+		Button reportsButton = new Button("Financial Reports");
+		Button editHerdButton = new Button("My Herd");
+		Button addExpenseButton = new Button("Add General Expense");
+				
+		reportsButton.setStyle("-fx-font-size: 15pt;");
+		editHerdButton.setStyle("-fx-font-size: 15pt;");
+		addExpenseButton.setStyle("-fx-font-size: 15pt;");
+				
+		reportsButton.setMaxWidth(Double.MAX_VALUE);
+		editHerdButton.setMaxWidth(Double.MAX_VALUE);
+		addExpenseButton.setMaxWidth(Double.MAX_VALUE);
+				
+		VBox rightPane = new VBox(20);
+		rightPane.setMinWidth(300);
+		rightPane.setStyle("-fx-background-color: #1B4040;");
+		rightPane.setAlignment(Pos.CENTER);
+				
+		rightPane.getChildren().addAll(navigationLabel, editHerdButton, addExpenseButton, reportsButton);
+
+		// Center pane ****************************************************************************
+		Label totalCowsLabel = new Label(" Total Cows");
+		Label numOfCowsLabel = new Label(totalCowsString);
+		Label totalExpensesLabel = new Label("Total Expenses for " + currentYear);
+		Label investmentValLabel = new Label("$" + totalExpenses);
+>>>>>>> Getting rid of raw types
 		
 		// Get screen dimensions
 		int width = (int) Screen.getPrimary().getBounds().getWidth();
@@ -164,13 +193,14 @@ public class Dashboard {
 		mainPane.add(investmentValPane, 0, 3);
 		mainPane.add(genderPiePane, 0, 4);
 		
-		// Left pane
+		// Left pane ****************************************************************************
 		VBox leftPane = new VBox();
 		leftPane.setMinWidth(300);
 		leftPane.setStyle("-fx-background-color: #1B4040;");
 		leftPane.setAlignment(Pos.TOP_CENTER);
 		leftPane.setPadding(new Insets(20, 10, 10, 10));
 		
+<<<<<<< HEAD
 		// Right pane
 		VBox rightPane = new VBox(20);
 		rightPane.setMinWidth(300);
@@ -194,6 +224,8 @@ public class Dashboard {
 		
 		rightPane.getChildren().addAll(navigationLabel, editHerdButton, addExpenseButton, reportsButton);
 		
+=======
+>>>>>>> Getting rid of raw types
 		// Main layout
 		BorderPane border = new BorderPane();
 		border.setCenter(mainPane);

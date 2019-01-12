@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import Cows.Bull;
 import Cows.Heffer;
 import Data.DBConnect;
@@ -14,15 +13,14 @@ import javafx.collections.ObservableList;
 
 
 public class AddCow {
+	static int width = (int) Screen.getPrimary().getBounds().getWidth();
+	static int height = (int) Screen.getPrimary().getBounds().getHeight();
 	static boolean result;
 	static String castrated;
 	static String gender;
 	static String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 	
 	public static Scene getScene(DBConnect db) {
-		int width = (int) Screen.getPrimary().getBounds().getWidth();
-		int height = (int) Screen.getPrimary().getBounds().getHeight();
-		
 		// Right pane ****************************************************************************
 		Label navigationLabel = new Label("Navigation");
 		navigationLabel.setStyle("-fx-text-fill: white; -fx-font-size: 40pt;");
@@ -43,9 +41,6 @@ public class AddCow {
 		rightPane.getChildren().addAll(navigationLabel, dashButton, sellCowButton);
 		
 		// Center pane *************************************************************************************
-		GridPane mainGrid = new GridPane();
-		mainGrid.setStyle("-fx-background-color: #1D1E1E;");
-		
 		Label addCowLabel = new Label("          Add Cow");
 		Label idInput = new Label("ID");
 		Label breedInput = new Label("Breed");
@@ -124,7 +119,7 @@ public class AddCow {
 			        "Black Angus",
 			        "Dairy");
 		
-		final ComboBox breedBox = new ComboBox(breedOptions);
+		final ComboBox<String> breedBox = new ComboBox<String>(breedOptions);
 		
 		// Create list of years from current year to 10 years back
 		ArrayList<String> yearList = new ArrayList<String>();
@@ -141,8 +136,8 @@ public class AddCow {
 			        "07", "08", "09",
 			        "10", "11", "12"
 			    );
-		ComboBox monthBoxPurchased = new ComboBox(month);
-		ComboBox monthBoxBirth = new ComboBox(month);
+		ComboBox<String> monthBoxPurchased = new ComboBox<String>(month);
+		ComboBox<String> monthBoxBirth = new ComboBox<String>(month);
 		
 		ObservableList<String> day = 
 			    FXCollections.observableArrayList(
@@ -158,8 +153,8 @@ public class AddCow {
 			        "28", "29", "30",
 			        "31"
 			    );
-		ComboBox dayBoxPurchased = new ComboBox(day);
-		ComboBox dayBoxBirth = new ComboBox(day);
+		ComboBox<String> dayBoxPurchased = new ComboBox<String>(day);
+		ComboBox<String> dayBoxBirth = new ComboBox<String>(day);
 		
 		ObservableList<String> year = 
 			    FXCollections.observableArrayList(
@@ -168,8 +163,8 @@ public class AddCow {
 			    	yearList.get(5), yearList.get(6), yearList.get(7),
 			    	yearList.get(8), yearList.get(9)
 			    );
-		ComboBox yearBoxPurchased = new ComboBox(year);
-		ComboBox yearBoxBirth = new ComboBox(year);
+		ComboBox<String> yearBoxPurchased = new ComboBox<String>(year);
+		ComboBox<String> yearBoxBirth = new ComboBox<String>(year);
 		
 		HBox priceBox = new HBox(5);
 		priceBox.getChildren().addAll(dollarSignLabel, pricePaidField);
@@ -220,6 +215,8 @@ public class AddCow {
 		
 		row1.getChildren().addAll(column0, column1, column2);
 		
+		GridPane mainGrid = new GridPane();
+		mainGrid.setStyle("-fx-background-color: #1D1E1E;");
 		mainGrid.add(addCowLabelBox, 0, 0);
 		mainGrid.add(row1, 0, 1);
 		mainGrid.add(blankHBox1, 0, 2);
