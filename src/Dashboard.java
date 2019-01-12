@@ -85,11 +85,6 @@ public class Dashboard {
 				vetCostsTotal += Integer.parseInt(allVetCosts.get(i));
 			}
 		}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 0262f4550c25dd8f730c085f0a311b8caa89081c
 		
 		// Right pane ****************************************************************************
 		Label navigationLabel = new Label("Navigation");
@@ -119,7 +114,6 @@ public class Dashboard {
 		Label numOfCowsLabel = new Label(totalCowsString);
 		Label totalExpensesLabel = new Label("Total Expenses for " + currentYear);
 		Label investmentValLabel = new Label("$" + totalExpenses);
->>>>>>> Getting rid of raw types
 		
 		// Get screen dimensions
 		int width = (int) Screen.getPrimary().getBounds().getWidth();
@@ -155,11 +149,6 @@ public class Dashboard {
 		investmentValPane.setAlignment(Pos.CENTER);
 		genderPiePane.setAlignment(Pos.CENTER_LEFT);
 		testPiePane.setAlignment(Pos.CENTER_LEFT);
-		
-		Label totalCowsLabel = new Label(" Total Cows");
-		Label numOfCowsLabel = new Label(totalCowsString);
-		Label totalExpensesLabel = new Label("Total Expenses for " + currentYear);
-		Label investmentValLabel = new Label("$" + totalExpenses);
 		
 		totalCowsLabel.setStyle("-fx-font-size: 70pt; -fx-text-fill: white;");
 		numOfCowsLabel.setStyle("-fx-font-size: 50pt; -fx-text-fill: orange;");
@@ -203,35 +192,6 @@ public class Dashboard {
 		leftPane.setAlignment(Pos.TOP_CENTER);
 		leftPane.setPadding(new Insets(20, 10, 10, 10));
 		
-<<<<<<< HEAD
-<<<<<<< HEAD
-		// Right pane
-		VBox rightPane = new VBox(20);
-		rightPane.setMinWidth(300);
-		rightPane.setStyle("-fx-background-color: #1B4040;");
-		rightPane.setAlignment(Pos.CENTER);
-		
-		Label navigationLabel = new Label("Navigation");
-		navigationLabel.setStyle("-fx-text-fill: white; -fx-font-size: 40pt;");
-		
-		Button reportsButton = new Button("Financial Reports");
-		Button editHerdButton = new Button("My Herd");
-		Button addExpenseButton = new Button("Add General Expense");
-		
-		reportsButton.setStyle("-fx-font-size: 15pt;");
-		editHerdButton.setStyle("-fx-font-size: 15pt;");
-		addExpenseButton.setStyle("-fx-font-size: 15pt;");
-		
-		reportsButton.setMaxWidth(Double.MAX_VALUE);
-		editHerdButton.setMaxWidth(Double.MAX_VALUE);
-		addExpenseButton.setMaxWidth(Double.MAX_VALUE);
-		
-		rightPane.getChildren().addAll(navigationLabel, editHerdButton, addExpenseButton, reportsButton);
-		
-=======
->>>>>>> Getting rid of raw types
-=======
->>>>>>> 0262f4550c25dd8f730c085f0a311b8caa89081c
 		// Main layout
 		BorderPane border = new BorderPane();
 		border.setCenter(mainPane);
@@ -248,37 +208,3 @@ public class Dashboard {
 		return dashboardScene;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
